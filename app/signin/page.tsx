@@ -84,75 +84,88 @@ export default function LoginPage() {
   };
 
   /* ---------------- VERIFY OTP ---------------- */
-  const verifyOtp = async () => {
-    const enteredOtp = otp.join("");
+const verifyOtp = async () => {
+  const enteredOtp = otp.join("");
 
-    if (enteredOtp.length !== 4) {
-      setError("Please enter 4-digit OTP");
+  if (enteredOtp.length !== 4) {
+    setError("Please enter 4-digit OTP");
+    return;
+  }
+
+  setLoading(true);
+  setError("");
+
+  try {
+    const response = await fetch("/api/get-patient", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mobile: mobile, // sirf mobile
+      }),
+    });
+
+    const result = await response.json();
+
+    console.log("✅ GetPatient RAW RESPONSE:", result);
+
+    if (!response.ok) {
+      setError("Server error. Please try again.");
       return;
     }
 
-    setLoading(true);
-    setError("");
+    // SOAP response handling
+    if (result?.d) {
+      console.log("🧩 SOAP STRING:", result.d);
 
-    try {
-      const response = await fetch("/api/get-patient", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          mobile: mobile  // Sirf mobile number send karo
-        }),
-      });
+      let parsed: any = null;
 
-      const result = await response.json();
-
-      console.log("✅ GetPatient RAW RESPONSE:", result);
-
-      // Check if API call was successful
-      if (!response.ok) {
-        setError("Server error. Please try again.");
-        setLoading(false);
-        return;
+      try {
+        parsed = JSON.parse(result.d);
+        console.log("✅ PARSED PATIENT DATA:", parsed);
+      } catch (err) {
+        console.error("❌ JSON Parse Error:", err);
       }
 
-      // SOAP response: result.d => STRING
-      if (result?.d) {
-        console.log("🧩 SOAP STRING:", result.d);
+      // ✅ EXISTING USER
+      if (
+        parsed &&
+        parsed.status === "Success" &&
+        Array.isArray(parsed.data) &&
+        parsed.data.length > 0
+      ) {
+        const patient = parsed.data[0]; // 👈 first patient
 
-        let parsed;
-        try {
-          parsed = JSON.parse(result.d);
-          console.log("✅ PARSED PATIENT DATA:", parsed);
-        } catch (parseError) {
-          console.error("❌ JSON Parse Error:", parseError);
-          parsed = null;
-        }
+        const userToStore = {
+          name: patient.PName?.trim() || "User",
+          mobile: patient.ContactNo,
+        };
 
-        // Check if user exists (data array has items)
-        if (parsed && parsed.data && Array.isArray(parsed.data) && parsed.data.length > 0) {
-          // ✅ EXISTING USER
-          console.log("✅ EXISTING USER → DASHBOARD");
-          console.log("User Data:", parsed.data[0]);
-          router.push("/");
-        } else {
-          // 🆕 NEW USER
-          console.log("🆕 NEW USER (empty data array) → REGISTER");
-          router.push(`/register?mobile=${mobile}`);
-        }
+        console.log("💾 SAVING USER TO LOCALSTORAGE:", userToStore);
+
+        localStorage.setItem("user", JSON.stringify(userToStore));
+
+        console.log("✅ EXISTING USER → DASHBOARD");
+        router.push("/"); // or /dashboard
       } else {
-        // No 'd' property means new user
-        console.log("🆕 NO 'd' PROPERTY → REGISTER");
+        // 🆕 NEW USER
+        console.log("🆕 NEW USER (empty data) → REGISTER");
         router.push(`/register?mobile=${mobile}`);
       }
-    } catch (error) {
-      console.error("❌ GetPatient API ERROR:", error);
-      setError("Network error. Please try again.");
-    } finally {
-      setLoading(false);
+    } else {
+      // 🆕 NO d PROPERTY
+      console.log("🆕 NO 'd' PROPERTY → REGISTER");
+      router.push(`/register?mobile=${mobile}`);
     }
-  };
+  } catch (error) {
+    console.error("❌ GetPatient API ERROR:", error);
+    setError("Network error. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 
 
