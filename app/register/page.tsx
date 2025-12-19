@@ -172,7 +172,10 @@ export default function RegisterPage() {
         const res = await fetch(`/api/get-districts?stateId=${id}`);
         const json = await res.json();
 
-        // 🔥 FIX: Ensure IDs are strings for districts
+        // 🔥 ADD THIS LINE
+        console.log("✅ DISTRICTS API RESPONSE:", json);
+        console.log("✅ DISTRICTS DATA:", json.Data);
+
         const stringifiedDistricts = (json.Data || []).map((d: any) => {
             console.log("Arun sdfkjdsfkldj:", state.name); // Add this first
             return {
@@ -203,6 +206,8 @@ export default function RegisterPage() {
 
         const res = await fetch(`/api/get-cities?districtId=${id}`);
         const json = await res.json();
+        console.log("✅ DISTRICTS API FULL RESPONSE:", json);
+        console.log("✅ DISTRICTS DATA ARRAY:", json.Data);
 
         // 🔥 FIX: Ensure IDs are strings for cities
         const stringifiedCities = (json.Data || []).map((c: any) => ({
@@ -231,97 +236,96 @@ export default function RegisterPage() {
 
 
     /* ---------------- SUBMIT ---------------- */
-    const handleSubmit = async () => {
-        if (
-            !form.firstName ||
-            !form.dob ||
-            !form.address ||
-            !form.postalCode ||
-            !form.country ||
-            !form.state ||
-            !form.district ||
-            !form.city
-        ) {
-            alert("Please fill all required fields");
-            return;
-        }
+   const handleSubmit = async () => {
+    if (
+        !form.firstName ||
+        !form.dob ||
+        !form.address ||
+        !form.postalCode ||
+        !form.country ||
+        !form.state ||
+        !form.district ||
+        !form.city
+    ) {
+        alert("Please fill all required fields");
+        return;
+    }
 
-        setLoading(true);
-        const payload = {
-            isRegisteredPatient: "0",
-            PatientId: "",
+    setLoading(true);
+    const payload = {
+        isRegisteredPatient: "0",
+        PatientId: "",
 
-            Title: form.title,
-            FirstName: form.firstName,
-            PatientLastName: form.lastName,
-            Gender: form.gender,
-            DOB: form.dob,
-            Age: calculateAge(form.dob),
+        Title: form.title,
+        FirstName: form.firstName,
+        PatientLastName: form.lastName,
+        Gender: form.gender,
+        DOB: form.dob,
+        Age: calculateAge(form.dob),
 
-            MobileNo: form.phoneNumber,
-            Email: form.email,
-            Address: form.address,
+        MobileNo: form.phoneNumber,
+        Email: form.email,
+        Address: form.address,
 
-            Country: form.country,
-            CountryID: form.countryId,      // 🔥 REQUIRED
-            State: form.state,
-            StateID: form.stateId,
-            District: form.district,
-            DistrictID: form.districtId,
-            City: form.city,
-            CityID: form.cityId,
+        Country: form.country,
+        CountryID: form.countryId,
+        State: form.state,
+        StateID: form.stateId,
+        District: form.district,
+        DistrictID: form.districtId,
+        City: form.city,
+        CityID: form.cityId,
 
-            PinCode: form.postalCode,
-            Document: "",
-            TestDetails: []
-        };
-
-
-
-
-        try {
-            const res = await fetch("/api/register-patient", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-
-            const json = await res.json();
-
-            console.log("📦 REGISTER RAW:", json.raw);
-
-            // 🔥 JSON extract from SOAP string
-            let parsed = null;
-            try {
-                const match = json.raw.match(/\{[\s\S]*\}/);
-                parsed = match ? JSON.parse(match[0]) : null;
-            } catch (e) {
-                console.error("❌ JSON PARSE ERROR", e);
-            }
-
-            console.log("✅ PARSED REGISTER RESPONSE:", parsed);
-
-            if (parsed?.status === "Success") {
-                const userToStore = {
-                    name: `${form.firstName} ${form.lastName}`.trim(),
-                    mobile: form.phoneNumber
-                };
-
-                localStorage.setItem("user", JSON.stringify(userToStore));
-                router.replace("/dashboard");
-            } else {
-                alert(parsed?.message || "Registration failed");
-            }
-
-
-        } catch (error) {
-            console.error("❌ REGISTER API ERROR:", error);
-            alert("Something went wrong. Please try again.");
-        } finally {
-            setLoading(false);
-        }
+        PinCode: form.postalCode,
+        Document: "",
+        TestDetails: []
     };
 
+    try {
+        const res = await fetch("/api/register-patient", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const json = await res.json();
+
+        console.log("📦 REGISTER RAW:", json.raw);
+
+        // 🔥 FIX: Parse double-wrapped SOAP response
+        let parsed = null;
+        try {
+            const outerParsed = JSON.parse(json.raw);
+            if (outerParsed && outerParsed.d) {
+                parsed = JSON.parse(outerParsed.d);
+            }
+        } catch (e) {
+            console.error("❌ JSON PARSE ERROR", e);
+        }
+
+        console.log("✅ PARSED REGISTER RESPONSE:", parsed);
+
+        if (parsed?.status === "Success") {
+            const userToStore = {
+                name: `${form.firstName} ${form.lastName}`.trim(),
+                mobile: form.phoneNumber,
+                requestId: parsed.data?.[0]?.RequestID
+            };
+
+            localStorage.setItem("user", JSON.stringify(userToStore));
+            alert("Registration successful!");
+            router.replace("/");
+        } else {
+            alert(parsed?.message || "Registration failed");
+        }
+
+    } catch (error) {
+        console.error("❌ REGISTER API ERROR:", error);
+        alert("Something went wrong. Please try again.");
+    } finally {
+        setLoading(false);
+    }
+};
 
 
     return (

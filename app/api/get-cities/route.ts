@@ -18,7 +18,10 @@ export async function GET(req: NextRequest) {
   try {
     const res = await fetch(
       `${baseUrl}/GetCityList?SecurityKey=${SecurityKey}&ClientId=${ClientId}&DistrictId=${districtId}`,
-      { cache: "no-store" }
+      { 
+        method: "GET",
+        cache: "no-store" 
+      }
     );
 
     if (!res.ok) {
@@ -28,7 +31,6 @@ export async function GET(req: NextRequest) {
     const text = await res.text();
     console.log("🌆 RAW CITY RESPONSE:", text);
 
-    // ✅ Extract JSON from XML
     let jsonString = text;
     if (text.includes("<?xml")) {
       const match = text.match(/<string[^>]*>(.*?)<\/string>/s);
@@ -51,13 +53,12 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    console.log("🔍 RAW PARSED CITY DATA:", parsed.data);
-
+    // 🔥 FIX: Backend returns "ID" and "City" NOT "CityID" and "CityName"
     const cities = (parsed.data || []).map((item: any) => {
-      console.log("🔍 City Item BEFORE mapping:", item);
+      console.log("🔍 CITY ITEM:", item);
       return {
-        id: item.CityID || item.Id || item.id || "",
-        name: item.CityName || item.Name || item.name || "",
+        id: String(item.ID || item.CityID || item.Id || item.id || ""), // ✅ "ID" first!
+        name: item.City || item.CityName || item.Name || item.name || "", // ✅ "City" first!
       };
     });
 

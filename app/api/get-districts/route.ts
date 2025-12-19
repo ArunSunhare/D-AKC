@@ -16,9 +16,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // 🔥 SAME FIX AS STATE API → GET with query params
     const res = await fetch(
-      // Try this format
       `${baseUrl}/GetDistrictList?SecurityKey=${SecurityKey}&ClientId=${ClientId}&StateID=${stateId}`,
       {
         method: "GET",
@@ -33,21 +31,17 @@ export async function GET(req: NextRequest) {
     const text = await res.text();
     console.log("🏙️ RAW DISTRICT RESPONSE:", text);
 
-    // ✅ XML → JSON extract (same as state)
     let jsonString = text;
-
     if (text.includes("<?xml")) {
       const match = text.match(/<string[^>]*>(.*?)<\/string>/s);
       if (match && match[1]) {
         jsonString = match[1];
-        console.log("📦 EXTRACTED JSON STRING:", jsonString);
       }
     }
 
     const parsed = JSON.parse(jsonString);
     console.log("✅ PARSED DISTRICT DATA:", parsed);
 
-    // ❌ Backend failure check
     if (parsed.status === "Failure") {
       return NextResponse.json(
         {
@@ -58,15 +52,13 @@ export async function GET(req: NextRequest) {
         { status: 400 }
       );
     }
-    // ✅ Format districts (same style as country & state)
-    // ✅ ADD THIS LINE FIRST
-    console.log("🔍 RAW PARSED DATA:", parsed.data);
 
+    // 🔥 FIX: Backend returns "District" NOT "DistrictName"
     const districts = (parsed.data || []).map((item: any) => {
-      console.log("🔍 District Item BEFORE mapping:", item); // Change this log
+      console.log("🔍 DISTRICT ITEM:", item);
       return {
-        id: item.DistrictID || item.Id || item.id || "",
-        name: item.DistrictName || item.Name || item.name || "",
+        id: String(item.DistrictID || item.Id || item.id || ""),
+        name: item.District || item.DistrictName || item.Name || item.name || "", // ✅ "District" first!
       };
     });
 
@@ -78,7 +70,7 @@ export async function GET(req: NextRequest) {
       Data: districts,
     });
   } catch (error: any) {
-    console.error("❌ GetDistrict ERROR:", error);
+    console.error("❌ GetDistricts ERROR:", error);
 
     return NextResponse.json(
       {
