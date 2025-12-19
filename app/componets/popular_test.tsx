@@ -140,7 +140,7 @@ export function PopularTests() {
                         onClick={() => handleBookClick(test)}
                         className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600"
                       >
-                        BOOK NOW
+                        KNOW MORE
                       </button>
                     </div>
                   </div>
