@@ -121,8 +121,18 @@ export function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="flex items-center gap-2 hover:text-white">
-                    <span className="text-blue-400">›</span> Contact Us
+                  <a href="/contact_us" className="flex items-center gap-2 hover:text-white">
+                    <span className="text-blue-400">›</span>  Contact Us
+                  </a>
+                </li>
+                 <li>
+                  <a href="/T&P" className="flex items-center gap-2 hover:text-white">
+                    <span className="text-blue-400">›</span>  Term & Conditions
+                  </a>
+                </li>
+                 <li>
+                  <a href="/Privacy_policy" className="flex items-center gap-2 hover:text-white">
+                    <span className="text-blue-400">›</span>  Privacy Policy
                   </a>
                 </li>
                 <li>

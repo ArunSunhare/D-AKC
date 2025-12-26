@@ -83,7 +83,8 @@ export default function LoginPage() {
     }
   };
 
-  /* ---------------- VERIFY OTP ---------------- */
+
+/* ---------------- VERIFY OTP ---------------- */
 const verifyOtp = async () => {
   const enteredOtp = otp.join("");
 
@@ -96,75 +97,80 @@ const verifyOtp = async () => {
   setError("");
 
   try {
-    const response = await fetch("/api/get-patient", {
+    // ❌ STEP 1: VERIFY OTP (NOT AVAILABLE YET)
+    const verifyResponse = await fetch("/api/verify-otp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        mobile: mobile, // sirf mobile
+        mobile,
+        otp: enteredOtp,
       }),
     });
 
-    const result = await response.json();
+    if (!verifyResponse.ok) {
+      setError("OTP verification service not available.");
+      return;
+    }
 
-    console.log("✅ GetPatient RAW RESPONSE:", result);
+    const verifyResult = await verifyResponse.json();
+
+    // ❌ OTP INVALID
+    if (!verifyResult?.success) {
+      setError("Invalid OTP. Please try again.");
+      return;
+    }
+
+    // ✅ STEP 2: OTP VERIFIED → GET PATIENT
+    const response = await fetch("/api/get-patient", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ mobile }),
+    });
+
+    const result = await response.json();
 
     if (!response.ok) {
       setError("Server error. Please try again.");
       return;
     }
 
-    // SOAP response handling
     if (result?.d) {
-      console.log("🧩 SOAP STRING:", result.d);
+      const parsed = JSON.parse(result.d);
 
-      let parsed: any = null;
-
-      try {
-        parsed = JSON.parse(result.d);
-        console.log("✅ PARSED PATIENT DATA:", parsed);
-      } catch (err) {
-        console.error("❌ JSON Parse Error:", err);
-      }
-
-      // ✅ EXISTING USER
       if (
-        parsed &&
-        parsed.status === "Success" &&
+        parsed?.status === "Success" &&
         Array.isArray(parsed.data) &&
         parsed.data.length > 0
       ) {
-        const patient = parsed.data[0]; // 👈 first patient
+        const patient = parsed.data[0];
 
-        const userToStore = {
-          name: patient.PName?.trim() || "User",
-          mobile: patient.ContactNo,
-        };
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            name: patient.PName?.trim() || "User",
+            mobile: patient.ContactNo,
+          })
+        );
 
-        console.log("💾 SAVING USER TO LOCALSTORAGE:", userToStore);
-
-        localStorage.setItem("user", JSON.stringify(userToStore));
-
-        console.log("✅ EXISTING USER → DASHBOARD");
-        router.push("/"); // or /dashboard
+        router.push("/");
       } else {
-        // 🆕 NEW USER
-        console.log("🆕 NEW USER (empty data) → REGISTER");
         router.push(`/register?mobile=${mobile}`);
       }
     } else {
-      // 🆕 NO d PROPERTY
-      console.log("🆕 NO 'd' PROPERTY → REGISTER");
       router.push(`/register?mobile=${mobile}`);
     }
   } catch (error) {
-    console.error("❌ GetPatient API ERROR:", error);
-    setError("Network error. Please try again.");
+    console.error("OTP VERIFY ERROR:", error);
+    setError("OTP verification failed.");
   } finally {
     setLoading(false);
   }
 };
+
 
 
 
@@ -243,7 +249,7 @@ const verifyOtp = async () => {
                   />
                   <p>
                     I agree to the{" "}
-                    <span className="text-orange-500 font-medium cursor-pointer">
+                    <span onClick={() => router.push("/app/T&P")} className="text-orange-500 font-medium cursor-pointer">
                       Terms & Conditions
                     </span>{" "}
                     and{" "}

@@ -3,6 +3,9 @@
 import { useParams, useRouter } from "next/navigation";
 import { TestTube, Activity, ArrowLeft, Phone, MapPin, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { Navigation } from "@/app/componets/navbar";
+import { Footer } from "@/app/componets/footer";
+
 
 /* =======================
    TEST DATA
@@ -17,7 +20,7 @@ const tests = [
     parameters: 1,
     reportTat: "Same Day*",
     description:
-      "A Whole Body FDG PET CT scan is a nuclear medicine imaging test used commonly to detect a range of cancers, heart diseases, neurological conditions, infections and PUO (Pyrexia of Unknown Origin). A radioactive glucose tracer (18F FDG) is injected and the uptake by tissues, which are in fasting state in your body, is measured by the PET Scanner. This Whole Body PET CT Scan is most commonly used for Detection, Staging and Treatment Response for a variety of Cancers.",
+      "A Whole Body FDG PET CT scan is a nuclear medicine imaging test used commonly to detect a range of cancers, heart diseases, neurological conditions, infections and PUO (Pyrexia of Unknown Origin). A radioactive glucose tracer (18F FDG) is injected and the uptake by tissues, which are in fasting state in your body, is measuorange by the PET Scanner. This Whole Body PET CT Scan is most commonly used for Detection, Staging and Treatment Response for a variety of Cancers.",
     alsoKnownAs: [
       "18 F FDG PET/CT Whole Body",
       "PET CT Whole Body FDG",
@@ -27,8 +30,8 @@ const tests = [
     ],
     specialization: "Cancer Care",
     testPreparation:
-      "4-6 hours of fasting required but Overnight fasting is preferred. During fasting only plain water is allowed. Urea & Creatinine report is Required within last 15 days. Diabetic patients should have light breakfast 4 to 6 hours before the test time on the day of test, and must take the advised medications prescribed. It is important NOT TO MISS the diabetic medication in the morning of the test date. DO NOT TAKE INSULIN on the day of the test, before the test. Must inform us about your diabetic history for us to plan needful for your test. Please carry old report/CD. One attendant mandatory fo",
-    centres: ["HOD Green Park"],
+      "4-6 hours of fasting requiorange but Overnight fasting is preferorange. During fasting only plain water is allowed. Urea & Creatinine report is Requiorange within last 15 days. Diabetic patients should have light breakfast 4 to 6 hours before the test time on the day of test, and must take the advised medications prescribed. It is important NOT TO MISS the diabetic medication in the morning of the test date. DO NOT TAKE INSULIN on the day of the test, before the test. Must inform us about your diabetic history for us to plan needful for your test. Please carry old report/CD. One attendant mandatory fo",
+    centres: ["Green Park"],
     faqs: [
       {
         question: "What is a PET-CT scan?",
@@ -72,6 +75,7 @@ export default function TestDetailPage() {
 
   if (!test) {
     return (
+       
       <div className="py-24 text-center text-gray-500 text-lg">
         Test not found
       </div>
@@ -79,7 +83,10 @@ export default function TestDetailPage() {
   }
 
   return (
-    <section className="bg-gray-50 py-6">
+    <>
+      <Navigation />
+  
+    <section className="bg-gray-100 py-6">
       <div className="max-w-7xl mx-auto px-4">
 
         {/* Back Button */}
@@ -98,7 +105,7 @@ export default function TestDetailPage() {
 
             {/* Main Info Card */}
             <div className="bg-white rounded-lg shadow-sm p-6">
-              <h1 className="text-3xl font-bold text-gray-900 mb-1">
+              <h1 className="text-3xl font-bold text-blue-900 mb-1">
                 {test.name}
               </h1>
               <p className="text-gray-600 text-sm mb-4">{test.subtitle}</p>
@@ -108,7 +115,7 @@ export default function TestDetailPage() {
                 <span className="text-gray-400 line-through text-sm mr-2">
                   {test.originalPrice}
                 </span>
-                <span className="text-3xl font-bold text-red-600">
+                <span className="text-3xl font-bold text-orange-600">
                   {test.price}
                 </span>
               </div>
@@ -122,7 +129,7 @@ export default function TestDetailPage() {
                   {test.alsoKnownAs.map((item, idx) => (
                     <span
                       key={idx}
-                      className="px-3 py-1.5 text-sm border border-red-500 text-red-600 rounded-full"
+                      className="px-3 py-1.5 text-sm border border-orange-500 text-orange-600 rounded-full"
                     >
                       {item}
                     </span>
@@ -150,7 +157,7 @@ export default function TestDetailPage() {
                     18 F FDG PET/CT Whole Body
                   </span>
                 </div>
-                <span className="text-red-600 text-sm font-medium">
+                <span className="text-orange-600 text-sm font-medium">
                   1 Parameter
                 </span>
               </div>
@@ -179,14 +186,14 @@ export default function TestDetailPage() {
               <h3 className="font-bold text-gray-900 mb-3">
                 Specializations:
               </h3>
-              <span className="inline-block bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm border border-red-200">
+              <span className="inline-block bg-orange-50 text-orange-600 px-4 py-2 rounded-full text-sm border border-orange-200">
                 {test.specialization}
               </span>
             </div>
 
             {/* FAQs */}
             <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-              <div className="bg-red-600 px-6 py-4">
+              <div className="bg-blue-900 px-6 py-4">
                 <h3 className="text-xl font-bold text-white">
                   Frequently Asked Questions
                 </h3>
@@ -202,7 +209,7 @@ export default function TestDetailPage() {
                         {faq.question}
                       </span>
                       <ChevronDown
-                        className={`w-5 h-5 text-red-600 flex-shrink-0 transition-transform ${
+                        className={`w-5 h-5 text-orange-600 flex-shrink-0 transition-transform ${
                           expandedFaq === idx ? "rotate-180" : ""
                         }`}
                       />
@@ -223,24 +230,24 @@ export default function TestDetailPage() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm p-6 sticky top-6">
 
-              <h3 className="text-lg font-bold text-gray-900 mb-4">
+              <h3 className="text-lg font-bold text-blue-900 mb-4">
                 Visit Type
               </h3>
 
-              <button className="w-full bg-red-600 text-white py-3 rounded-lg mb-6 hover:bg-red-700 transition-colors font-semibold">
+              <button className="w-full bg-orange-600 text-white py-3 rounded-lg mb-6 hover:bg-orange-700 transition-colors font-semibold">
                 Visit Centre
               </button>
 
               {/* Centre Selection */}
               <div className="mb-6">
-                <h4 className="text-sm font-semibold text-gray-900 mb-2">
+                <h4 className="text-sm font-semibold text-blue-900 mb-2">
                   Centres
                 </h4>
                 <div className="relative">
                   <select
                     value={selectedCentre}
                     onChange={(e) => setSelectedCentre(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-700 pr-10 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-700 pr-10 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   >
                     {test.centres.map((centre, idx) => (
                       <option key={idx} value={centre}>
@@ -250,18 +257,18 @@ export default function TestDetailPage() {
                   </select>
                   <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                 </div>
-                <button className="mt-2 text-red-600 hover:text-red-700 flex items-center gap-1">
+                <button className="mt-2 text-orange-600 hover:text-orange-700 flex items-center gap-1">
                   <MapPin className="w-4 h-4" />
                 </button>
               </div>
 
               {/* Test Selection */}
               <div className="mb-6">
-                <h4 className="text-sm font-semibold text-gray-900 mb-2">
+                <h4 className="text-sm font-semibold text-blue-900 mb-2">
                   Tests
                 </h4>
                 <div className="relative">
-                  <select className="w-full px-4 py-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-700 pr-10 focus:outline-none focus:ring-2 focus:ring-red-500">
+                  <select className="w-full px-4 py-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-700 pr-10 focus:outline-none focus:ring-2 focus:ring-orange-500">
                     <option>18 F FDG PET/CT Whole Body</option>
                   </select>
                   <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
@@ -273,22 +280,22 @@ export default function TestDetailPage() {
                 <span className="text-gray-400 line-through text-base">
                   {test.originalPrice}
                 </span>
-                <div className="text-3xl font-bold text-red-600">
+                <div className="text-3xl font-bold text-orange-600">
                   {test.price}
                 </div>
               </div>
 
               {/* CTA Buttons */}
-              <button className="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition-colors mb-3 font-semibold">
+              <button className="w-full bg-orange-600 text-white py-3 rounded-lg hover:bg-orange-700 transition-colors mb-3 font-semibold">
                 Book Now
               </button>
 
-              <button className="w-full border-2 border-red-600 text-red-600 py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-red-50 transition-colors font-semibold mb-3">
+              <button className="w-full border-2 border-orange-600 text-orange-600 py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-orange-50 transition-colors font-semibold mb-3">
                 <Phone className="w-4 h-4" />
                 Call {selectedCentre}
               </button>
 
-              <button className="w-full border-2 border-red-600 text-red-600 py-3 rounded-lg hover:bg-red-50 transition-colors font-semibold">
+              <button className="w-full border-2 border-orange-600 text-orange-600 py-3 rounded-lg hover:bg-orange-50 transition-colors font-semibold">
                 Request A Callback
               </button>
 
@@ -297,5 +304,7 @@ export default function TestDetailPage() {
         </div>
       </div>
     </section>
+    <Footer />
+    </>
   );
 }

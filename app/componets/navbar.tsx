@@ -41,10 +41,20 @@ export function Navigation() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  /* ---------------- GET FIRST LETTER ---------------- */
+  const getInitial = (name: string) => {
+    return name.charAt(0).toUpperCase();
+  };
+
   /* ---------------- ACTIONS ---------------- */
   const goToLogin = () => {
     setIsMenuOpen(false);
     router.push("/signin");
+  };
+
+  const goToProfile = () => {
+    setIsMenuOpen(false);
+    router.push("/patient_profile");
   };
 
   const logout = () => {
@@ -70,19 +80,28 @@ export function Navigation() {
 
           {/* ================= DESKTOP ================= */}
           <div className="hidden md:flex items-center gap-6">
-            <a className="nav-link">Home</a>
-            <a className="nav-link">Locate Us</a>
-            <a className="nav-link">Facilities</a>
-            <a className="nav-link">Find A Test</a>
-            <a className="nav-link">Health Packages</a>
-            <a className="nav-link">Reach Us</a>
+            <a className="nav-link" onClick={() => router.push("/")}>Home</a>
+            <a className="nav-link" onClick={() => router.push("/")}>Locate Us</a>
+            <a className="nav-link" onClick={() => router.push("/")}>Facilities</a>
+            <a className="nav-link" onClick={() => router.push("/")}>Find A Test</a>
+            <a className="nav-link" onClick={() => router.push("/")}>Health Packages</a>
+            <a className="nav-link" onClick={() => router.push("/")}>Reach Us</a>
 
-            {/* LOGIN / USER */}
+            {/* LOGIN / USER PROFILE */}
             {user ? (
               <div className="flex items-center gap-3">
-                <span className="text-gray-700 font-medium">
-                  👋 {user.name}
-                </span>
+                {/* 🔥 PROFILE ICON WITH FIRST LETTER */}
+                <button
+                  onClick={goToProfile}
+                  className="flex items-center gap-2 hover:opacity-80 transition"
+                >
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                    {getInitial(user.name)}
+                  </div>
+                  <span className="text-gray-700 font-medium">
+                    {user.name}
+                  </span>
+                </button>
 
                 <button
                   onClick={logout}
@@ -115,7 +134,8 @@ export function Navigation() {
         {/* ================= MOBILE MENU ================= */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t">
-            <div className="flex flex-col gap-4">
+            <div className="flex text-black flex-col gap-4">
+
               <a>Home</a>
               <a>Locate Us</a>
               <a>Facilities</a>
@@ -125,7 +145,19 @@ export function Navigation() {
 
               {user ? (
                 <div className="border-t pt-3">
-                  <p className="font-medium mb-2">👋 {user.name}</p>
+                  {/* 🔥 MOBILE PROFILE SECTION */}
+                  <button
+                    onClick={goToProfile}
+                    className="flex items-center gap-3 mb-3"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                      {getInitial(user.name)}
+                    </div>
+                    <span className="font-medium text-gray-800">
+                      {user.name}
+                    </span>
+                  </button>
+
                   <button
                     onClick={logout}
                     className="flex items-center gap-2 text-red-600"
