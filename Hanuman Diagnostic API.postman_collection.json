@@ -1,0 +1,449 @@
+{
+	"info": {
+		"_postman_id": "760bfa28-7616-495a-911b-45fb1b8ad97e",
+		"name": "Hanuman Diagnostic API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34617017",
+		"_collection_link": "https://developer-5379.postman.co/workspace/Developer-Workspace~14218b1f-cf1e-4f0b-9c1a-78aef33b440a/collection/34617017-760bfa28-7616-495a-911b-45fb1b8ad97e?action=share&source=collection_link&creator=34617017"
+	},
+	"item": [
+		{
+			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GenerateLabTest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"SecurityKey\": \"XZY45ZTYLG19045GHTY\",\r\n  \"ClientId\": \"XZY45ZTBNG190489GHTY\",\r\n  \"isRegisteredPatient\": \"1\",\r\n  \"PatientId\": \"P001\",\r\n  \"Title\": \"Mr\",\r\n  \"FirstName\": \"John\",\r\n  \"PatientLastName\": \"Doe\",\r\n  \"Age\": \"30\",\r\n  \"DOB\": \"1995-05-01\",\r\n  \"Gender\": \"Male\",\r\n  \"MobileNo\": \"9876543210\",\r\n  \"Email\": \"john@example.com\",\r\n  \"Address\": \"123 Street\",\r\n  \"Country\": \"India\",\r\n  \"CountryID\": \"91\",\r\n  \"State\": \"MH\",\r\n  \"StateID\": \"27\",\r\n  \"District\": \"Mumbai\",\r\n  \"DistrictID\": \"101\",\r\n  \"City\": \"Mumbai\",\r\n  \"CityID\": \"202\",\r\n  \"PinCode\": \"400001\",\r\n  \"Document\":\"\",\r\n  \"TestDetails\": [\r\n    {\r\n      \"ItemName\": \"Blood Test\",\r\n      \"ItemID\": \"BT001\",\r\n      \"CategoryID\": \"1\",\r\n      \"SubCategoryID\": \"10\",\r\n      \"Amount\": 150.00\r\n    },\r\n    {\r\n      \"ItemName\": \"X-Ray\",\r\n      \"ItemID\": \"XR002\",\r\n      \"CategoryID\": \"2\",\r\n      \"SubCategoryID\": \"20\",\r\n      \"Amount\": 300.00\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GenerateLabTest",
+					"protocol": "http",
+					"host": [
+						"shbcdc.in"
+					],
+					"port": "9765",
+					"path": [
+						"HIS",
+						"API",
+						"MobileApplication.asmx",
+						"GenerateLabTest"
+					],
+					"query": [
+						{
+							"key": "SecurityKey",
+							"value": "XZY45ZTYLG19045GHTY",
+							"disabled": true
+						},
+						{
+							"key": "ClientId",
+							"value": "XZY45ZTBNG190489GHTY",
+							"disabled": true
+						},
+						{
+							"key": "isRegisteredPatient",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "PatientId",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "Title",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "FirstName",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "PatientLastName",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "Age",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "DOB",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "Gender",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "MobileNo",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "Email",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "Address",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "Country",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "CountryID",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "State",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "StateID",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "District",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "DistrictID",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "City",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "CityID",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "PinCode ",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetCityList ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&DistrictId=2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"SecurityKey\": \"XZY45ZTYLG19045GHTY\",\r\n  \"ClientId\": \"XZY45ZTBNG190489GHTY\",\r\n  \"isRegisteredPatient\": \"1\",\r\n  \"PatientId\": \"P001\",\r\n  \"Title\": \"Mr\",\r\n  \"FirstName\": \"John\",\r\n  \"PatientLastName\": \"Doe\",\r\n  \"Age\": \"30\",\r\n  \"DOB\": \"1995-05-01\",\r\n  \"Gender\": \"Male\",\r\n  \"MobileNo\": \"9876543210\",\r\n  \"Email\": \"john@example.com\",\r\n  \"Address\": \"123 Street\",\r\n  \"Country\": \"India\",\r\n  \"CountryID\": \"91\",\r\n  \"State\": \"MH\",\r\n  \"StateID\": \"27\",\r\n  \"District\": \"Mumbai\",\r\n  \"DistrictID\": \"101\",\r\n  \"City\": \"Mumbai\",\r\n  \"CityID\": \"202\",\r\n  \"PinCode\": \"400001\",\r\n  \"TestDetails\": [\r\n    {\r\n      \"ItemName\": \"Blood Test\",\r\n      \"ItemID\": \"BT001\",\r\n      \"CategoryID\": \"1\",\r\n      \"SubCategoryID\": \"10\",\r\n      \"Amount\": 150.00\r\n    },\r\n    {\r\n      \"ItemName\": \"X-Ray\",\r\n      \"ItemID\": \"XR002\",\r\n      \"CategoryID\": \"2\",\r\n      \"SubCategoryID\": \"20\",\r\n      \"Amount\": 300.00\r\n    }\r\n  ]\r\n}"
+				},
+				"url": {
+					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetCityList ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&DistrictId=2",
+					"protocol": "http",
+					"host": [
+						"shbcdc.in"
+					],
+					"port": "9765",
+					"path": [
+						"HIS",
+						"API",
+						"MobileApplication.asmx",
+						"GetCityList "
+					],
+					"query": [
+						{
+							"key": "SecurityKey",
+							"value": "XZY45ZTYLG19045GHTY"
+						},
+						{
+							"key": "ClientId",
+							"value": "XZY45ZTBNG190489GHTY"
+						},
+						{
+							"key": "DistrictId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetCountryList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetCountryList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
+					"protocol": "http",
+					"host": [
+						"shbcdc.in"
+					],
+					"port": "9765",
+					"path": [
+						"HIS",
+						"API",
+						"MobileApplication.asmx",
+						"GetCountryList"
+					],
+					"query": [
+						{
+							"key": "SecurityKey",
+							"value": "XZY45ZTYLG19045GHTY"
+						},
+						{
+							"key": "ClientId",
+							"value": "XZY45ZTBNG190489GHTY"
+						},
+						{
+							"key": "CountryID",
+							"value": "14"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetDistrictList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&StateId=2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetDistrictList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&StateId=2",
+					"protocol": "http",
+					"host": [
+						"shbcdc.in"
+					],
+					"port": "9765",
+					"path": [
+						"HIS",
+						"API",
+						"MobileApplication.asmx",
+						"GetDistrictList"
+					],
+					"query": [
+						{
+							"key": "SecurityKey",
+							"value": "XZY45ZTYLG19045GHTY"
+						},
+						{
+							"key": "ClientId",
+							"value": "XZY45ZTBNG190489GHTY"
+						},
+						{
+							"key": "StateId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetInvestigation?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetInvestigation?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY",
+					"protocol": "http",
+					"host": [
+						"shbcdc.in"
+					],
+					"port": "9765",
+					"path": [
+						"HIS",
+						"API",
+						"MobileApplication.asmx",
+						"GetInvestigation"
+					],
+					"query": [
+						{
+							"key": "SecurityKey",
+							"value": "XZY45ZTYLG19045GHTY"
+						},
+						{
+							"key": "ClientId",
+							"value": "XZY45ZTBNG190489GHTY"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetOTP ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=8542344234",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetOTP ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=8542344234",
+					"protocol": "http",
+					"host": [
+						"shbcdc.in"
+					],
+					"port": "9765",
+					"path": [
+						"HIS",
+						"API",
+						"MobileApplication.asmx",
+						"GetOTP "
+					],
+					"query": [
+						{
+							"key": "SecurityKey",
+							"value": "XZY45ZTYLG19045GHTY"
+						},
+						{
+							"key": "ClientId",
+							"value": "XZY45ZTBNG190489GHTY"
+						},
+						{
+							"key": "MobileNo",
+							"value": "8542344234"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetPatient?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9910963572",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetPatient?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9910963572",
+					"protocol": "http",
+					"host": [
+						"shbcdc.in"
+					],
+					"port": "9765",
+					"path": [
+						"HIS",
+						"API",
+						"MobileApplication.asmx",
+						"GetPatient"
+					],
+					"query": [
+						{
+							"key": "SecurityKey",
+							"value": "XZY45ZTYLG19045GHTY"
+						},
+						{
+							"key": "ClientId",
+							"value": "XZY45ZTBNG190489GHTY"
+						},
+						{
+							"key": "MobileNo",
+							"value": "9910963572"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetStateList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetStateList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
+					"protocol": "http",
+					"host": [
+						"shbcdc.in"
+					],
+					"port": "9765",
+					"path": [
+						"HIS",
+						"API",
+						"MobileApplication.asmx",
+						"GetStateList"
+					],
+					"query": [
+						{
+							"key": "SecurityKey",
+							"value": "XZY45ZTYLG19045GHTY"
+						},
+						{
+							"key": "ClientId",
+							"value": "XZY45ZTBNG190489GHTY"
+						},
+						{
+							"key": "CountryID",
+							"value": "14"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/getRequestedStatus?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9876543210&PatientID= ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/getRequestedStatus?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9876543210&PatientID= ",
+					"protocol": "http",
+					"host": [
+						"shbcdc.in"
+					],
+					"port": "9765",
+					"path": [
+						"HIS",
+						"API",
+						"MobileApplication.asmx",
+						"getRequestedStatus"
+					],
+					"query": [
+						{
+							"key": "SecurityKey",
+							"value": "XZY45ZTYLG19045GHTY"
+						},
+						{
+							"key": "ClientId",
+							"value": "XZY45ZTBNG190489GHTY"
+						},
+						{
+							"key": "MobileNo",
+							"value": "9876543210"
+						},
+						{
+							"key": "PatientID",
+							"value": " "
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

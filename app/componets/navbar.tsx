@@ -83,7 +83,7 @@ export function Navigation() {
             <a className="nav-link" onClick={() => router.push("/")}>Home</a>
             <a className="nav-link" onClick={() => router.push("/")}>Locate Us</a>
             <a className="nav-link" onClick={() => router.push("/")}>Facilities</a>
-            <a className="nav-link" onClick={() => router.push("/")}>Find A Test</a>
+            <a className="nav-link" onClick={() => router.push("/investigations")}>Find A Test</a>
             <a className="nav-link" onClick={() => router.push("/")}>Health Packages</a>
             <a className="nav-link" onClick={() => router.push("/")}>Reach Us</a>
 
@@ -139,7 +139,7 @@ export function Navigation() {
               <a>Home</a>
               <a>Locate Us</a>
               <a>Facilities</a>
-              <a>Find A Test</a>
+              <a onClick={() => router.push("/investigations")}>Find A Test</a>
               <a>Health Packages</a>
               <a>Reach Us</a>
 
