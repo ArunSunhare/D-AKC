@@ -12,24 +12,40 @@ export default function InvestigationsPage() {
     const [error, setError] = useState("");
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalItems, setTotalItems] = useState(0);
     const itemsPerPage = 9;
 
+    // Fetch data when page or search changes
     useEffect(() => {
         fetchInvestigations();
-    }, []);
+    }, [currentPage]);
 
-    // Reset pagination when search changes
+    // Debounced search - reset to page 1 and fetch
     useEffect(() => {
-        setCurrentPage(1);
+        const timer = setTimeout(() => {
+            setCurrentPage(1);
+            fetchInvestigations();
+        }, 300);
+        return () => clearTimeout(timer);
     }, [search]);
 
     const fetchInvestigations = async () => {
+        setLoading(true);
         try {
-            const res = await fetch("/api/get-investigation");
+            const params = new URLSearchParams({
+                page: currentPage.toString(),
+                limit: itemsPerPage.toString(),
+                search: search
+            });
+
+            const res = await fetch(`/api/get-investigation?${params}`);
             const json = await res.json();
 
-            if (json.status === "Success" || (json.data && Array.isArray(json.data))) {
+            if (json.status === "Success") {
                 setInvestigations(json.data || []);
+                setTotalPages(json.pagination?.totalPages || 1);
+                setTotalItems(json.pagination?.totalItems || 0);
             } else {
                 setError(json.message || "Failed to load investigations");
             }
@@ -40,18 +56,6 @@ export default function InvestigationsPage() {
             setLoading(false);
         }
     };
-
-    const filtered = investigations.filter(item =>
-        item.ItemName?.toLowerCase().includes(search.toLowerCase())
-    );
-
-    // Pagination Logic
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filtered.slice(indexOfFirstItem, indexOfLastItem);
-    const totalPages = Math.ceil(filtered.length / itemsPerPage);
-
-
 
     return (
         <div className="min-h-screen bg-white">
@@ -94,7 +98,10 @@ export default function InvestigationsPage() {
                                         className="w-full pl-10 pr-4 py-3 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-700"
                                     />
                                 </div>
-                                <button className="bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2">
+                                <button
+                                    onClick={() => fetchInvestigations()}
+                                    className="bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2"
+                                >
                                     <Search className="w-5 h-5" />
                                     Search
                                 </button>
@@ -119,13 +126,16 @@ export default function InvestigationsPage() {
                         <div className="flex justify-between items-center">
                             <h2 className="text-2xl font-bold text-gray-900">
                                 {search ? `Search Results for "${search}"` : "Available Tests"}
+                                <span className="text-gray-500 text-base font-normal ml-2">
+                                    ({totalItems} tests)
+                                </span>
                             </h2>
                             <div className="w-20 h-1 bg-orange-600 hidden md:block"></div>
                         </div>
 
                         {/* List Layout */}
                         <div className="flex flex-col space-y-4">
-                            {currentItems.map((item: any, idx: number) => (
+                            {investigations.map((item: any, idx: number) => (
                                 <div key={idx} className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
 
                                     {/* Left: Info */}
@@ -171,7 +181,7 @@ export default function InvestigationsPage() {
                             ))}
                         </div>
 
-                        {filtered.length === 0 && (
+                        {investigations.length === 0 && (
                             <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-gray-100">
                                 <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <Search className="w-8 h-8 text-gray-400" />
@@ -182,7 +192,7 @@ export default function InvestigationsPage() {
                         )}
 
                         {/* Pagination Controls */}
-                        {filtered.length > itemsPerPage && (
+                        {totalPages > 1 && (
                             <div className="flex justify-center items-center gap-2 mt-8">
                                 <button
                                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
@@ -226,6 +236,13 @@ export default function InvestigationsPage() {
                                     Next
                                 </button>
                             </div>
+                        )}
+
+                        {/* Page Info */}
+                        {totalPages > 1 && (
+                            <p className="text-center text-sm text-gray-500">
+                                Page {currentPage} of {totalPages}
+                            </p>
                         )}
                     </div>
                 )}

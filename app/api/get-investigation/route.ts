@@ -6,11 +6,18 @@ const ClientId = "XZY45ZTBNG190489GHTY";
 
 export async function GET(req: NextRequest) {
   try {
+    // Get pagination and search params
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "9");
+    const search = searchParams.get("search") || "";
+
+    // Fetch all data from external API (external API doesn't support pagination)
     const res = await fetch(
       `${baseUrl}/GetInvestigation?SecurityKey=${SecurityKey}&ClientId=${ClientId}`,
-      { 
+      {
         method: "GET",
-        cache: "no-store" 
+        cache: "no-store"
       }
     );
 
@@ -19,10 +26,9 @@ export async function GET(req: NextRequest) {
     }
 
     const text = await res.text();
-    console.log("🔬 RAW INVESTIGATION RESPONSE:", text);
 
     let jsonString = text;
-    // Handle XML wrapped JSON if present, similar to other endpoints
+    // Handle XML wrapped JSON if present
     if (text.includes("<?xml")) {
       const match = text.match(/<string[^>]*>(.*?)<\/string>/s);
       if (match && match[1]) {
@@ -31,12 +37,32 @@ export async function GET(req: NextRequest) {
     }
 
     const parsed = JSON.parse(jsonString);
-    
-    // Normalize response structure if needed, or pass through
-    // Checking one of the existing responses, it often wraps in { status, message, data } 
-    // or sometimes just the array. Assuming similar structure to cities/etc.
-    
-    return NextResponse.json(parsed);
+    let allData = parsed.data || [];
+
+    // Apply search filter server-side
+    if (search) {
+      allData = allData.filter((item: any) =>
+        item.ItemName?.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    // Calculate pagination
+    const totalItems = allData.length;
+    const totalPages = Math.ceil(totalItems / limit);
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedData = allData.slice(startIndex, endIndex);
+
+    return NextResponse.json({
+      status: "Success",
+      data: paginatedData,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalItems,
+        itemsPerPage: limit
+      }
+    });
 
   } catch (error: any) {
     console.error("❌ GetInvestigation ERROR:", error);
@@ -45,6 +71,12 @@ export async function GET(req: NextRequest) {
         Status: "Error",
         Message: error.message || "Failed to fetch investigations",
         Data: [],
+        pagination: {
+          currentPage: 1,
+          totalPages: 0,
+          totalItems: 0,
+          itemsPerPage: 9
+        }
       },
       { status: 500 }
     );

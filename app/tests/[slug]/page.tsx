@@ -21,7 +21,7 @@ const tests = [
     parameters: 1,
     reportTat: "Same Day*",
     description:
-      "A Whole Body FDG PET CT scan is a nuclear medicine imaging test used commonly to detect a range of cancers, heart diseases, neurological conditions, infections and PUO (Pyrexia of Unknown Origin). A radioactive glucose tracer (18F FDG) is injected and the uptake by tissues, which are in fasting state in your body, is measuorange by the PET Scanner. This Whole Body PET CT Scan is most commonly used for Detection, Staging and Treatment Response for a variety of Cancers.",
+      "A Whole Body FDG PET CT scan is a nuclear medicine imaging test used commonly to detect a range of cancers, heart diseases, neurological conditions, infections and PUO (Pyrexia of Unknown Origin). A radioactive glucose tracer (18F FDG) is injected and the uptake by tissues, which are in fasting state in your body, is measured by the PET Scanner. This Whole Body PET CT Scan is most commonly used for Detection, Staging and Treatment Response for a variety of Cancers.",
     alsoKnownAs: [
       "18 F FDG PET/CT Whole Body",
       "PET CT Whole Body FDG",
@@ -31,7 +31,7 @@ const tests = [
     ],
     specialization: "Cancer Care",
     testPreparation:
-      "4-6 hours of fasting requiorange but Overnight fasting is preferorange. During fasting only plain water is allowed. Urea & Creatinine report is Requiorange within last 15 days. Diabetic patients should have light breakfast 4 to 6 hours before the test time on the day of test, and must take the advised medications prescribed. It is important NOT TO MISS the diabetic medication in the morning of the test date. DO NOT TAKE INSULIN on the day of the test, before the test. Must inform us about your diabetic history for us to plan needful for your test. Please carry old report/CD. One attendant mandatory fo",
+      "4-6 hours of fasting required but Overnight fasting is prefered. During fasting only plain water is allowed. Urea & Creatinine report is Required within last 15 days. Diabetic patients should have light breakfast 4 to 6 hours before the test time on the day of test, and must take the advised medications prescribed. It is important NOT TO MISS the diabetic medication in the morning of the test date. DO NOT TAKE INSULIN on the day of the test, before the test. Must inform us about your diabetic history for us to plan needful for your test. Please carry old report/CD. One attendant mandatory fo",
     centres: ["Green Park"],
     faqs: [
       {
@@ -57,6 +57,45 @@ const tests = [
       {
         question: "How soon can I see my PET-CT scan report?",
         answer: "Reports are typically available on the same day or within 24-48 hours depending on the facility."
+      }
+    ]
+  },
+  {
+    slug: "cbc-test",
+    name: "CBC Test (Complete Blood Count)",
+    subtitle: "Blood Test | CBC",
+    price: "₹499",
+    originalPrice: "₹699",
+    parameters: 25,
+    reportTat: "24 Hours*",
+    description:
+      "A Complete Blood Count (CBC) is a blood test used to evaluate your overall health and detect a wide range of disorders, including anemia, infection and leukemia. A complete blood count test measures several components and features of your blood, including: Red blood cells, which carry oxygen. White blood cells, which fight infection. Hemoglobin, the oxygen-carrying protein in red blood cells. Hematocrit, the proportion of red blood cells to the fluid component, or plasma, in your blood. Platelets, which help with blood clotting.",
+    alsoKnownAs: [
+      "Complete Blood Count",
+      "Hemogram",
+      "CBC",
+      "Full Blood Count"
+    ],
+    specialization: "General Pathology",
+    testPreparation:
+      "No special preparation is required for a CBC test. You can eat and drink normally before the test. However, if your blood sample will also be used for other tests, you may need to fast for a certain period of time. Your doctor will give you specific instructions.",
+    centres: ["Green Park", "Hauz Khas", "Saket"],
+    faqs: [
+      {
+        question: "What does a CBC test detect?",
+        answer: "A CBC test can help detect a variety of conditions, including anemia, infection, inflammation, bleeding disorders, and leukemia."
+      },
+      {
+        question: "Do I need to fast for a CBC test?",
+        answer: "Generally, no fasting is required for a standalone CBC test. However, follow your doctor's instructions if other tests are included."
+      },
+      {
+        question: "How is the test performed?",
+        answer: "A healthcare professional will take a blood sample from a vein in your arm using a small needle."
+      },
+      {
+        question: "When will I get my results?",
+        answer: "Results are typically available within 24 hours."
       }
     ]
   }

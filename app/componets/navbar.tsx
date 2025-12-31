@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { Menu, X, User, LogOut } from "lucide-react";
+import { Menu, X, User, LogOut, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import logo from "@/public/assets/logo_main.png";
+import { useCart } from "@/app/context/CartContext";
 
 type UserType = {
   name: string;
@@ -15,6 +16,7 @@ export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState<UserType | null>(null);
   const router = useRouter();
+  const { items, openCart } = useCart();
 
   /* ---------------- LOAD USER FROM STORAGE ---------------- */
   useEffect(() => {
@@ -86,6 +88,19 @@ export function Navigation() {
             <a className="nav-link" onClick={() => router.push("/investigations")}>Find A Test</a>
             <a className="nav-link" onClick={() => router.push("/")}>Health Packages</a>
             <a className="nav-link" onClick={() => router.push("/")}>Reach Us</a>
+
+            {/* CART BUTTON */}
+            <button
+              onClick={openCart}
+              className="relative p-2 text-gray-600 hover:text-orange-600 transition"
+            >
+              <ShoppingCart className="w-6 h-6" />
+              {items.length > 0 && (
+                <span className="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                  {items.length}
+                </span>
+              )}
+            </button>
 
             {/* LOGIN / USER PROFILE */}
             {user ? (
