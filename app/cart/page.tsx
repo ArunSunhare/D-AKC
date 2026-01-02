@@ -68,7 +68,7 @@ export default function CartPage() {
                                             <h3 className="font-bold text-lg text-gray-900 mb-3">{item.name}</h3>
 
                                             {/* Test Details */}
-                                            <div className="space-y-2">
+                                            {/* <div className="space-y-2">
                                                 {item.testPreparation && (
                                                     <div className="flex items-start gap-2 text-sm bg-amber-50 text-amber-800 p-2 rounded-lg">
                                                         <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
@@ -84,7 +84,7 @@ export default function CartPage() {
                                                         <span><span className="font-medium">Report Time:</span> {item.reportTat}</span>
                                                     </div>
                                                 )}
-                                            </div>
+                                            </div> */}
                                         </div>
 
                                         {/* Price and Remove */}

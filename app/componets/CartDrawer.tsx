@@ -17,7 +17,7 @@ export function CartDrawer() {
 
     if (!mounted) return null;
 
-    if (!isOpen) return null;
+
 
     const total = items.reduce((sum, item) => sum + item.price, 0);
 
@@ -40,16 +40,16 @@ export function CartDrawer() {
     const itemToDeleteName = items.find(i => i.id === itemToDelete)?.name || "Item";
 
     return (
-        <div className="fixed inset-0 z-[100] flex justify-end">
+        <div className={`fixed inset-0 z-[100] flex justify-end pointer-events-none`}>
             {/* Backdrop */}
             <div
-                className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+                className={`absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
                 onClick={closeCart}
             ></div>
 
             {/* Sidebar */}
             <div
-                className="fixed top-0 right-0 h-full bg-slate-100 z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl w-[360px] animate-in slide-in-from-right"
+                className={`fixed top-0 right-0 h-full bg-slate-100 z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl w-[360px] pointer-events-auto flex flex-col ${isOpen ? "translate-x-0" : "translate-x-full"}`}
                 style={{ boxShadow: "rgba(0, 0, 0, 0.25) 0px 25px 50px -12px" }}
             >
 
@@ -69,11 +69,11 @@ export function CartDrawer() {
                 <div className="flex-1 overflow-y-auto bg-gray-50 p-4 space-y-4">
 
                     {/* Location Badge */}
-                    <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-100 flex items-center gap-2">
+                    {/* <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-100 flex items-center gap-2">
                         <span className="text-red-500 font-medium text-sm">Visiting:</span>
                         <span className="font-bold text-gray-800 text-sm">HOD Karkardooma</span>
                         <MapPin className="w-4 h-4 text-red-500 ml-auto" />
-                    </div>
+                    </div> */}
 
                     {/* Patient Card */}
                     <div className="bg-gray-200 p-2 rounded-t-lg text-xs font-bold text-gray-700">
@@ -146,7 +146,7 @@ export function CartDrawer() {
 
             {/* DELETE CONFIRMATION MODAL */}
             {itemToDelete && (
-                <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 p-4">
+                <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 p-4 pointer-events-auto">
                     <div className="relative bg-white transform transition-all duration-300 overflow-y-auto rounded-sm shadow-lg p-4 w-full max-w-sm m-4 sm:m-6">
                         <div className="mb-4">
                             <div className="flex flex-row items-center justify-between border-b border-gray-200 pb-4 -mx-4 px-4">
