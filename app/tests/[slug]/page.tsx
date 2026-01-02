@@ -343,7 +343,7 @@ export default function TestDetailPage() {
                       Item_ID: "" // Placeholder as slug currently acts as ID in this static list
                     });
 
-                    router.push('/cart');
+                    // router.push('/cart');
                   }}
                   className="w-full bg-orange-600 text-white py-3 rounded-lg hover:bg-orange-700 transition-colors mb-3 font-semibold"
                 >

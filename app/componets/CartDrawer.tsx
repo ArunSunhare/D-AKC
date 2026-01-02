@@ -76,12 +76,12 @@ export function CartDrawer() {
                     </div> */}
 
                     {/* Patient Card */}
-                    <div className="bg-gray-200 p-2 rounded-t-lg text-xs font-bold text-gray-700">
+                    {/* <div className="bg-gray-200 p-2 rounded-t-lg text-xs font-bold text-gray-700">
                         Varaiy <span className="font-normal text-gray-500 ml-1">21 Y / M</span>
-                    </div>
+                    </div> */}
 
                     {/* Items */}
-                    <div className="bg-white rounded-b-lg shadow-sm divide-y">
+                    <div className="bg-white rounded-b-lg shadow-sm">
                         {items.length === 0 ? (
                             <div className="p-8 text-center text-gray-500 text-sm">
                                 Your cart is empty
@@ -118,7 +118,7 @@ export function CartDrawer() {
                             <span>Sub Total</span>
                             <span>₹{items.length > 0 ? (items.reduce((s, i) => s + (i.originalPrice || i.price), 0)) : 0}</span>
                         </div>
-                        <div className="flex justify-between font-bold text-gray-900 pt-2 border-t mt-2">
+                        <div className="flex justify-between font-bold text-gray-900 pt-2 mt-2">
                             <span>Total</span>
                             <span>₹{total}</span>
                         </div>
