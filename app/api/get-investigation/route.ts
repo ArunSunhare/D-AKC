@@ -41,8 +41,11 @@ export async function GET(req: NextRequest) {
 
     // Apply search filter server-side
     if (search) {
+      const normalize = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const searchNormalized = normalize(search);
+
       allData = allData.filter((item: any) =>
-        item.ItemName?.toLowerCase().includes(search.toLowerCase())
+        normalize(item.ItemName || "").includes(searchNormalized)
       );
     }
 

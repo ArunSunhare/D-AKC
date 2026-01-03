@@ -7,65 +7,65 @@ import {
   ChevronLeft,
   ChevronRight
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
-const tests = [
-  {
-    slug: "whole-body-mrcp-scan",
-    name: "Whole Body MRCP Scan",
-    subtitle: "Scan | MRCP",
-    price: "₹ 11999",
-    originalPrice: "₹ 13999",
-    parameters: 8,
-    reportTat: "Report TAT: 36 hours",
-    icon: Activity,
-    bgColor: "bg-blue-100",
-    description:
-      "MRCP is a non-invasive MRI technique to visualize the biliary and pancreatic ducts.",
-    alsoKnownAs: [
-      "Whole Body MRCP Scan",
-      "MRCP Abdomen",
-      "MRCP with Contrast"
-    ],
-    specialization: "Gastroenterology & Liver Care"
-  },
-  {
-    slug: "cbc-test",
-    name: "CBC Test",
-    subtitle: "Blood Test | CBC",
-    price: "₹ 499",
-    originalPrice: "₹ 699",
-    parameters: 25,
-    reportTat: "Report TAT: 24 hours",
-    icon: TestTube,
-    bgColor: "bg-blue-50",
-    description:
-      "CBC measures RBC, WBC, Hemoglobin, Platelets and detects infections or anemia.",
-    alsoKnownAs: ["Complete Blood Count", "Full Hemogram"],
-    specialization: "General Health Checkup"
-  },
-  {
-    slug: "ultrasound-whole-abdomen",
-    name: "Ultrasound Whole Abdomen",
-    subtitle: "Imaging | Ultrasound",
-    price: "₹ 999",
-    originalPrice: "₹ 1299",
-    parameters: 12,
-    reportTat: "Report TAT: 24 hours",
-    icon: Activity,
-    bgColor: "bg-green-50",
-    description:
-      "Ultrasound evaluates liver, kidneys, pancreas, spleen and urinary bladder.",
-    alsoKnownAs: ["USG Whole Abdomen"],
-    specialization: "Radiology & Imaging"
-  }
-];
 
 export function PopularTests() {
   const router = useRouter();
   const [startIndex, setStartIndex] = useState(0);
+  const [tests, setTests] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const visibleTests = 3;
+
+  useEffect(() => {
+    const fetchPopularTests = async () => {
+      try {
+        // Fetch first page of tests to show as "Popular"
+        const res = await fetch("/api/get-investigation?limit=9");
+        const json = await res.json();
+
+        if (json.status === "Success" && json.data) {
+          // Map API data to component format
+          const mappedTests = json.data.map((item: any) => {
+            // Calculate parameter count
+            const observationList = item.observationName
+              ? item.observationName.split(',').filter((s: string) => s.trim().length > 0)
+              : [];
+            const paramCount = observationList.length || 1;
+
+            return {
+              id: item.Item_ID,
+              slug: slugify(item.ItemName),
+              name: item.ItemName,
+              subtitle: item.categoryid || "Diagnostic Test",
+              price: `₹ ${item.Rate}`,
+              originalPrice: `₹ ${Math.round(item.Rate * 1.2)}`,
+              parameters: paramCount,
+              reportTat: item.TAT || item.ReportTat || "24-48 Hours",
+              icon: item.observationName ? TestTube : Activity,
+              bgColor: "bg-blue-50", // Simplify to single color for consistency or map randomly
+              description: item.description || `Diagnostic test for ${item.ItemName}.`,
+              specialization: "General Pathology"
+            };
+          });
+          setTests(mappedTests);
+        }
+      } catch (err) {
+        console.error("Failed to fetch popular tests", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPopularTests();
+  }, []);
+
+  const slugify = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, "");
+  };
 
   const handlePrev = () => {
     setStartIndex((prev) => Math.max(0, prev - 1));
@@ -80,6 +80,18 @@ export function PopularTests() {
   const handleBookClick = (test: any) => {
     router.push(`/tests/${test.slug}`);
   };
+
+  if (loading) {
+    return (
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 flex justify-center">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-4 border-orange-500"></div>
+        </div>
+      </section>
+    );
+  }
+
+  if (tests.length === 0) return null;
 
   return (
     <section className="py-16 bg-white">
@@ -104,41 +116,43 @@ export function PopularTests() {
                   className="flex-shrink-0 w-full sm:w-[48%] lg:w-[32%]"
                 >
                   <div
-                    className={`${test.bgColor} border rounded-lg p-6`}
+                    className={`${test.bgColor} border rounded-lg p-6 h-full flex flex-col justify-between`}
                   >
-                    <div className="flex justify-between mb-4">
-                      <div>
-                        <h3 className="text-gray-900">{test.name}</h3>
-                        <p className="text-sm text-gray-600">
-                          {test.subtitle}
-                        </p>
-                        <p className="text-xs text-gray-500 line-clamp-2">
-                          {test.description}
-                        </p>
+                    <div>
+                      <div className="flex justify-between mb-4">
+                        <div>
+                          <h3 className="text-gray-900 font-bold truncate pr-2" title={test.name}>{test.name}</h3>
+                          <p className="text-sm text-gray-600">
+                            {test.subtitle}
+                          </p>
+                          <p className="text-xs text-gray-500 line-clamp-2 mt-2">
+                            {test.description}
+                          </p>
+                        </div>
+                        <div className="bg-white p-2 rounded-lg h-fit shadow-sm">
+                          <Icon className="w-6 h-6 text-orange-600" />
+                        </div>
                       </div>
-                      <div className="bg-white p-2 rounded-lg">
-                        <Icon className="w-6 h-6 text-orange-600" />
+
+                      <div className="space-y-2 mb-4 text-gray-600 text-sm">
+                        <div className="flex items-center gap-2">
+                          <TestTube className="w-4 h-4 text-orange-500" />
+                          {test.parameters} Parameters
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Activity className="w-4 h-4 text-orange-500" />
+                          Report: {test.reportTat}
+                        </div>
                       </div>
                     </div>
 
-                    <div className="space-y-2 mb-4 text-gray-600">
-                      <div className="flex items-center gap-2">
-                        <TestTube className="w-4 h-4" />
-                        {test.parameters} Parameters
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Activity className="w-4 h-4" />
-                        {test.reportTat}
-                      </div>
-                    </div>
-
-                    <div className="flex justify-between items-center border-t pt-3">
-                      <div className="text-orange-600 text-lg font-semibold">
+                    <div className="flex justify-between items-center border-t border-gray-200 pt-4 mt-2">
+                      <div className="text-orange-600 text-lg font-bold">
                         {test.price}
                       </div>
                       <button
                         onClick={() => handleBookClick(test)}
-                        className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600"
+                        className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors text-sm font-semibold shadoow-md"
                       >
                         KNOW MORE
                       </button>

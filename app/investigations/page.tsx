@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Search, TestTube, Activity } from "lucide-react";
 import { Navigation } from "../componets/navbar";
@@ -8,6 +9,7 @@ import { Footer } from "../componets/footer";
 
 export default function InvestigationsPage() {
     const [investigations, setInvestigations] = useState<any[]>([]);
+    const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [search, setSearch] = useState("");
@@ -55,6 +57,13 @@ export default function InvestigationsPage() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const slugify = (text: string) => {
+        return text
+            .toLowerCase()
+            .replace(/ /g, "-")
+            .replace(/[^\w-]+/g, "");
     };
 
     return (
@@ -172,7 +181,10 @@ export default function InvestigationsPage() {
                                             {/* Mobile Price Overlay (only visible on small screens) */}
                                             <span className="sm:hidden font-bold text-orange-600 text-lg">₹ {item.Rate || "—"}</span>
 
-                                            <button className="bg-orange-500 text-white px-6 py-2.5 rounded-lg hover:bg-orange-600 transition text-sm font-semibold shadow-sm whitespace-nowrap">
+                                            <button
+                                                onClick={() => router.push(`/tests/${slugify(item.ItemName)}`)}
+                                                className="bg-orange-500 text-white px-6 py-2.5 rounded-lg hover:bg-orange-600 transition text-sm font-semibold shadow-sm whitespace-nowrap"
+                                            >
                                                 Book Now
                                             </button>
                                         </div>
