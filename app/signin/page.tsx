@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Phone, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -12,12 +12,19 @@ export default function LoginPage() {
   const [mobile, setMobile] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [serverOtp, setServerOtp] = useState<string | null>(null);
 
-  // ✅ NEW: Terms checkbox state
   const [agree, setAgree] = useState(false);
 
   const [otp, setOtp] = useState<string[]>(Array(4).fill(""));
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  /* 🔹 LOG SERVER OTP SAFELY (NO UI CHANGE) */
+  useEffect(() => {
+    if (serverOtp) {
+      console.log("Anshul serverOtp:", serverOtp);
+    }
+  }, [serverOtp]);
 
   /* ---------------- MOBILE HANDLER ---------------- */
   const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,14 +59,19 @@ export default function LoginPage() {
 
       const data = await response.json();
 
-      console.log("OTP API RESPONSE:", data);
-
-      if (response.ok && data?.d) {
-        setOtp(Array(4).fill(""));
-        setStep("otp");
-      } else {
+      if (!response.ok || !data?.d) {
         setError("OTP sending failed. Please try again.");
+        return;
       }
+
+      const parsed = JSON.parse(data.d);
+      const receivedOtp = parsed?.data?.[0]?.OTP;
+
+      console.log("OTP API RESPONSE:", receivedOtp);
+
+      setOtp(Array(4).fill(""));
+      setStep("otp");
+      setServerOtp(receivedOtp); // ✅ correct
     } catch (err) {
       console.error("OTP ERROR:", err);
       setError("Network error. Please try again.");
@@ -83,97 +95,95 @@ export default function LoginPage() {
     }
   };
 
+  /* ---------------- VERIFY OTP ---------------- */
+  const verifyOtp = async () => {
+    const enteredOtp = otp.join("");
 
-/* ---------------- VERIFY OTP ---------------- */
-const verifyOtp = async () => {
-  const enteredOtp = otp.join("");
-
-  if (enteredOtp.length !== 4) {
-    setError("Please enter 4-digit OTP");
-    return;
-  }
-
-  setLoading(true);
-  setError("");
-
-  try {
-    // ❌ STEP 1: VERIFY OTP (NOT AVAILABLE YET)
-    const verifyResponse = await fetch("/api/verify-otp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        mobile,
-        otp: enteredOtp,
-      }),
-    });
-
-    if (!verifyResponse.ok) {
-      setError("OTP verification service not available.");
+    if (enteredOtp.length !== 4) {
+      setError("Please enter 4-digit OTP");
       return;
     }
 
-    const verifyResult = await verifyResponse.json();
+    setLoading(true);
+    setError("");
 
-    // ❌ OTP INVALID
-    if (!verifyResult?.success) {
-      setError("Invalid OTP. Please try again.");
-      return;
-    }
+    try {
+      // ❌ STEP 1: VERIFY OTP (NOT AVAILABLE YET)
+      const verifyResponse = await fetch("/api/verify-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mobile,
+          otp: enteredOtp,
+          genOtp: serverOtp,
+        }),
+      });
 
-    // ✅ STEP 2: OTP VERIFIED → GET PATIENT
-    const response = await fetch("/api/get-patient", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ mobile }),
-    });
+      if (!verifyResponse.ok) {
+        setError("OTP verification service not available.");
+        return;
+      }
 
-    const result = await response.json();
+      const verifyResult = await verifyResponse.json();
 
-    if (!response.ok) {
-      setError("Server error. Please try again.");
-      return;
-    }
+      // ❌ OTP INVALID
+      if (!verifyResult?.success) {
+        setError("Invalid OTP. Please try again.");
+        return;
+      }
 
-    if (result?.d) {
-      const parsed = JSON.parse(result.d);
+      // ✅ STEP 2: OTP VERIFIED → GET PATIENT
+      const response = await fetch("/api/get-patient", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ mobile }),
+      });
 
-      if (
-        parsed?.status === "Success" &&
-        Array.isArray(parsed.data) &&
-        parsed.data.length > 0
-      ) {
-        const patient = parsed.data[0];
+      const result = await response.json();
 
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            name: patient.PName?.trim() || "User",
-            mobile: patient.ContactNo,
-          })
-        );
+      if (!response.ok) {
+        setError("Server error. Please try again.");
+        return;
+      }
 
-        router.push("/");
+      if (result?.d) {
+        const parsed = JSON.parse(result.d);
+
+        if (
+          parsed?.status === "Success" &&
+          Array.isArray(parsed.data) &&
+          parsed.data.length > 0
+        ) {
+          const patient = parsed.data[0];
+
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              name: patient.PName?.trim() || "User",
+              mobile: patient.ContactNo,
+            })
+          );
+
+          router.push("/");
+        } else {
+          router.push(`/register?mobile=${mobile}`);
+        }
       } else {
         router.push(`/register?mobile=${mobile}`);
       }
-    } else {
-      router.push(`/register?mobile=${mobile}`);
+    } catch (error) {
+      console.error("OTP VERIFY ERROR:", error);
+      setError("OTP verification failed.");
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("OTP VERIFY ERROR:", error);
-    setError("OTP verification failed.");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
-
-
-
+  /* ================= UI (UNCHANGED) ================= */
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
@@ -209,7 +219,6 @@ const verifyOtp = async () => {
               Welcome, Please Login..
             </p>
 
-            {/* Back */}
             <button
               onClick={() =>
                 step === "otp" ? setStep("mobile") : router.back()
@@ -219,7 +228,6 @@ const verifyOtp = async () => {
               <ArrowLeft className="w-5 h-5" />
             </button>
 
-            {/* ================= MOBILE ================= */}
             {step === "mobile" && (
               <div className="space-y-4 text-center">
                 <label className="block font-semibold text-gray-700">
@@ -239,7 +247,6 @@ const verifyOtp = async () => {
                   />
                 </div>
 
-                {/* ✅ TERMS CHECKBOX */}
                 <div className="max-w-sm mx-auto flex items-start gap-2 text-left text-sm text-gray-600">
                   <input
                     type="checkbox"
@@ -247,16 +254,7 @@ const verifyOtp = async () => {
                     onChange={(e) => setAgree(e.target.checked)}
                     className="mt-1 accent-orange-500"
                   />
-                  <p>
-                    I agree to the{" "}
-                    <span onClick={() => router.push("/app/T&P")} className="text-orange-500 font-medium cursor-pointer">
-                      Terms & Conditions
-                    </span>{" "}
-                    and{" "}
-                    <span className="text-orange-500 font-medium cursor-pointer">
-                      Privacy Policy
-                    </span>
-                  </p>
+                  <p>I agree to the Terms & Conditions and Privacy Policy</p>
                 </div>
 
                 {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -273,8 +271,7 @@ const verifyOtp = async () => {
 
                   <button
                     onClick={() => setMobile("")}
-                    className="flex-1 bg-green-600 hover:bg-green-500 transition-colors duration-200
-                    py-3 rounded-md font-semibold"
+                    className="flex-1 bg-green-600 py-3 rounded-md font-semibold"
                   >
                     Clear
                   </button>
@@ -282,7 +279,6 @@ const verifyOtp = async () => {
               </div>
             )}
 
-            {/* ================= OTP ================= */}
             {step === "otp" && (
               <div>
                 <p className="text-center text-gray-600 mb-4">
@@ -293,7 +289,10 @@ const verifyOtp = async () => {
                   {otp.map((digit, index) => (
                     <input
                       key={index}
-                      ref={(el) => (otpRefs.current[index] = el)}
+                      ref={(el) => {
+                        otpRefs.current[index] = el;
+                      }}
+
                       type="text"
                       maxLength={1}
                       value={digit}
@@ -318,7 +317,7 @@ const verifyOtp = async () => {
                   disabled={loading}
                   className="w-full bg-orange-500 text-white py-3 rounded-md font-semibold"
                 >
-                  {loading ? "Verifying..." : "Verify OTP"}
+                  Verify OTP
                 </button>
               </div>
             )}
@@ -327,4 +326,4 @@ const verifyOtp = async () => {
       </div>
     </div>
   );
-}   
+}

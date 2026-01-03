@@ -1,4 +1,7 @@
+"use client";
+
 import { Search, Home, Package } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const exploreItems = [
   {
@@ -7,7 +10,8 @@ const exploreItems = [
     subtitle: "Mode wise Health Checkup",
     color: "text-orange-600",
     bgColor: "bg-orange-100",
-    accent: "orange"
+    accent: "orange",
+    router: "/packages", 
   },
   {
     icon: Search,
@@ -15,7 +19,8 @@ const exploreItems = [
     subtitle: "Fast. Hassle-free process",
     color: "text-orange-600",
     bgColor: "bg-orange-100",
-    accent: "orange"
+    accent: "orange",
+    router: "/investigations", 
   },
   {
     icon: Home,
@@ -23,13 +28,16 @@ const exploreItems = [
     subtitle: "Safe. Secure Collection",
     color: "text-orange-600",
     bgColor: "bg-orange-100",
-    accent: "blue"
+    accent: "blue",
+    router: "/others", 
   },
 ];
 
 export function ExploreMore() {
+  const router = useRouter();
+
   return (
-    <section className="py-16 bg-gray-200 bg-white text-center">
+    <section className="py-16 bg-white text-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <h2 className="text-gray-900 mb-8 text-2xl font-semibold">
@@ -42,18 +50,21 @@ export function ExploreMore() {
             return (
               <div
                 key={index}
+                onClick={() => item.router && router.push(item.router)} 
                 className={`group relative border-2 rounded-xl p-8 
                            transition-all duration-300 cursor-pointer bg-white 
                            w-full max-w-xs shadow-sm hover:shadow-xl
-                           ${item.accent === 'orange' 
-                             ? 'border-orange-300 hover:border-orange-400 hover:ring-4 hover:ring-orange-100' 
-                             : 'border-orange-300 hover:border-orange-400 hover:ring-4 hover:ring-blue-100'
+                           ${item.accent === "orange"
+                             ? "border-orange-300 hover:border-orange-400 hover:ring-4 hover:ring-orange-100"
+                             : "border-orange-300 hover:border-orange-400 hover:ring-4 hover:ring-blue-100"
                            }
                            hover:-translate-y-1`}
               >
                 <div className="flex items-center justify-center mb-5">
-                  <div className={`${item.bgColor} p-4 rounded-xl 
-                                   group-hover:scale-110 transition-transform duration-300`}>
+                  <div
+                    className={`${item.bgColor} p-4 rounded-xl 
+                                   group-hover:scale-110 transition-transform duration-300`}
+                  >
                     <Icon className={`w-7 h-7 ${item.color}`} />
                   </div>
                 </div>

@@ -158,7 +158,7 @@ export default function InvestigationsPage() {
                                                 )}
                                             </div>
                                             <div>
-                                                <h3 className="text-gray-900 font-bold text-lg">{item.ItemName}</h3>
+                                                <h3 className="text-gray-900 text-lg">{item.ItemName}</h3>
                                                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500 mt-1">
                                                     <span>ID: <span className="font-mono text-gray-700">{item.Item_ID}</span></span>
                                                     <span className="hidden sm:inline">•</span>
