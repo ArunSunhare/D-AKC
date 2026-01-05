@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useCart } from "@/app/context/CartContext";
 import { Navigation } from "@/app/componets/navbar";
 import { Footer } from "@/app/componets/footer";
+import { TestBookingCard } from "@/app/componets/TestBookingCard";
 
 
 /* =======================
@@ -104,14 +105,9 @@ const tests = [
 /* =======================
    PAGE
 ======================= */
-/* =======================
-   PAGE
-======================= */
 export default function TestDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { addToCart } = useCart();
-  const [selectedCentre, setSelectedCentre] = useState("HOD Green Park");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [showParams, setShowParams] = useState(false);
 
@@ -317,20 +313,22 @@ export default function TestDetailPage() {
                 </button>
 
                 {showParams && (
-                  <div className="px-6 py-4 space-y-2 border-t border-gray-100 mt-2">
+                  <div className="mt-4">
                     {test.observationName && test.observationName.split(',').filter((s: string) => s.trim()).length > 0 ? (
-                      // Show all parameters from API
-                      test.observationName.split(',').map((param: string, idx: number) => (
-                        <div key={idx} className="flex items-center justify-between py-1 border-b border-gray-100 last:border-0">
-                          <div className="flex items-center gap-3">
-                            <TestTube className="w-4 h-4 text-orange-600" />
-                            <span className="text-gray-800 text-sm">{param.trim().replace(/\*/g, '').trim()}</span>
+                      // Show all parameters from API in Grid
+                      <div className="grid gap-2 grid-cols-1 md:grid-cols-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                        {test.observationName.split(',').map((param: string, idx: number) => (
+                          <div key={idx} className="flex items-center px-3 py-1.5 bg-gray-50 rounded-lg border border-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" className="w-4 h-4 text-orange-600 mr-2 flex-shrink-0" viewBox="0 0 24 24">
+                              <path fill="currentColor" d="M12 7a5 5 0 1 1-4.995 5.217L7 12l.005-.217A5 5 0 0 1 12 7"></path>
+                            </svg>
+                            <p className="text-gray-700 font-[var(--font-roboto-serif)] text-[13px] leading-tight">{param.trim().replace(/\*/g, '').trim()}</p>
                           </div>
-                        </div>
-                      ))
+                        ))}
+                      </div>
                     ) : (
                       // Fallback for static tests
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between px-4 py-2 bg-gray-50 rounded-lg">
                         <div className="flex items-center gap-3">
                           <TestTube className="w-5 h-5 text-orange-600" />
                           <span className="text-gray-800 font-medium">{test.name}</span>
@@ -410,98 +408,7 @@ export default function TestDetailPage() {
 
             {/* RIGHT BOOKING CARD */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-6">
-
-                <h3 className="text-lg font-bold text-blue-900 mb-4">
-                  Visit Type
-                </h3>
-
-                <button className="w-full bg-orange-600 text-white py-3 rounded-lg mb-6 hover:bg-orange-700 transition-colors font-semibold">
-                  Visit Centre
-                </button>
-
-                {/* Centre Selection */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-semibold text-blue-900 mb-2">
-                    Centres
-                  </h4>
-                  <div className="relative">
-                    <select
-                      value={selectedCentre}
-                      onChange={(e) => setSelectedCentre(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-700 pr-10 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    >
-                      {test.centres && test.centres.map((centre: string, idx: number) => (
-                        <option key={idx} value={centre}>
-                          {centre}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                  </div>
-                  <button className="mt-2 text-orange-600 hover:text-orange-700 flex items-center gap-1">
-                    <MapPin className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Test Selection */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-semibold text-blue-900 mb-2">
-                    Tests
-                  </h4>
-                  <div className="relative">
-                    <select className="w-full px-4 py-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-700 pr-10 focus:outline-none focus:ring-2 focus:ring-orange-500">
-                      <option>{test.name}</option>
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                  </div>
-                </div>
-
-                {/* Price */}
-                <div className="mb-6 text-center">
-                  <span className="text-gray-400 line-through text-base">
-                    {test.originalPrice}
-                  </span>
-                  <div className="text-3xl font-bold text-orange-600">
-                    {test.price}
-                  </div>
-                </div>
-
-                {/* CTA Buttons */}
-                <button
-                  onClick={() => {
-                    // Parse price string "₹11999" -> 11999
-                    const priceNumber = parseInt(test.price.replace(/[^0-9]/g, "")) || 0;
-                    const originalPriceNumber = parseInt(test.originalPrice.replace(/[^0-9]/g, "")) || 0;
-
-                    addToCart({
-                      id: test.slug,
-                      name: test.name,
-                      price: priceNumber,
-                      originalPrice: originalPriceNumber,
-                      type: "test",
-                      testPreparation: test.testPreparation,
-                      reportTat: test.reportTat,
-                      Item_ID: "" // Placeholder as slug currently acts as ID in this static list
-                    });
-
-                    // router.push('/cart');
-                  }}
-                  className="w-full bg-orange-600 text-white py-3 rounded-lg hover:bg-orange-700 transition-colors mb-3 font-semibold"
-                >
-                  Book Now
-                </button>
-
-                <button className="w-full border-2 border-orange-600 text-orange-600 py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-orange-50 transition-colors font-semibold mb-3">
-                  <Phone className="w-4 h-4" />
-                  Call {selectedCentre}
-                </button>
-
-                <button className="w-full border-2 border-orange-600 text-orange-600 py-3 rounded-lg hover:bg-orange-50 transition-colors font-semibold">
-                  Request A Callback
-                </button>
-
-              </div>
+              <TestBookingCard test={test} />
             </div>
           </div>
         </div>
