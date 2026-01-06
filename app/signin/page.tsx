@@ -97,91 +97,91 @@ export default function LoginPage() {
 
   /* ---------------- VERIFY OTP ---------------- */
   const verifyOtp = async () => {
-    const enteredOtp = otp.join("");
+  const enteredOtp = otp.join("");
 
-    if (enteredOtp.length !== 4) {
-      setError("Please enter 4-digit OTP");
+  if (enteredOtp.length !== 4) {
+    setError("Please enter 4-digit OTP");
+    return;
+  }
+
+  setLoading(true);
+  setError("");
+
+  try {
+    // ❌ STEP 1: VERIFY OTP (NOT AVAILABLE YET)
+    const verifyResponse = await fetch("/api/verify-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mobile,
+        otp: enteredOtp,
+        genOtp: serverOtp,
+      }),
+    });
+
+    if (!verifyResponse.ok) {
+      setError("OTP verification service not available.");
       return;
     }
 
-    setLoading(true);
-    setError("");
+    const verifyResult = await verifyResponse.json();
 
-    try {
-      // ❌ STEP 1: VERIFY OTP (NOT AVAILABLE YET)
-      const verifyResponse = await fetch("/api/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          mobile,
-          otp: enteredOtp,
-          genOtp: serverOtp,
-        }),
-      });
+    // ❌ OTP INVALID
+    if (!verifyResult?.success) {
+      setError("Invalid OTP. Please try again.");
+      return;
+    }
 
-      if (!verifyResponse.ok) {
-        setError("OTP verification service not available.");
-        return;
-      }
+    // ✅ STEP 2: OTP VERIFIED → GET PATIENT
+    const response = await fetch("/api/get-patient", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ mobile }),
+    });
 
-      const verifyResult = await verifyResponse.json();
+    const result = await response.json();
 
-      // ❌ OTP INVALID
-      if (!verifyResult?.success) {
-        setError("Invalid OTP. Please try again.");
-        return;
-      }
+    if (!response.ok) {
+      setError("Server error. Please try again.");
+      return;
+    }
 
-      // ✅ STEP 2: OTP VERIFIED → GET PATIENT
-      const response = await fetch("/api/get-patient", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ mobile }),
-      });
+    if (result?.d) {
+      const parsed = JSON.parse(result.d);
 
-      const result = await response.json();
+      if (
+        parsed?.status === "Success" &&
+        Array.isArray(parsed.data) &&
+        parsed.data.length > 0
+      ) {
+        const patient = parsed.data[0];
 
-      if (!response.ok) {
-        setError("Server error. Please try again.");
-        return;
-      }
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            name: patient.PName?.trim() || "User",
+            mobile: patient.ContactNo,
+          })
+        );
 
-      if (result?.d) {
-        const parsed = JSON.parse(result.d);
-
-        if (
-          parsed?.status === "Success" &&
-          Array.isArray(parsed.data) &&
-          parsed.data.length > 0
-        ) {
-          const patient = parsed.data[0];
-
-          localStorage.setItem(
-            "user",
-            JSON.stringify({
-              name: patient.PName?.trim() || "User",
-              mobile: patient.ContactNo,
-            })
-          );
-
-          router.push("/");
-        } else {
-          router.push(`/register?mobile=${mobile}`);
-        }
+        router.push("/");
       } else {
         router.push(`/register?mobile=${mobile}`);
       }
-    } catch (error) {
-      console.error("OTP VERIFY ERROR:", error);
-      setError("OTP verification failed.");
-    } finally {
-      setLoading(false);
+    } else {
+      router.push(`/register?mobile=${mobile}`);
     }
-  };
+  } catch (error) {
+    console.error("OTP VERIFY ERROR:", error);
+    setError("OTP verification failed.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   /* ================= UI (UNCHANGED) ================= */
 
@@ -289,10 +289,7 @@ export default function LoginPage() {
                   {otp.map((digit, index) => (
                     <input
                       key={index}
-                      ref={(el) => {
-                        otpRefs.current[index] = el;
-                      }}
-
+                      ref={(el) => (otpRefs.current[index] = el)}
                       type="text"
                       maxLength={1}
                       value={digit}
