@@ -173,7 +173,7 @@ export default function TestDetailPage() {
               alsoKnownAs: [match.ItemName],
               specialization: "General Pathology",
               testPreparation: match.Pre_Test_Info || match.TestPreparation || "No special preparation required.",
-              centres: ["HOD Karkardooma", "HOD Green Park"],
+              centres: ["Karkardooma Institutional Area"], // Default centre
               faqs: [], // API doesn't have FAQs
               isDynamic: true, // Flag to know it's from API
               observationName: match.observationName || "", // Store full observation list

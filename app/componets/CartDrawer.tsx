@@ -151,8 +151,8 @@ export function CartDrawer() {
                         <div className="mb-4">
                             <div className="flex flex-row items-center justify-between border-b border-gray-200 pb-4 -mx-4 px-4">
                                 <div className="flex flex-row items-center">
-                                    <p className="text-black font-bold text-lg mr-2">Varaiy</p>
-                                    <p className="text-sm text-gray-500 font-medium">21 Y / Male</p>
+                                    {/* <p className="text-black font-bold text-lg mr-2">name from the account</p>
+                                    <p className="text-sm text-gray-500 font-medium">and here age </p> */}
                                 </div>
                                 <button
                                     aria-label="close-modal"
@@ -167,7 +167,7 @@ export function CartDrawer() {
                         <div>
                             <div>
                                 <p className="text-black text-xl font-bold max-w-68 text-center mx-auto w-full">
-                                    Are You Sure want to delete the <span className="text-red-600">{itemToDeleteName}</span> test
+                                    Are You Sure want to delete the <span className="text-orange-600">{itemToDeleteName}</span> test
                                 </p>
                                 <p className="max-w-72 text-center mx-auto pt-3 text-gray-700">
                                     This Action cannot be undone. Are you sure you want to continue
