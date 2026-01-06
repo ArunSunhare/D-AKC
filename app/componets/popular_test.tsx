@@ -103,8 +103,8 @@ export function PopularTests() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
 
-        <h2 className="text-2xl text-gray-900 mb-2">
-          Popular Health Packages
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          Popular Health Test
         </h2>
         <div className="w-20 h-1 bg-orange-600 mb-8"></div>
 

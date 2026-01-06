@@ -42,7 +42,7 @@ export default function CartPage() {
                                 <MapPin className="w-5 h-5 text-orange-600" />
                                 <div>
                                     <p className="text-sm text-orange-600 font-medium">Centre Visit</p>
-                                    <p className="font-bold text-gray-900">HOD Karkardooma</p>
+                                    <p className="font-bold text-gray-900">Karkardooma Institutional Area</p>
                                 </div>
                                 <button className="ml-auto text-orange-600 text-sm font-medium hover:underline flex items-center gap-1">
                                     Change <ChevronRight className="w-4 h-4" />
@@ -65,7 +65,7 @@ export default function CartPage() {
                                                     <span className="text-gray-400 text-xs">ID: {item.Item_ID}</span>
                                                 )}
                                             </div>
-                                            <h3 className="font-bold text-lg text-gray-900 mb-3">{item.name}</h3>
+                                            <h3 className=" text-lg text-gray-900 mb-3">{item.name}</h3>
 
                                             {/* Test Details */}
                                             {/* <div className="space-y-2">

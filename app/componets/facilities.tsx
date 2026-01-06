@@ -29,7 +29,7 @@ export function Facilities() {
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
           Facilities
         </h2>
-        <div className="w-20 h-1 bg-red-600 mb-8"></div>
+        <div className="w-20 h-1 bg-orange-600 mb-8"></div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {facilities.map((facility, index) => (

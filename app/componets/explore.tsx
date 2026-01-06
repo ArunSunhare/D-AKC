@@ -37,7 +37,7 @@ export function ExploreMore() {
   const router = useRouter();
 
   return (
-    <section className="py-16 bg-white text-center">
+    <section className=" py-16 bg-white text-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <h2 className="text-gray-900 mb-8 text-2xl font-semibold">

@@ -67,7 +67,7 @@ export function HealthPackages() {
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
          Popular Health Packages
         </h2>
-        <div className="w-20 h-1 bg-red-600 mb-8"></div>
+        <div className="w-20 h-1 bg-orange-600 mb-8"></div>
 
         {/* Slider */}
         <div className="relative">
