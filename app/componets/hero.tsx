@@ -49,9 +49,10 @@ export function Hero() {
 
   const handleSearch = (value?: string) => {
     const query = value || search;
-    if (!query.trim()) return;
+    if (!query || !query.trim())
+       return;
 
-    router.push(`/investigations?search=${encodeURIComponent(query)}`);
+    router.push(`/tests/${slugify(query)}`);
   };
 
    const slugify = (text: string) => {
@@ -122,7 +123,7 @@ export function Hero() {
               </div>
 
               <button
-              onClick={() => router.push(`/tests/${slugify(search)}`)}
+              onClick={() => handleSearch()}
                 className="bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2"
               >
                 <Search className="w-5 h-5" />
