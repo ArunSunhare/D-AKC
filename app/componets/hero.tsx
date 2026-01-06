@@ -38,7 +38,6 @@ export function Hero() {
     }
   };
 
-  
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchSuggestions(search);
@@ -49,21 +48,21 @@ export function Hero() {
 
   const handleSearch = (value?: string) => {
     const query = value || search;
-    if (!query || !query.trim())
-       return;
+    if (!query || !query.trim()) return;
 
     router.push(`/tests/${slugify(query)}`);
   };
 
-   const slugify = (text: string) => {
-        return text
-            .toLowerCase()
-            .replace(/ /g, "-")
-            .replace(/[^\w-]+/g, "");
-    };
+  const slugify = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, "");
+  };
 
   return (
-    <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16 overflow-hidden">
+    // ✅ FIX: overflow-hidden REMOVED
+    <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16">
       <div className="absolute inset-0 opacity-40">
         <Image
           src="/assets/hero.jpg"
@@ -103,13 +102,15 @@ export function Hero() {
                   className="w-full pl-10 pr-4 py-3 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-700"
                 />
 
-                {/* 🔽 Suggestions */}
+                {/* Suggestions */}
                 {showSuggestions && suggestions.length > 0 && (
-                  <ul className="absolute z-20 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
+                  <ul className="absolute z-50 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
                     {suggestions.map((item, index) => (
                       <li
                         key={index}
-                        onClick={() => router.push(`/tests/${slugify(item.ItemName)}`)}
+                        onClick={() =>
+                          router.push(`/tests/${slugify(item.ItemName)}`)
+                        }
                         className="px-4 py-2 cursor-pointer hover:bg-orange-50 text-gray-800"
                       >
                         <p className="font-medium">{item.ItemName}</p>
@@ -123,7 +124,7 @@ export function Hero() {
               </div>
 
               <button
-              onClick={() => handleSearch()}
+                onClick={() => handleSearch()}
                 className="bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2"
               >
                 <Search className="w-5 h-5" />
