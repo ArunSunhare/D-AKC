@@ -54,6 +54,13 @@ export function Hero() {
     router.push(`/investigations?search=${encodeURIComponent(query)}`);
   };
 
+   const slugify = (text: string) => {
+        return text
+            .toLowerCase()
+            .replace(/ /g, "-")
+            .replace(/[^\w-]+/g, "");
+    };
+
   return (
     <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16 overflow-hidden">
       <div className="absolute inset-0 opacity-40">
@@ -101,7 +108,7 @@ export function Hero() {
                     {suggestions.map((item, index) => (
                       <li
                         key={index}
-                        onClick={() => handleSearch(item.ItemName)}
+                        onClick={() => router.push(`/tests/${slugify(item.ItemName)}`)}
                         className="px-4 py-2 cursor-pointer hover:bg-orange-50 text-gray-800"
                       >
                         <p className="font-medium">{item.ItemName}</p>
@@ -115,7 +122,7 @@ export function Hero() {
               </div>
 
               <button
-                onClick={() => handleSearch()}
+              onClick={() => router.push(`/tests/${slugify(search)}`)}
                 className="bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2"
               >
                 <Search className="w-5 h-5" />
