@@ -8,14 +8,12 @@ import { Facilities } from "./componets/facilities";
 import { WhyChooseUs } from "./componets/WhyChooseUs";
 import { Testimonials } from "./componets/Testimonials";
 import { Footer } from "./componets/footer";
-
 export default function App() {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
       <Hero />
       <ExploreMore />
-      {/* <Announcements /> */}
       <PopularTests />
       <HealthPackages />
       <Facilities />
