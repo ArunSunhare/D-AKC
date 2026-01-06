@@ -38,7 +38,8 @@ export async function GET(req: NextRequest) {
     // Check if response is XML
     if (text.includes("<?xml")) {
       // Extract JSON from XML tags
-      const match = text.match(/<string[^>]*>(.*?)<\/string>/s);
+      const match = text.match(/<string[^>]*>([\s\S]*?)<\/string>/);
+
       if (match && match[1]) {
         jsonString = match[1];
         console.log("📦 EXTRACTED JSON STRING:", jsonString);

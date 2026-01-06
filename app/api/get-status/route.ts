@@ -34,7 +34,8 @@ export async function GET(req: NextRequest) {
 
         let jsonString = text;
         if (text.includes("<?xml")) {
-            const match = text.match(/<string[^>]*>(.*?)<\/string>/s);
+            const match = text.match(/<string[^>]*>([\s\S]*?)<\/string>/);
+
             if (match && match[1]) {
                 jsonString = match[1];
             }
