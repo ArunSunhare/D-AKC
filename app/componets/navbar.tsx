@@ -273,7 +273,7 @@ export function Navigation() {
               <a className="nav-link" onClick={() => router.push("/")}>Facilities</a>
               <a className="nav-link" onClick={() => router.push("/investigations")}>Find A Test</a>
               <a className="nav-link" onClick={() => router.push("/")}>Health Packages</a>
-              <a className="nav-link" onClick={() => router.push("/")}>Reach Us</a>
+              <a className="nav-link" onClick={() => router.push("/about-us")}>About Us</a>
 
               <button
                 onClick={openCart}

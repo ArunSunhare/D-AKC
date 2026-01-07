@@ -61,8 +61,9 @@ export function Hero() {
   };
 
   return (
-    // ✅ FIX: overflow-hidden REMOVED
-    <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16">
+   
+    <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-5">
+     
       <div className="absolute inset-0 opacity-40">
         <Image
           src="/assets/hero.jpg"
@@ -83,7 +84,7 @@ export function Hero() {
             Near You, Health Checkups and Genetic Test
           </p>
 
-          {/* Search Box */}
+      
           <div className="bg-white rounded-lg shadow-lg p-6">
             <p className="text-gray-700 mb-4">
               Can help you with right test responsive & Lab Contact!
@@ -102,7 +103,7 @@ export function Hero() {
                   className="w-full pl-10 pr-4 py-3 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-700"
                 />
 
-                {/* Suggestions */}
+         
                 {showSuggestions && suggestions.length > 0 && (
                   <ul className="absolute z-50 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
                     {suggestions.map((item, index) => (
@@ -135,5 +136,6 @@ export function Hero() {
         </div>
       </div>
     </section>
+    
   );
 }

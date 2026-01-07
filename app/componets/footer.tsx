@@ -136,22 +136,22 @@ export function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="flex items-center gap-2 hover:text-white">
+                  <a href="/" className="flex items-center gap-2 hover:text-white">
                     <span className="text-blue-400">›</span> Doctors On Panel
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="flex items-center gap-2 hover:text-white">
+                  <a href="/" className="flex items-center gap-2 hover:text-white">
                     <span className="text-blue-400">›</span> Facilities Available
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="flex items-center gap-2 hover:text-white">
+                  <a href="/about-us" className="flex items-center gap-2 hover:text-white">
                     <span className="text-blue-400">›</span> About Us
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="flex items-center gap-2 hover:text-white">
+                  <a href="/" className="flex items-center gap-2 hover:text-white">
                     <span className="text-blue-400">›</span> Hospital Rules
                   </a>
                 </li>
