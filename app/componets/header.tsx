@@ -77,7 +77,7 @@ export default function App() {
                                 alt="Center Icon"
                                 className="absolute left-1/2 -top-40 transform -translate-x-1/2 w-50 h-50 object-contain"
                             />
-                            <h1 className="text-3xl text-red-600 drop-shadow-sm ml-[-80px] lg:whitespace-nowrap">
+                            <h1 className="text-3xl text-orange-600 drop-shadow-sm ml-[-80px] lg:whitespace-nowrap">
 
 
                                 "नासै रोग हरे सब पीरा, जपत निरंतर हनुमत बीरा"
@@ -102,7 +102,7 @@ export default function App() {
             <section className="relative -mt-8 z-10">
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl p-8">
-                        <h2 className="text-2xl text-color-black mb-2">Experience Care</h2>
+                        <h2 className="text-2xl text-orange-600 mb-2">Experience Care</h2>
                         <p className="text-gray-600 mb-6">
                             Find Tests, Health Checkups and Centres Near You.
                         </p>
