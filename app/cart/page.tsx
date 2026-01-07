@@ -5,6 +5,7 @@ import { Trash2, AlertCircle, Clock, ArrowLeft, FileText, MapPin, ChevronRight }
 import Link from "next/link";
 import { Navigation } from "../componets/navbar";
 import { Footer } from "../componets/footer";
+import { Hero } from "../componets/hero";
 
 export default function CartPage() {
     const { items, removeFromCart, cartTotal } = useCart();
@@ -16,9 +17,8 @@ export default function CartPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex flex-col">
             <Navigation />
-
+            <Hero />
             <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header with Back Button */}
                 <div className="flex items-center justify-between mb-8">
                     <div>
                         <Link
@@ -32,12 +32,11 @@ export default function CartPage() {
                         <p className="text-gray-500 mt-1">{items.length} test(s) selected</p>
                     </div>
                 </div>
-
                 {items.length > 0 ? (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {/* Cart Items - Left Column */}
+
                         <div className="lg:col-span-2 space-y-4">
-                            {/* Centre Info */}
+
                             <div className="bg-orange-50 border border-orange-100 rounded-xl p-4 flex items-center gap-3">
                                 <MapPin className="w-5 h-5 text-orange-600" />
                                 <div>
@@ -48,8 +47,6 @@ export default function CartPage() {
                                     Change <ChevronRight className="w-4 h-4" />
                                 </button>
                             </div>
-
-                            {/* Items */}
                             {items.map((item) => (
                                 <div
                                     key={item.id}
@@ -66,28 +63,8 @@ export default function CartPage() {
                                                 )}
                                             </div>
                                             <h3 className=" text-lg text-gray-900 mb-3">{item.name}</h3>
-
-                                            {/* Test Details */}
-                                            {/* <div className="space-y-2">
-                                                {item.testPreparation && (
-                                                    <div className="flex items-start gap-2 text-sm bg-amber-50 text-amber-800 p-2 rounded-lg">
-                                                        <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
-                                                        <div>
-                                                            <span className="font-medium">Preparation: </span>
-                                                            {item.testPreparation}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {item.reportTat && (
-                                                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                                                        <Clock className="w-4 h-4 text-blue-500" />
-                                                        <span><span className="font-medium">Report Time:</span> {item.reportTat}</span>
-                                                    </div>
-                                                )}
-                                            </div> */}
                                         </div>
 
-                                        {/* Price and Remove */}
                                         <div className="text-right flex flex-col items-end gap-3">
                                             <div>
                                                 {item.originalPrice && item.originalPrice > item.price && (
@@ -112,7 +89,6 @@ export default function CartPage() {
                                 </div>
                             ))}
 
-                            {/* Add More Tests Button */}
                             <Link
                                 href="/investigations"
                                 className="block text-center border-2 border-dashed border-orange-300 text-orange-600 py-4 rounded-xl hover:bg-orange-50 transition font-medium"
@@ -120,8 +96,6 @@ export default function CartPage() {
                                 + Add More Tests
                             </Link>
                         </div>
-
-                        {/* Order Summary - Right Column */}
                         <div className="lg:col-span-1">
                             <div className="bg-white rounded-xl border border-gray-100 shadow-lg p-6 sticky top-24">
                                 <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
@@ -141,7 +115,6 @@ export default function CartPage() {
                                             <span>- ₹{savings}</span>
                                         </div>
                                     )}
-
                                     <div className="flex justify-between text-gray-600">
                                         <span>Home Collection</span>
                                         <span className="text-green-600 font-medium">FREE</span>
@@ -154,7 +127,6 @@ export default function CartPage() {
                                         </div>
                                     </div>
                                 </div>
-
                                 <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-xl font-bold hover:from-orange-600 hover:to-red-600 transition shadow-lg hover:shadow-xl">
                                     Proceed to Checkout
                                 </button>
@@ -166,7 +138,7 @@ export default function CartPage() {
                         </div>
                     </div>
                 ) : (
-                    /* Empty State */
+
                     <div className="flex flex-col items-center justify-center py-20">
                         <div className="bg-orange-100 w-24 h-24 rounded-full flex items-center justify-center mb-6">
                             <FileText className="w-10 h-10 text-orange-500" />
@@ -184,6 +156,7 @@ export default function CartPage() {
                     </div>
                 )}
             </main>
+
 
             <Footer />
         </div>

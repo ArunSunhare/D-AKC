@@ -19,14 +19,13 @@ export default function LoginPage() {
   const [otp, setOtp] = useState<string[]>(Array(4).fill(""));
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  /* 🔹 LOG SERVER OTP SAFELY (NO UI CHANGE) */
+ 
   useEffect(() => {
     if (serverOtp) {
       console.log("Anshul serverOtp:", serverOtp);
     }
   }, [serverOtp]);
 
-  /* ---------------- MOBILE HANDLER ---------------- */
   const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, "");
     if (value.length <= 10) {
@@ -35,7 +34,6 @@ export default function LoginPage() {
     }
   };
 
-  /* ---------------- SEND OTP ---------------- */
   const handleSendOtp = async () => {
     if (!agree) {
       setError("Please accept Terms & Conditions to continue");
@@ -71,7 +69,7 @@ export default function LoginPage() {
 
       setOtp(Array(4).fill(""));
       setStep("otp");
-      setServerOtp(receivedOtp); // ✅ correct
+      setServerOtp(receivedOtp); 
     } catch (err) {
       console.error("OTP ERROR:", err);
       setError("Network error. Please try again.");
@@ -80,7 +78,7 @@ export default function LoginPage() {
     }
   };
 
-  /* ---------------- OTP HANDLERS ---------------- */
+  
   const handleOtpChange = (index: number, value: string) => {
     if (!/^\d?$/.test(value)) return;
     const newOtp = [...otp];
@@ -95,7 +93,6 @@ export default function LoginPage() {
     }
   };
 
-  /* ---------------- VERIFY OTP ---------------- */
   const verifyOtp = async () => {
     const enteredOtp = otp.join("");
 
@@ -108,7 +105,7 @@ export default function LoginPage() {
     setError("");
 
     try {
-      // ❌ STEP 1: VERIFY OTP (NOT AVAILABLE YET)
+    
       const verifyResponse = await fetch("/api/verify-otp", {
         method: "POST",
         headers: {
@@ -128,13 +125,12 @@ export default function LoginPage() {
 
       const verifyResult = await verifyResponse.json();
 
-      // ❌ OTP INVALID
       if (!verifyResult?.success) {
         setError("Invalid OTP. Please try again.");
         return;
       }
 
-      // ✅ STEP 2: OTP VERIFIED → GET PATIENT
+
       const response = await fetch("/api/get-patient", {
         method: "POST",
         headers: {
@@ -183,7 +179,6 @@ export default function LoginPage() {
     }
   };
 
-  /* ================= UI (UNCHANGED) ================= */
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">

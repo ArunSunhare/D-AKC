@@ -50,7 +50,6 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Calculate pagination
     const totalItems = allData.length;
     const totalPages = Math.ceil(totalItems / limit);
     const startIndex = (page - 1) * limit;
@@ -69,7 +68,7 @@ export async function GET(req: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error("❌ GetInvestigation ERROR:", error);
+    console.error(" GetInvestigation ERROR:", error);
     return NextResponse.json(
       {
         Status: "Error",

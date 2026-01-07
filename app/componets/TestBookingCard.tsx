@@ -10,10 +10,10 @@ interface TestBookingCardProps {
 
 export function TestBookingCard({ test }: TestBookingCardProps) {
     const { addToCart } = useCart();
-    const [selectedCentre, setSelectedCentre] = useState("HOD Green Park");
+    const [selectedCentre, setSelectedCentre] = useState("");
 
     const handleBookNow = () => {
-        // Parse price string "₹11999" -> 11999
+        
         const priceNumber = parseInt(test.price.replace(/[^0-9]/g, "")) || 0;
         const originalPriceNumber = parseInt(test.originalPrice.replace(/[^0-9]/g, "")) || 0;
 
@@ -39,7 +39,7 @@ export function TestBookingCard({ test }: TestBookingCardProps) {
                 Visit Centre
             </button>
 
-            {/* Centre Selection */}
+ 
             <div className="mb-6">
                 <h4 className="text-sm font-semibold text-blue-900 mb-2">
                     Centres
@@ -63,7 +63,7 @@ export function TestBookingCard({ test }: TestBookingCardProps) {
                 </button>
             </div>
 
-            {/* Test Selection */}
+
             <div className="mb-6">
                 <h4 className="text-sm font-semibold text-blue-900 mb-2">
                     Tests
@@ -76,7 +76,7 @@ export function TestBookingCard({ test }: TestBookingCardProps) {
                 </div>
             </div>
 
-            {/* Price */}
+ 
             <div className="mb-6 text-center">
                 <span className="text-gray-400 line-through text-base">
                     {test.originalPrice}
@@ -86,7 +86,7 @@ export function TestBookingCard({ test }: TestBookingCardProps) {
                 </div>
             </div>
 
-            {/* CTA Buttons */}
+   
             <button
                 onClick={handleBookNow}
                 className="w-full bg-orange-600 text-white py-3 rounded-lg hover:bg-orange-700 transition-colors mb-3 font-semibold"
