@@ -114,7 +114,7 @@ export default function App() {
 
                             <div className="flex gap-3 relative">
                                 <div className="relative flex-1">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 h-5 w-5" />
 
                                     <input
                                         type="text"
@@ -122,7 +122,7 @@ export default function App() {
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
                                         onFocus={() => search && setShowSuggestions(true)}
-                                        className="pl-10 h-12 w-full border border-gray-300 rounded-md focus:border-orange-500 focus:ring-orange-500"
+                                        className="pl-10 h-12 w-full border border-gray-600 rounded-md focus:border-orange-500 focus:ring-orange-500"
                                     />
                                     {showSuggestions && suggestions.length > 0 && (
                                         <ul className="absolute z-50 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
