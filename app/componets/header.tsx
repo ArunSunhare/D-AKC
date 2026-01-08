@@ -11,6 +11,7 @@ export default function App() {
     const [suggestions, setSuggestions] = useState<any[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const slugify = (text: string) => {
         return text
@@ -45,6 +46,13 @@ export default function App() {
     };
 
     useEffect(() => {
+        if (suggestions.length > 0) {
+            setActiveIndex(0);
+        }
+    }, [suggestions]);
+
+
+    useEffect(() => {
         const timer = setTimeout(() => {
             fetchSuggestions(search);
         }, 300);
@@ -52,11 +60,16 @@ export default function App() {
         return () => clearTimeout(timer);
     }, [search]);
 
-    const handleSearch = (value?: string) => {
-        const query = value || search;
-        if (!query.trim()) return;
-        router.push(`/tests/${slugify(query)}`);
+    const handleSearch = () => {
+        if (suggestions.length > 0) {
+            router.push(
+                `/tests/${slugify(suggestions[0].ItemName)}`
+            );
+            setShowSuggestions(false);
+        }
     };
+
+
 
     return (
         <div className="bg-gray-20">
@@ -123,15 +136,33 @@ export default function App() {
                                         onChange={(e) => setSearch(e.target.value)}
                                         onFocus={() => search && setShowSuggestions(true)}
                                         className="
-    pl-10 h-12 w-full 
-    border border-gray-600 
-    rounded-md 
-    bg-white 
-    text-gray-900 
-    placeholder-gray-400
-    focus:border-orange-500 
-    focus:ring-orange-500
-  "
+                                        pl-10 h-12 w-full border border-gray-600 
+                                        rounded-md bg-white text-gray-900 
+                                        placeholder-gray-400focus:border-orange-500 
+                                        focus:ring-orange-500"
+                                        onKeyDown={(e) => {
+                                            // TAB = next suggestion select
+                                            if (e.key === "Tab" && suggestions.length > 0) {
+                                                e.preventDefault();
+                                                const nextIndex = (activeIndex + 1) % suggestions.length;
+                                                setActiveIndex(nextIndex);
+                                                setSearch(suggestions[nextIndex].ItemName);
+                                            }
+
+                                            // ENTER = open selected test
+                                            if (e.key === "Enter") {
+                                                e.preventDefault();
+
+                                                if (suggestions.length > 0) {
+                                                    router.push(
+                                                        `/tests/${slugify(suggestions[activeIndex].ItemName)}`
+                                                    );
+                                                    setShowSuggestions(false);
+                                                }
+                                            }
+                                        }}
+
+
                                     />
 
                                     {showSuggestions && suggestions.length > 0 && (
@@ -142,13 +173,22 @@ export default function App() {
                                                     onClick={() =>
                                                         router.push(`/tests/${slugify(item.ItemName)}`)
                                                     }
-                                                    className="px-4 py-2 cursor-pointer hover:bg-orange-50 text-gray-800"
+                                                    onMouseEnter={() => {
+                                                        setActiveIndex(index);
+                                                        setSearch(item.ItemName);
+                                                    }}
+                                                    className={`px-4 py-2 cursor-pointer text-gray-800
+        ${index === activeIndex
+                                                            ? "bg-orange-100"
+                                                            : "hover:bg-orange-50"
+                                                        }`}
                                                 >
                                                     <p className="font-medium">{item.ItemName}</p>
                                                     <p className="text-xs text-gray-500">
                                                         ID: {item.Item_ID}
                                                     </p>
                                                 </li>
+
                                             ))}
                                         </ul>
                                     )}
