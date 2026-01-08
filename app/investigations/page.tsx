@@ -20,9 +20,7 @@ export default function InvestigationsPage() {
 
   const itemsPerPage = 9;
 
-  /* ===============================
-     FETCH ALL DATA ONCE
-  =============================== */
+
   useEffect(() => {
     fetchInvestigations();
   }, []);
@@ -34,7 +32,7 @@ export default function InvestigationsPage() {
     try {
       const params = new URLSearchParams({
         page: "1",
-        limit: "1000", // Fetch a large number for frontend filtering
+        limit: "10", 
       });
 
       const res = await fetch(`/api/get-investigation?${params}`);
@@ -53,9 +51,6 @@ export default function InvestigationsPage() {
     }
   };
 
-  /* ===============================
-     FRONTEND FILTERING: SEARCH + CATEGORY
-  =============================== */
   const filteredInvestigations = allInvestigations.filter((item) => {
     const matchesSearch =
       !search ||
@@ -67,9 +62,7 @@ export default function InvestigationsPage() {
     return matchesSearch && matchesCategory;
   });
 
-  /* ===============================
-     FRONTEND PAGINATION
-  =============================== */
+
   const totalItems = filteredInvestigations.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -78,7 +71,6 @@ export default function InvestigationsPage() {
     currentPage * itemsPerPage
   );
 
-  // Reset page when search or category changes
   useEffect(() => {
     setCurrentPage(1);
   }, [search, category]);
@@ -89,7 +81,6 @@ export default function InvestigationsPage() {
       .replace(/\s+/g, "-")
       .replace(/[^\w-]+/g, "");
 
-  // Helper to get page numbers (max 7 visible)
   const getPageNumbers = () => {
     const pages = [];
     const maxVisible = 7;
@@ -108,7 +99,6 @@ export default function InvestigationsPage() {
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-40">
           <Image
@@ -141,7 +131,7 @@ export default function InvestigationsPage() {
                   />
                 </div>
                 <button
-                  onClick={() => setSearch(search)} // Triggers re-filter instantly
+                  onClick={() => setSearch(search)} 
                   className="bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2"
                 >
                   <Search className="w-5 h-5" />
@@ -153,7 +143,6 @@ export default function InvestigationsPage() {
         </div>
       </section>
 
-      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {loading ? (
           <div className="flex justify-center items-center h-40">
@@ -179,7 +168,6 @@ export default function InvestigationsPage() {
                 </span>
               </h2>
 
-              {/* Category Buttons */}
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => setCategory("")}
@@ -214,7 +202,6 @@ export default function InvestigationsPage() {
               </div>
             </div>
 
-            {/* Tests List */}
             <div className="flex flex-col space-y-4">
               {investigationsToShow.map((item: any, idx: number) => (
                 <div
@@ -272,7 +259,7 @@ export default function InvestigationsPage() {
               ))}
             </div>
 
-            {/* No Results */}
+   
             {investigationsToShow.length === 0 && (
               <div className="text-center py-16 bg-gray-50 rounded-2xl">
                 <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
@@ -283,7 +270,7 @@ export default function InvestigationsPage() {
               </div>
             )}
 
-            {/* Pagination */}
+       
             {totalPages > 1 && (
               <div className="flex justify-center items-center gap-2 mt-8">
                 <button
