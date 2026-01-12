@@ -1,162 +1,144 @@
 "use client";
 
 import { useCart } from "@/app/context/CartContext";
-import { Trash2, AlertCircle, Clock, ArrowLeft, FileText, MapPin, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import {Trash2,Info,ArrowLeft,FileText} from "lucide-react";
 import { Navigation } from "../componets/navbar";
 import { Footer } from "../componets/footer";
 import { Hero } from "../componets/hero";
 
 export default function CartPage() {
     const { items, removeFromCart, cartTotal } = useCart();
-
-    // Calculate original total for showing savings
-    const originalTotal = items.reduce((sum, item) => sum + (item.originalPrice || item.price), 0);
-    const savings = originalTotal - cartTotal;
-
+    // const originalTotal = items.reduce(
+    //     (sum, item) => sum + (item.originalPrice || item.price),
+    //     0
+    // );
+    // const savings = originalTotal - cartTotal;
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex flex-col">
+        <div className="min-h-screen bg-gray-50 flex flex-col">
             <Navigation />
             <Hero />
-            <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="flex items-center justify-between mb-8">
+            <main className="flex-grow max-w-9xl mx-auto px-4 py-8">
+                <div className="flex items-center justify-center mb-10">
+                    {["Confirm Test", "Select Time", "Upload Documents", "Order Confirmation"].map(
+                        (step, index) => (
+                            <div key={step} className="flex items-center">
+                                <div
+                                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
+                                    ${index === 0
+                                            ? "bg-orange-600 text-white"
+                                            : "border border-gray-300 text-gray-400"
+                                        }`}
+                                >
+                                    {index + 1}
+                                </div>
+
+                                <span
+                                    className={`ml-2 mr-6 text-sm
+                                    ${index === 0
+                                            ? "text-orange-600 font-semibold"
+                                            : "text-gray-400"
+                                        }`}
+                                >
+                                    {step}
+                                </span>
+
+                                {index !== 3 && (
+                                    <div className="w-12 h-[2px] bg-gray-300" />
+                                )}
+                            </div>
+                        )
+                    )}
+                </div>
+                <div className="flex items-center justify-between mb-6">
                     <div>
                         <Link
                             href="/"
-                            className="inline-flex items-center gap-2 text-gray-600 hover:text-orange-600 transition font-medium mb-2"
+                            className="inline-flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-2"
                         >
-                            <ArrowLeft className="w-4 h-4" />
+                            <ArrowLeft size={16} />
                             Back to Home
                         </Link>
-                        <h1 className="text-3xl font-bold text-gray-900">Your Cart</h1>
-                        <p className="text-gray-500 mt-1">{items.length} test(s) selected</p>
+                        <h1 className="text-2xl font-bold">Cart</h1>
                     </div>
+
+                    <Link
+                        href="/investigations"
+                        className="border border-orange-600 text-orange-600 px-4 py-2 rounded-md font-medium"
+                    >
+                        Add More Tests
+                    </Link>
                 </div>
                 {items.length > 0 ? (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
                         <div className="lg:col-span-2 space-y-4">
-
-                            <div className="bg-orange-50 border border-orange-100 rounded-xl p-4 flex items-center gap-3">
-                                <MapPin className="w-5 h-5 text-orange-600" />
-                                <div>
-                                    <p className="text-sm text-orange-600 font-medium">Centre Visit</p>
-                                    <p className="font-bold text-gray-900">Karkardooma Institutional Area</p>
-                                </div>
-                                <button className="ml-auto text-orange-600 text-sm font-medium hover:underline flex items-center gap-1">
-                                    Change <ChevronRight className="w-4 h-4" />
-                                </button>
-                            </div>
                             {items.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-5"
+                                    className="bg-white rounded-lg shadow p-4"
                                 >
-                                    <div className="flex justify-between items-start">
-                                        <div className="flex-1 pr-4">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <span className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs px-2 py-0.5 rounded-full font-medium uppercase">
-                                                    {item.type}
-                                                </span>
-                                                {item.Item_ID && (
-                                                    <span className="text-gray-400 text-xs">ID: {item.Item_ID}</span>
+                                    <div className="flex justify-between items-center border rounded-md p-3">
+                                        <div>
+                                            <p className="font-medium">{item.name}</p>
+                                            <p className="text-sm">
+                                                {item.originalPrice && (
+                                                    <span className="line-through text-gray-400 mr-2">
+                                                        ₹{item.originalPrice}
+                                                    </span>
                                                 )}
-                                            </div>
-                                            <h3 className=" text-lg text-gray-900 mb-3">{item.name}</h3>
+                                                <span className="font-semibold">
+                                                    ₹{item.price}
+                                                </span>
+                                            </p>
                                         </div>
 
-                                        <div className="text-right flex flex-col items-end gap-3">
-                                            <div>
-                                                {item.originalPrice && item.originalPrice > item.price && (
-                                                    <p className="text-gray-400 text-sm line-through">₹{item.originalPrice}</p>
-                                                )}
-                                                <p className="text-2xl font-bold text-gray-900">₹{item.price}</p>
-                                                {item.originalPrice && item.originalPrice > item.price && (
-                                                    <p className="text-green-600 text-xs font-medium">
-                                                        Save ₹{item.originalPrice - item.price}
-                                                    </p>
-                                                )}
-                                            </div>
-                                            <button
-                                                onClick={() => removeFromCart(item.id)}
-                                                className="flex items-center gap-1 text-red-500 hover:text-red-700 text-sm font-medium transition"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                                Remove
-                                            </button>
-                                        </div>
+                                        <Trash2
+                                            className="text-red-500 cursor-pointer"
+                                            size={18}
+                                            onClick={() => removeFromCart(item.id)}
+                                        />
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                        <div className="space-y-4">
+                            <div className="bg-white rounded-lg shadow p-4">
+                                <h3 className="font-semibold mb-3">Payment</h3>
+
+                                <div className="flex justify-between mb-2">
+                                </div>
+                                <div className="flex justify-between font-bold">
+                                    <span>Total</span>
+                                    <span>₹{cartTotal}</span>
+                                </div>
+                            </div>
 
                             <Link
-                                href="/investigations"
-                                className="block text-center border-2 border-dashed border-orange-300 text-orange-600 py-4 rounded-xl hover:bg-orange-50 transition font-medium"
+                                href="/select-date"
+                                className="block bg-orange-600 text-white text-center py-3 rounded-md font-semibold"
                             >
-                                + Add More Tests
+                                Proceed to select Date
                             </Link>
-                        </div>
-                        <div className="lg:col-span-1">
-                            <div className="bg-white rounded-xl border border-gray-100 shadow-lg p-6 sticky top-24">
-                                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                    <FileText className="w-5 h-5 text-orange-500" />
-                                    Order Summary
-                                </h2>
-
-                                <div className="space-y-4 mb-6">
-                                    <div className="flex justify-between text-gray-600">
-                                        <span>Subtotal ({items.length} items)</span>
-                                        <span>₹{originalTotal}</span>
-                                    </div>
-
-                                    {savings > 0 && (
-                                        <div className="flex justify-between text-green-600">
-                                            <span>Discount</span>
-                                            <span>- ₹{savings}</span>
-                                        </div>
-                                    )}
-                                    <div className="flex justify-between text-gray-600">
-                                        <span>Home Collection</span>
-                                        <span className="text-green-600 font-medium">FREE</span>
-                                    </div>
-
-                                    <div className="border-t border-gray-200 pt-4">
-                                        <div className="flex justify-between text-lg font-bold text-gray-900">
-                                            <span>Total</span>
-                                            <span>₹{cartTotal}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-xl font-bold hover:from-orange-600 hover:to-red-600 transition shadow-lg hover:shadow-xl">
-                                    Proceed to Checkout
-                                </button>
-
-                                <p className="text-xs text-gray-400 text-center mt-4">
-                                    Safe & Secure Payment | 100% Accurate Results
-                                </p>
-                            </div>
                         </div>
                     </div>
                 ) : (
-
                     <div className="flex flex-col items-center justify-center py-20">
                         <div className="bg-orange-100 w-24 h-24 rounded-full flex items-center justify-center mb-6">
                             <FileText className="w-10 h-10 text-orange-500" />
                         </div>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
-                        <p className="text-gray-500 mb-8 text-center max-w-md">
-                            Looks like you haven't added any tests yet. Browse our wide range of diagnostic tests.
+                        <h2 className="text-2xl font-bold mb-2">Your cart is empty</h2>
+                        <p className="text-gray-500 mb-6">
+                            Please add tests to continue.
                         </p>
                         <Link
                             href="/investigations"
-                            className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-3 rounded-xl font-bold hover:from-orange-600 hover:to-red-600 transition shadow-lg"
+                            className="bg-orange-600 text-white px-6 py-3 rounded-md font-semibold"
                         >
                             Browse Tests
                         </Link>
                     </div>
                 )}
             </main>
-
 
             <Footer />
         </div>

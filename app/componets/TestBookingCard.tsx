@@ -15,13 +15,13 @@ export function TestBookingCard({ test }: TestBookingCardProps) {
     const handleBookNow = () => {
         
         const priceNumber = parseInt(test.price.replace(/[^0-9]/g, "")) || 0;
-        const originalPriceNumber = parseInt(test.originalPrice.replace(/[^0-9]/g, "")) || 0;
+       
 
         addToCart({
             id: test.slug,
             name: test.name,
             price: priceNumber,
-            originalPrice: originalPriceNumber,
+          
             type: "test",
             testPreparation: test.testPreparation,
             reportTat: test.reportTat,
@@ -78,10 +78,9 @@ export function TestBookingCard({ test }: TestBookingCardProps) {
 
  
             <div className="mb-6 text-center">
-                <span className="text-gray-400 line-through text-base">
-                    {test.originalPrice}
-                </span>
+          
                 <div className="text-3xl font-bold text-orange-600">
+                  
                     {test.price}
                 </div>
             </div>

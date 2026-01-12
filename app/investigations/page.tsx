@@ -19,19 +19,19 @@ export default function InvestigationsPage() {
 
   const itemsPerPage = 9;
 
-  // Debounced search to avoid too many re-renders
+
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
-      setCurrentPage(1); // Reset page on search change
+      setCurrentPage(1); 
     }, 400);
 
     return () => clearTimeout(timer);
   }, [search]);
 
-  // Fetch only once on mount
+  
   useEffect(() => {
     fetchInvestigations();
   }, []);
@@ -43,11 +43,11 @@ export default function InvestigationsPage() {
     try {
       const params = new URLSearchParams({
         page: "1",
-        limit: "1000", // Increase limit to get more data if allowed, or keep as is
+        limit: "1000", 
       });
 
       const res = await fetch(`/api/get-investigation?${params}`, {
-        next: { revalidate: 3600 }, // Optional: cache for 1 hour
+        next: { revalidate: 3600 }, 
       });
 
       if (!res.ok) throw new Error("Failed to fetch");
@@ -249,7 +249,7 @@ export default function InvestigationsPage() {
                           )}
                         </div>
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-900">
+                          <h3 className="text-lg  text-gray-900">
                             {item.ItemName}
                           </h3>
                           <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500 mt-1">
