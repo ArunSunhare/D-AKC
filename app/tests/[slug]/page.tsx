@@ -84,6 +84,9 @@ export default function TestDetailPage() {
           testPreparation: match.TestPreparation || "No special preparation required.",
           observationName: match.observationName || "",
           Item_ID: match.Item_ID || "",
+          SubCategoryID: match.SubCategoryID || match.SubcategoryID || "",
+          CategoryID: match.categoryid || match.CategoryID || "",
+          LabType: match.LabType || "",
           Sample: match.Sample || "",
           centres: STATIC_CENTRES,
         };

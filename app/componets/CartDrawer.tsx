@@ -4,12 +4,14 @@ import { useCart } from "../context/CartContext";
 import { X, Trash2, MapPin, ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { LoginModal } from "./LoginModal";
 
 export function CartDrawer() {
     const { items, removeFromCart, isOpen, closeCart } = useCart();
     const router = useRouter();
     const [mounted, setMounted] = useState(false);
     const [itemToDelete, setItemToDelete] = useState<string | null>(null);
+    const [showLoginModal, setShowLoginModal] = useState(false);
 
     useEffect(() => {
         setMounted(true);
@@ -95,8 +97,16 @@ export function CartDrawer() {
                 <div className="p-4 bg-white border-t">
                     <button
                         onClick={() => {
-                            closeCart();
-                            router.push('/cart');
+                            // Check if user is logged in
+                            const storedUser = localStorage.getItem("user");
+                            if (!storedUser) {
+                                // Show login modal
+                                setShowLoginModal(true);
+                            } else {
+                                // Proceed to checkout
+                                closeCart();
+                                router.push('/cart');
+                            }
                         }}
                         className="w-full bg-orange-600 text-white font-bold py-3 rounded-lg shadow-md hover:bg-orange-700 transition"
                     >
@@ -154,6 +164,17 @@ export function CartDrawer() {
                     </div>
                 </div>
             )}
+
+            {/* Login Modal */}
+            <LoginModal
+                isOpen={showLoginModal}
+                onClose={() => setShowLoginModal(false)}
+                onSuccess={() => {
+                    setShowLoginModal(false);
+                    closeCart();
+                    router.push('/cart');
+                }}
+            />
         </div>
     );
 }

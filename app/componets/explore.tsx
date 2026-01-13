@@ -11,7 +11,7 @@ const exploreItems = [
     color: "text-orange-600",
     bgColor: "bg-orange-100",
     accent: "orange",
-    router: "/packages", 
+    router: "/health-packages", 
   },
   {
     icon: Search,

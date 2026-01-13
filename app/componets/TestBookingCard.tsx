@@ -13,19 +13,24 @@ export function TestBookingCard({ test }: TestBookingCardProps) {
     const [selectedCentre, setSelectedCentre] = useState("");
 
     const handleBookNow = () => {
-        
-        const priceNumber = parseInt(test.price.replace(/[^0-9]/g, "")) || 0;
-       
+        const derivedPrice =
+            typeof test.Rate === "number"
+                ? test.Rate
+                : parseInt(String(test.price || "").replace(/[^0-9]/g, ""));
+
+        const priceNumber = Number.isFinite(derivedPrice) ? Number(derivedPrice) : 0;
 
         addToCart({
-            id: test.slug,
+            id: test.Item_ID || test.slug || test.name,
             name: test.name,
             price: priceNumber,
-          
             type: "test",
             testPreparation: test.testPreparation,
             reportTat: test.reportTat,
-            Item_ID: test.Item_ID || ""
+            Item_ID: test.Item_ID || "",
+            CategoryID: test.CategoryID || test.categoryid || "",
+            SubCategoryID: test.SubCategoryID || test.SubcategoryID || "",
+            LabType: test.LabType || ""
         });
     };
 

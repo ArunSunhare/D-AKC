@@ -1,54 +1,100 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+const BASE_URL = "https://shbcdc.in/HIS/API/MobileApplication.asmx/GetPatient";
+const SecurityKey = "XZY45ZTYLG19045GHTY";
+const ClientId = "XZY45ZTBNG190489GHTY";
+
+function parseGetPatientResponse(rawText: string) {
+    if (rawText.includes("<?xml")) {
+        const match = rawText.match(/<string[^>]*>([\s\S]*?)<\/string>/);
+        if (match?.[1]) rawText = match[1];
+    }
+
     try {
-        const { mobile } = await request.json();
+        const parsed = JSON.parse(rawText);
+        return parsed;
+    } catch (e) {
+        console.error("⚠️ Failed to parse GetPatient response", e);
+        return null;
+    }
+}
+
+export async function GET(request: NextRequest) {
+    try {
+        const { searchParams } = new URL(request.url);
+        const mobile = searchParams.get("MobileNo");
+
+        if (!mobile) {
+            return NextResponse.json(
+                { error: "Mobile number is required" },
+                { status: 400 }
+            );
+        }
 
         console.log("📞 Calling GetPatient API for mobile:", mobile);
 
-        const response = await fetch(
-            "https://shbcdc.in/HIS/API/MobileApplication.asmx/GetPatient",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    SecurityKey: "XZY45ZTYLG19045GHTY",
-                    ClientId: "XZY45ZTBNG190489GHTY",
-                    MobileNo: mobile,
-                }),
-            }
-        );
-
-        const data = await response.json();
+        const url = `${BASE_URL}?SecurityKey=${SecurityKey}&ClientId=${ClientId}&MobileNo=${mobile}`;
         
-        console.log("✅ GetPatient API Response:", data);
+        const response = await fetch(url, {
+            method: "GET",
+            cache: "no-store",
+        });
 
-        return NextResponse.json(data);
-    } catch (error) {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const rawText = await response.text();
+        const parsed = parseGetPatientResponse(rawText);
+
+        console.log("✅ GetPatient API Response:", parsed);
+
+        return NextResponse.json(parsed ?? { raw: rawText });
+    } catch (error: any) {
         console.error("❌ GetPatient API Error:", error);
         return NextResponse.json(
-            { error: "Failed to get patient data" },
+            { error: "Failed to get patient data", message: error.message },
             { status: 500 }
         );
     }
 }
-// ```
 
-// // ## Key Changes:
+// Keep POST for backward compatibility
+export async function POST(request: Request) {
+    try {
+        const { mobile } = await request.json();
 
-// // 1. ✅ **Simplified API call** - Sirf `mobile` send karo, baaki backend handle karega
-// // 2. ✅ **Better response parsing** - Pehle check karo ki `result.d` exist karta hai
-// // 3. ✅ **Array length check** - `parsed.data.length > 0` se confirm karo user exist karta hai
-// // 4. ✅ **Better error handling** - Har step pe proper logging aur error messages
+        if (!mobile) {
+            return NextResponse.json(
+                { error: "Mobile number is required" },
+                { status: 400 }
+            );
+        }
 
-// // ## Flow Summary:
-// // ```
-// // 1. User OTP enter karta hai (frontend pe assume verified)
-// //    ↓
-// // 2. GetPatient API call (check if user exists)
-// //    ↓
-// // 3. Response mein data array hai?
-// //    ├─ YES (length > 0) → Dashboard redirect ✅
-// //    └─ NO (empty array) → Register page redirect 🆕
+        console.log("📞 Calling GetPatient API for mobile:", mobile);
+
+        const url = `${BASE_URL}?SecurityKey=${SecurityKey}&ClientId=${ClientId}&MobileNo=${mobile}`;
+        
+        const response = await fetch(url, {
+            method: "GET",
+            cache: "no-store",
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const rawText = await response.text();
+        const parsed = parseGetPatientResponse(rawText);
+
+        console.log("✅ GetPatient API Response:", parsed);
+
+        return NextResponse.json(parsed ?? { raw: rawText });
+    } catch (error: any) {
+        console.error("❌ GetPatient API Error:", error);
+        return NextResponse.json(
+            { error: "Failed to get patient data", message: error.message },
+            { status: 500 }
+        );
+    }
+}

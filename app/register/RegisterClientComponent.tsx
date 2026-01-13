@@ -30,6 +30,8 @@ export default function RegisterClientComponent() {
     const params = useSearchParams();
     const router = useRouter();
     const mobile = params.get("mobile") || "";
+    const selectedDateParam = params.get("date") || "";
+    const selectedSlotParam = params.get("slot") || "";
 
     const [form, setForm] = useState({
         title: "Mr",
@@ -164,6 +166,26 @@ export default function RegisterClientComponent() {
         setForm(prev => ({ ...prev, [name]: value }));
     };
 
+    const buildTestDetails = () => {
+        if (typeof window === "undefined") return [];
+        const stored = localStorage.getItem("cart_items");
+        if (!stored) return [];
+        try {
+            const parsed = JSON.parse(stored);
+            if (!Array.isArray(parsed)) return [];
+            return parsed.map((item: any) => ({
+                ItemName: item.name,
+                ItemID: item.Item_ID || item.id,
+                CategoryID: item.CategoryID || "",
+                SubCategoryID: item.SubCategoryID || "",
+                Amount: Number(item.price) || 0,
+            }));
+        } catch (e) {
+            console.error("Failed to parse cart for TestDetails", e);
+            return [];
+        }
+    };
+
     /* ---------------- SUBMIT ---------------- */
     const handleSubmit = async () => {
         // Validation
@@ -177,65 +199,60 @@ export default function RegisterClientComponent() {
         }
 
         setLoading(true);
-        const payload = {
-            isRegisteredPatient: "0",
-            PatientId: "",
-            Title: form.title,
-            FirstName: form.firstName,
-            PatientLastName: form.lastName,
-            Gender: form.gender,
-            DOB: form.dob,
-            Age: calculateAge(form.dob),
-            MobileNo: form.phoneNumber,
-            Email: form.email,
-            Address: form.address,
-            Country: form.country,
-            CountryID: form.countryId,
-            State: form.state,
-            StateID: form.stateId,
-            District: form.district,
-            DistrictID: form.districtId,
-            City: form.city,
-            CityID: form.cityId,
-            PinCode: form.postalCode,
-            Document: "",
-            TestDetails: []
-        };
 
         try {
-            const res = await fetch("/api/register-patient", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-            const json = await res.json();
-            let parsed = null;
-            try {
-                const outerParsed = JSON.parse(json.raw);
-                if (outerParsed && outerParsed.d) {
-                    parsed = JSON.parse(outerParsed.d);
-                }
-            } catch (e) {
-                console.error("JSON PARSE ERROR", e);
-            }
+            // Save user profile data in session/localStorage (NOT in DB yet)
+            // This data will be sent to GenerateLabTest API after payment
+            const userProfile = {
+                Title: form.title,
+                FirstName: form.firstName,
+                PatientLastName: form.lastName,
+                Gender: form.gender,
+                DOB: form.dob,
+                Age: calculateAge(form.dob),
+                MobileNo: form.phoneNumber,
+                Email: form.email,
+                Address: form.address,
+                Country: form.country,
+                CountryID: form.countryId,
+                State: form.state,
+                StateID: form.stateId,
+                District: form.district,
+                DistrictID: form.districtId,
+                City: form.city,
+                CityID: form.cityId,
+                PinCode: form.postalCode,
+                // Mark as new user (not registered yet)
+                isRegisteredPatient: "0",
+                PatientId: "",
+            };
 
-            if (parsed?.status === "Success") {
-                const requestId = parsed.data?.[0]?.RequestID;
-                const userProfile = { ...form, Age: calculateAge(form.dob), requestId };
-                localStorage.setItem("userProfile", JSON.stringify(userProfile));
-                const userToStore = {
-                    name: `${form.firstName} ${form.lastName}`.trim(),
-                    mobile: form.phoneNumber,
-                    requestId
-                };
-                localStorage.setItem("user", JSON.stringify(userToStore));
-                alert(`Registration successful! Request ID: ${requestId}`);
-                router.replace("/");
+            // Store user profile in localStorage
+            localStorage.setItem("userProfile", JSON.stringify(userProfile));
+
+            // Update user info
+            const userToStore = {
+                name: `${form.firstName} ${form.lastName}`.trim(),
+                mobile: form.phoneNumber,
+            };
+            localStorage.setItem("user", JSON.stringify(userToStore));
+
+            // Check if cart has items
+            const hasCartItems =
+                typeof window !== "undefined" &&
+                !!localStorage.getItem("cart_items") &&
+                JSON.parse(localStorage.getItem("cart_items") || "[]")?.length > 0;
+
+            // Redirect based on cart status
+            if (hasCartItems) {
+                // If cart has items, go to select-date page
+                router.push("/select-date");
             } else {
-                alert(parsed?.message || "Registration failed");
+                // If no cart items, go to investigations page to select tests
+                router.push("/investigations");
             }
         } catch (error) {
-            console.error("REGISTER API ERROR:", error);
+            console.error("SAVE PROFILE ERROR:", error);
             alert("Something went wrong. Please try again.");
         } finally {
             setLoading(false);

@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import logo from "@/public/assets/logo_main.png";
 import { useCart } from "@/app/context/CartContext";
+import { LoginModal } from "./LoginModal";
 
 type UserType = {
   name: string;
@@ -28,6 +29,7 @@ export function Navigation() {
   const [agree, setAgree] = useState(false);
   const [otp, setOtp] = useState<string[]>(Array(4).fill(""));
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -66,12 +68,7 @@ export function Navigation() {
 
   const openLoginModal = () => {
     setIsMenuOpen(false);
-    setIsLoginModalOpen(true);
-    setStep("mobile");
-    setMobile("");
-    setOtp(Array(4).fill(""));
-    setError("");
-    setAgree(false);
+    setShowLoginModal(true);
   };
 
   const closeLoginModal = () => {
@@ -270,9 +267,9 @@ export function Navigation() {
             <div className="hidden md:flex items-center gap-6">
               <a className="nav-link" onClick={() => router.push("/")}>Home</a>
               <a className="nav-link" onClick={() => router.push("/")}>Locate Us</a>
-              <a className="nav-link" onClick={() => router.push("/")}>Facilities</a>
+              {/* <a className="nav-link" onClick={() => router.push("/facilites")}>Facilities</a> */}
               <a className="nav-link" onClick={() => router.push("/investigations")}>Find A Test</a>
-              <a className="nav-link" onClick={() => router.push("/")}>Health Packages</a>
+              <a className="nav-link" onClick={() => router.push("/health-packages")}>Health Packages</a>
               <a className="nav-link" onClick={() => router.push("/about-us")}>About Us</a>
 
               <button
@@ -334,7 +331,7 @@ export function Navigation() {
                 <a>Locate Us</a>
                 <a>Facilities</a>
                 <a onClick={() => router.push("/investigations")}>Find A Test</a>
-                <a>Health Packages</a>
+                <a onClick={() => router.push("/health-packages")}>Health Packages</a>
                 <a>Reach Us</a>
 
                 {user ? (
@@ -373,6 +370,23 @@ export function Navigation() {
           )}
         </div>
 
+        {/* Login Modal - Single instance for both desktop and mobile */}
+        <LoginModal
+          isOpen={showLoginModal}
+          onClose={() => {
+            setShowLoginModal(false);
+            setIsMenuOpen(false);
+          }}
+          onSuccess={() => {
+            setShowLoginModal(false);
+            setIsMenuOpen(false);
+            const storedUser = localStorage.getItem("user");
+            if (storedUser) {
+              setUser(JSON.parse(storedUser));
+            }
+          }}
+        />
+
         <style jsx>{`
           .nav-link {
             color: #374151;
@@ -384,8 +398,8 @@ export function Navigation() {
         `}</style>
       </nav>
 
-      {/* Login Modal */}
-      {isLoginModalOpen && (
+      {/* Old Login Modal - Keeping for backward compatibility but not using */}
+      {false && isLoginModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
           {/* Backdrop */}
           <div

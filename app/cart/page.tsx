@@ -6,14 +6,28 @@ import {Trash2,Info,ArrowLeft,FileText} from "lucide-react";
 import { Navigation } from "../componets/navbar";
 import { Footer } from "../componets/footer";
 import { Hero } from "../componets/hero";
+import { LoginModal } from "../componets/LoginModal";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
     const { items, removeFromCart, cartTotal } = useCart();
-    // const originalTotal = items.reduce(
-    //     (sum, item) => sum + (item.originalPrice || item.price),
-    //     0
-    // );
-    // const savings = originalTotal - cartTotal;
+    const router = useRouter();
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+        // Check if user is logged in
+        const storedUser = localStorage.getItem("user");
+        if (!storedUser) {
+            setShowLoginModal(true);
+        }
+    }, []);
+
+    if (!mounted) {
+        return null;
+    }
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
             <Navigation />
@@ -113,12 +127,19 @@ export default function CartPage() {
                                 </div>
                             </div>
 
-                            <Link
-                                href="/select-date"
-                                className="block bg-orange-600 text-white text-center py-3 rounded-md font-semibold"
+                            <button
+                                onClick={() => {
+                                    const storedUser = localStorage.getItem("user");
+                                    if (!storedUser) {
+                                        setShowLoginModal(true);
+                                    } else {
+                                        router.push("/select-date");
+                                    }
+                                }}
+                                className="w-full bg-orange-600 text-white text-center py-3 rounded-md font-semibold hover:bg-orange-700 transition"
                             >
                                 Proceed to select Date
-                            </Link>
+                            </button>
                         </div>
                     </div>
                 ) : (
@@ -141,6 +162,23 @@ export default function CartPage() {
             </main>
 
             <Footer />
+
+            {/* Login Modal */}
+            <LoginModal
+                isOpen={showLoginModal}
+                onClose={() => {
+                    setShowLoginModal(false);
+                    // If user closes modal without login, redirect to home
+                    const storedUser = localStorage.getItem("user");
+                    if (!storedUser) {
+                        router.push("/");
+                    }
+                }}
+                onSuccess={() => {
+                    setShowLoginModal(false);
+                    // User logged in, can proceed
+                }}
+            />
         </div>
     );
 }

@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GenerateLabTest",
+			"name": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GenerateLabTest",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -22,7 +22,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GenerateLabTest",
+					"raw": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GenerateLabTest",
 					"protocol": "http",
 					"host": [
 						"shbcdc.in"
@@ -151,7 +151,7 @@
 			"response": []
 		},
 		{
-			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetCityList ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&DistrictId=2",
+			"name": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetCityList ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&DistrictId=2",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -163,7 +163,7 @@
 					"raw": "{\r\n  \"SecurityKey\": \"XZY45ZTYLG19045GHTY\",\r\n  \"ClientId\": \"XZY45ZTBNG190489GHTY\",\r\n  \"isRegisteredPatient\": \"1\",\r\n  \"PatientId\": \"P001\",\r\n  \"Title\": \"Mr\",\r\n  \"FirstName\": \"John\",\r\n  \"PatientLastName\": \"Doe\",\r\n  \"Age\": \"30\",\r\n  \"DOB\": \"1995-05-01\",\r\n  \"Gender\": \"Male\",\r\n  \"MobileNo\": \"9876543210\",\r\n  \"Email\": \"john@example.com\",\r\n  \"Address\": \"123 Street\",\r\n  \"Country\": \"India\",\r\n  \"CountryID\": \"91\",\r\n  \"State\": \"MH\",\r\n  \"StateID\": \"27\",\r\n  \"District\": \"Mumbai\",\r\n  \"DistrictID\": \"101\",\r\n  \"City\": \"Mumbai\",\r\n  \"CityID\": \"202\",\r\n  \"PinCode\": \"400001\",\r\n  \"TestDetails\": [\r\n    {\r\n      \"ItemName\": \"Blood Test\",\r\n      \"ItemID\": \"BT001\",\r\n      \"CategoryID\": \"1\",\r\n      \"SubCategoryID\": \"10\",\r\n      \"Amount\": 150.00\r\n    },\r\n    {\r\n      \"ItemName\": \"X-Ray\",\r\n      \"ItemID\": \"XR002\",\r\n      \"CategoryID\": \"2\",\r\n      \"SubCategoryID\": \"20\",\r\n      \"Amount\": 300.00\r\n    }\r\n  ]\r\n}"
 				},
 				"url": {
-					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetCityList ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&DistrictId=2",
+					"raw": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetCityList ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&DistrictId=2",
 					"protocol": "http",
 					"host": [
 						"shbcdc.in"
@@ -194,12 +194,12 @@
 			"response": []
 		},
 		{
-			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetCountryList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
+			"name": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetCountryList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetCountryList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
+					"raw": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetCountryList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
 					"protocol": "http",
 					"host": [
 						"shbcdc.in"
@@ -230,12 +230,12 @@
 			"response": []
 		},
 		{
-			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetDistrictList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&StateId=2",
+			"name": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetDistrictList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&StateId=2",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetDistrictList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&StateId=2",
+					"raw": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetDistrictList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&StateId=2",
 					"protocol": "http",
 					"host": [
 						"shbcdc.in"
@@ -266,12 +266,12 @@
 			"response": []
 		},
 		{
-			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetInvestigation?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY",
+			"name": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetInvestigation?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetInvestigation?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY",
+					"raw": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetInvestigation?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY",
 					"protocol": "http",
 					"host": [
 						"shbcdc.in"
@@ -298,12 +298,12 @@
 			"response": []
 		},
 		{
-			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetOTP ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=8542344234",
+			"name": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetOTP ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=8542344234",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetOTP ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=8542344234",
+					"raw": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetOTP ?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=8542344234",
 					"protocol": "http",
 					"host": [
 						"shbcdc.in"
@@ -334,12 +334,12 @@
 			"response": []
 		},
 		{
-			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetPatient?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9910963572",
+			"name": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetPatient?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9910963572",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetPatient?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9910963572",
+					"raw": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetPatient?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9910963572",
 					"protocol": "http",
 					"host": [
 						"shbcdc.in"
@@ -370,12 +370,12 @@
 			"response": []
 		},
 		{
-			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetStateList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
+			"name": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetStateList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/GetStateList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
+					"raw": "http://shbcdc.in/HIS/API/MobileApplication.asmx/GetStateList?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&CountryID=14",
 					"protocol": "http",
 					"host": [
 						"shbcdc.in"
@@ -406,12 +406,12 @@
 			"response": []
 		},
 		{
-			"name": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/getRequestedStatus?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9876543210&PatientID= ",
+			"name": "http://shbcdc.in/HIS/API/MobileApplication.asmx/getRequestedStatus?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9876543210&PatientID= ",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://shbcdc.in:9765/HIS/API/MobileApplication.asmx/getRequestedStatus?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9876543210&PatientID= ",
+					"raw": "http://shbcdc.in/HIS/API/MobileApplication.asmx/getRequestedStatus?SecurityKey=XZY45ZTYLG19045GHTY&ClientId=XZY45ZTBNG190489GHTY&MobileNo=9876543210&PatientID= ",
 					"protocol": "http",
 					"host": [
 						"shbcdc.in"

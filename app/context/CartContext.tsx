@@ -11,6 +11,9 @@ export type CartItem = {
     testPreparation?: string;
     reportTat?: string;
     Item_ID?: string;
+    CategoryID?: string;
+    SubCategoryID?: string;
+    LabType?: string;
 };
 
 type CartContextType = {
