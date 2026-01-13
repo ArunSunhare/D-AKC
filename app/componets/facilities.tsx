@@ -38,7 +38,7 @@ export function Facilities() {
   const handleFacilityClick = (name: string) => {
     switch (name) {
       case "Pathology Lab":
-        router.push("/facilities/pathology");
+        router.push("/componets/facilites/ct-scan");
         break;
 
       case "CT Scan":
@@ -46,11 +46,11 @@ export function Facilities() {
         break;
 
       case "X-Ray":
-        router.push("/facilities/x-ray");
+        router.push("/componets/facilites/ct-scan");
         break;
 
       case "Ultrasound":
-        router.push("/facilities/ultrasound");
+        router.push("/componets/facilites/ct-scan");
         break;
 
       default:

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { 
-  User, Mail, Phone, Calendar, MapPin, Edit, LogOut, ArrowLeft, X, 
+import {
+  User, Mail, Phone, Calendar, MapPin, Edit, LogOut, ArrowLeft, X,
   FileText, Clock, TestTube, Activity, CheckCircle, XCircle, AlertCircle
 } from "lucide-react";
 import { Navigation } from "@/app/componets/navbar";
@@ -59,7 +59,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    
+
     const storedUser = localStorage.getItem("user");
 
     if (!storedUser) {
@@ -76,14 +76,14 @@ export default function ProfilePage() {
         const res = await fetch(`/api/get-patient?MobileNo=${mobile}`);
 
         const result = await res.json();
-        
+
         if (result?.d) {
           const parsed = JSON.parse(result.d);
-          
+
           if (parsed?.status === "Success" && Array.isArray(parsed.data) && parsed.data.length > 0) {
             // Use first patient as default
             const patient = parsed.data[0];
-            
+
             const profileData = {
               Title: patient.Title?.replace(".", "") || "",
               FirstName: patient.PFirstName || patient.PName?.trim() || "",
@@ -165,12 +165,12 @@ export default function ProfilePage() {
 
   const fetchBookingsFromAPI = async (mobile: string) => {
     if (!mobile) return;
-    
+
     setLoadingBookings(true);
     try {
       const res = await fetch(`/api/get-status?MobileNo=${mobile}`);
       const data = await res.json();
-      
+
       if (data?.status === "Success" && Array.isArray(data.data)) {
         setApiBookings(data.data);
       }
@@ -269,10 +269,14 @@ export default function ProfilePage() {
       source: "api" as const
     }))
   ].sort((a, b) => {
-    const dateA = a.timestamp || a.date || "";
-    const dateB = b.timestamp || b.date || "";
+    const dateA =
+      "timestamp" in a ? a.timestamp ?? "" : a.date ?? "";
+    const dateB =
+      "timestamp" in b ? b.timestamp ?? "" : b.date ?? "";
+
     return dateB.localeCompare(dateA);
   });
+
 
   return (
     <>
@@ -297,14 +301,14 @@ export default function ProfilePage() {
               >
                 <X className="w-5 h-5" />
               </button>
-              
+
               <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
                 <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg">
                   <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-3xl">
                     {getInitial(user.name || user.FirstName || "U")}
                   </div>
                 </div>
-                
+
                 <div className="text-white flex-1">
                   <h1 className="text-3xl font-bold mb-2">
                     {user.Title} {user.FirstName} {user.PatientLastName}
@@ -496,7 +500,7 @@ export default function ProfilePage() {
                                     {formatDate(booking.date)}
                                   </span>
                                 )}
-                                {booking.slot && (
+                                {"slot" in booking && booking.slot && (
                                   <span className="flex items-center gap-1">
                                     <Clock className="w-4 h-4" />
                                     {booking.slot}
@@ -571,15 +575,15 @@ interface FormFieldProps {
   fullWidth?: boolean;
 }
 
-function FormField({ 
-  label, 
-  value, 
-  isEditing, 
-  onChange, 
-  type = 'text', 
-  options, 
+function FormField({
+  label,
+  value,
+  isEditing,
+  onChange,
+  type = 'text',
+  options,
   readOnly = false,
-  fullWidth = false 
+  fullWidth = false
 }: FormFieldProps) {
   return (
     <div className={fullWidth ? "md:col-span-2 lg:col-span-3" : ""}>
