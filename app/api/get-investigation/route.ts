@@ -4,82 +4,80 @@ const baseUrl = "https://shbcdc.in/HIS/API/MobileApplication.asmx";
 const SecurityKey = "XZY45ZTYLG19045GHTY";
 const ClientId = "XZY45ZTBNG190489GHTY";
 
+function decodeHtml(html: string) {
+  return html
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
 export async function GET(req: NextRequest) {
   try {
-    // Get pagination and search params
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "9");
     const search = searchParams.get("search") || "";
 
-    // Fetch all data from external API (external API doesn't support pagination)
     const res = await fetch(
       `${baseUrl}/GetInvestigation?SecurityKey=${SecurityKey}&ClientId=${ClientId}`,
-      {
-        method: "GET",
-        cache: "no-store"
-      }
+      { cache: "no-store" }
     );
 
     if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
+      return NextResponse.json(
+        { status: "Error", message: "External API failed" },
+        { status: 500 }
+      );
     }
 
     const text = await res.text();
 
-    let jsonString = text;
-    // Handle XML wrapped JSON if present
-    if (text.includes("<?xml")) {
-     const match = text.match(/<string[^>]*>([\s\S]*?)<\/string>/);
-
-      if (match && match[1]) {
-        jsonString = match[1];
-      }
+    // ✅ Extract JSON from XML
+    const match = text.match(/<string[^>]*>([\s\S]*?)<\/string>/);
+    if (!match || !match[1]) {
+      throw new Error("Invalid XML response");
     }
 
-    const parsed = JSON.parse(jsonString);
+    // ✅ Decode HTML entities
+    const decodedJson = decodeHtml(match[1]);
+
+    const parsed = JSON.parse(decodedJson);
+
     let allData = parsed.data || [];
 
-    // Apply search filter server-side
+    // ✅ Search filter
     if (search) {
-      const normalize = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, "");
-      const searchNormalized = normalize(search);
+      const normalize = (s: string) =>
+        s.toLowerCase().replace(/[^a-z0-9]/g, "");
 
+      const q = normalize(search);
       allData = allData.filter((item: any) =>
-        normalize(item.ItemName || "").includes(searchNormalized)
+        normalize(item.ItemName || "").includes(q)
       );
     }
 
     const totalItems = allData.length;
     const totalPages = Math.ceil(totalItems / limit);
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    const paginatedData = allData.slice(startIndex, endIndex);
+    const start = (page - 1) * limit;
+    const data = allData.slice(start, start + limit);
 
     return NextResponse.json({
       status: "Success",
-      data: paginatedData,
+      data,
       pagination: {
         currentPage: page,
         totalPages,
         totalItems,
-        itemsPerPage: limit
-      }
+        itemsPerPage: limit,
+      },
     });
-
   } catch (error: any) {
-    console.error(" GetInvestigation ERROR:", error);
     return NextResponse.json(
       {
-        Status: "Error",
-        Message: error.message || "Failed to fetch investigations",
-        Data: [],
-        pagination: {
-          currentPage: 1,
-          totalPages: 0,
-          totalItems: 0,
-          itemsPerPage: 9
-        }
+        status: "Error",
+        message: error.message || "Failed to fetch investigations",
+        data: [],
       },
       { status: 500 }
     );
