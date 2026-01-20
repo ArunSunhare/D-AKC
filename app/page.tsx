@@ -9,6 +9,7 @@ import { WhyChooseUs } from "./componets/WhyChooseUs";
 import { Testimonials } from "./componets/Testimonials";
 import { Footer } from "./componets/footer";
 import Header from     "./componets/header"
+import { DR_Qualification } from "./componets/dr_qualification";
 export default function App() {
   return (
     <div className="min-h-screen bg-white">
@@ -17,6 +18,7 @@ export default function App() {
       <Header />
       {/* <Hero /> */}
       <ExploreMore />
+      <DR_Qualification />
       <PopularTests />
       <HealthPackages />
       <Facilities />

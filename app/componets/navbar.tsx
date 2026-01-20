@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import logo from "@/public/assets/logo_main.png";
 import { useCart } from "@/app/context/CartContext";
 import { LoginModal } from "./LoginModal";
+import { Search_Bar } from "./search_bar";
 
 type UserType = {
   name: string;
@@ -264,57 +265,43 @@ export function Navigation() {
               />
             </a>
 
-            <div className="hidden md:flex items-center gap-6">
+
+            <div className="hidden md:flex items-center gap-6 transition-all duration-300 ease-in-out">
+              <Search_Bar />
               <a className="nav-link" onClick={() => router.push("/")}>Home</a>
               <a className="nav-link" onClick={() => router.push("/")}>Locate Us</a>
-              {/* <a className="nav-link" onClick={() => router.push("/facilites")}>Facilities</a> */}
               <a className="nav-link" onClick={() => router.push("/investigations")}>Find A Test</a>
               <a className="nav-link" onClick={() => router.push("/health-packages")}>Health Packages</a>
               <a className="nav-link" onClick={() => router.push("/about-us")}>About Us</a>
 
-              <button
-                onClick={openCart}
-                className="relative p-2 text-gray-600 hover:text-orange-600 transition"
-              >
-                <ShoppingCart className="w-6 h-6" />
-                {items.length > 0 && (
-                  <span className="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                    {items.length}
-                  </span>
-                )}
+              <button onClick={openCart} className="relative p-2">
+                <ShoppingCart className="w-6 h-6 text-black hover:text-orange-600 transition" />
+
               </button>
+
               {user ? (
                 <div className="flex items-center gap-3">
-                  <button
-                    onClick={goToProfile}
-                    className="flex items-center gap-2 hover:opacity-80 transition"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                  <button onClick={goToProfile} className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded-full bg-linear-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold">
                       {getInitial(user.name)}
                     </div>
-                    <span className="text-gray-700 font-medium">
-                      {user.name}
-                    </span>
+                    <span>{user.name}</span>
                   </button>
-
-                  <button
-                    onClick={logout}
-                    className="flex items-center gap-1 text-sm text-red-600 hover:underline"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    Logout
-                  </button>
+                  <button onClick={logout} className="text-red-600 text-sm">Logout</button>
                 </div>
               ) : (
-                <button
-                  onClick={openLoginModal}
-                  className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600"
-                >
-                  <User className="w-5 h-5" />
+                <button onClick={openLoginModal} className="bg-orange-500 text-white px-4 py-2 rounded-lg">
                   Login / Sign Up
                 </button>
               )}
             </div>
+
+            {/* Mobile Search Bar (always visible on mobile) */}
+            <div className="md:hidden px-4 pb-3">
+              <Search_Bar />
+            </div>
+
+
 
             <button
               className="md:hidden p-2 text-gray-600"
@@ -340,7 +327,7 @@ export function Navigation() {
                       onClick={goToProfile}
                       className="flex items-center gap-3 mb-3"
                     >
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                      <div className="w-10 h-10 rounded-full bg-linear-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
                         {getInitial(user.name)}
                       </div>
                       <span className="font-medium text-gray-800">
@@ -400,7 +387,7 @@ export function Navigation() {
 
       {/* Old Login Modal - Keeping for backward compatibility but not using */}
       {false && isLoginModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-100 flex items-center justify-center px-4">
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/60"

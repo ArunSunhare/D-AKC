@@ -11,7 +11,7 @@ const exploreItems = [
     color: "text-orange-600",
     bgColor: "bg-orange-100",
     accent: "orange",
-    router: "/health-packages", 
+    router: "/health-packages",
   },
   {
     icon: Search,
@@ -20,7 +20,7 @@ const exploreItems = [
     color: "text-orange-600",
     bgColor: "bg-orange-100",
     accent: "orange",
-    router: "/investigations", 
+    router: "/investigations",
   },
   {
     icon: Home,
@@ -29,7 +29,7 @@ const exploreItems = [
     color: "text-orange-600",
     bgColor: "bg-orange-100",
     accent: "blue",
-    router: "/others", 
+    router: "/others",
   },
 ];
 
@@ -37,12 +37,21 @@ export function ExploreMore() {
   const router = useRouter();
 
   return (
-    <section className=" py-16 bg-white text-center">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <h2 className="text-gray-900 mb-8 text-2xl font-semibold">
-          Explore More
-        </h2>
+    <section className=" py-5 bg-white text-center">
+      <div className="max-w-7xl mx-auto mb-5 px-4 sm:px-6 lg:px-8">
+
+        <div>
+          <h2 className="inline-flex flex-col text-gray-900 text-2xl font-semibold mb-5">
+            Explore More
+            <span className="w-20 h-1 bg-orange-600 mt-2"></span>
+          </h2>
+
+
+
+        </div>
+
+
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center place-items-center">
           {exploreItems.map((item, index) => {
@@ -50,14 +59,14 @@ export function ExploreMore() {
             return (
               <div
                 key={index}
-                onClick={() => item.router && router.push(item.router)} 
+                onClick={() => item.router && router.push(item.router)}
                 className={`group relative border-2 rounded-xl p-8 
                            transition-all duration-300 cursor-pointer bg-white 
                            w-full max-w-xs shadow-sm hover:shadow-xl
                            ${item.accent === "orange"
-                             ? "border-orange-300 hover:border-orange-400 hover:ring-4 hover:ring-orange-100"
-                             : "border-orange-300 hover:border-orange-400 hover:ring-4 hover:ring-blue-100"
-                           }
+                    ? "border-orange-300 hover:border-orange-400 hover:ring-4 hover:ring-orange-100"
+                    : "border-orange-300 hover:border-orange-400 hover:ring-4 hover:ring-blue-100"
+                  }
                            hover:-translate-y-1`}
               >
                 <div className="flex items-center justify-center mb-5">
@@ -83,5 +92,6 @@ export function ExploreMore() {
 
       </div>
     </section>
+
   );
 }
