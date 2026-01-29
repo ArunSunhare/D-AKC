@@ -34,11 +34,11 @@ const features = [
 
 export function WhyChooseUs() {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-gray-900 mb-2">
-            Why  <span className="text-orange-600 font-semibold">Choose Us</span>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Why  Choose Us
 
 
 
@@ -46,21 +46,21 @@ export function WhyChooseUs() {
           <div className="w-24 h-1 bg-orange-600 mx-auto" />
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-4 gap-2 md:gap-4 lg:gap-8">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
               <div
                 key={index}
-                className="bg-white rounded-lg p-8 text-center hover:shadow-lg transition-shadow border border-gray-100"
+                className="bg-white rounded-lg p-2 md:p-4 lg:p-8 text-center hover:shadow-lg transition-shadow border border-gray-100"
               >
-                <div className={`inline-flex items-center justify-center w-20 h-20 ${feature.iconBg} rounded-lg mb-6`}>
-                  <Icon className={`w-10 h-10 ${feature.iconColor}`} />
+                <div className={`inline-flex items-center justify-center w-8 h-8 md:w-12 md:h-12 lg:w-20 lg:h-20 ${feature.iconBg} rounded-lg mb-2 md:mb-4 lg:mb-6`}>
+                  <Icon className={`w-4 h-4 md:w-6 md:h-6 lg:w-10 lg:h-10 ${feature.iconColor}`} />
                 </div>
-                <h3 className="text-gray-900 mb-3">
+                <h3 className="text-gray-900 mb-1 md:mb-2 lg:mb-3 text-xs md:text-sm lg:text-base">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 text-xs md:text-xs lg:text-sm line-clamp-2">
                   {feature.description}
                 </p>
               </div>

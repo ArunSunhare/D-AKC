@@ -46,30 +46,38 @@ export function Footer() {
               {/* Social Icons */}
               <div className="flex items-center gap-4 pt-2">
                 <a
-                  href="#"
+                  href="https://www.facebook.com/share/1EWkwyum58/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="facebook"
-                  className="w-11 h-11 flex items-center justify-center rounded-full bg-blue-600 text-white shadow"
+                  className="w-11 h-11 flex items-center justify-center rounded-full bg-blue-600 text-white shadow hover:bg-blue-700 transition-colors"
                 >
                   <Facebook className="w-5 h-5" />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/shb-mdh-cancer-multispeciality-charitable-hospital-742933361?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="linkedin"
-                  className="w-11 h-11 flex items-center justify-center rounded-full bg-blue-600 text-white shadow"
+                  className="w-11 h-11 flex items-center justify-center rounded-full bg-blue-600 text-white shadow hover:bg-blue-700 transition-colors"
                 >
                   <Linkedin className="w-5 h-5" />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.youtube.com/channel/UCo8lav-ndM3QRULU716zORA"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="youtube"
-                  className="w-11 h-11 flex items-center justify-center rounded-full bg-blue-600 text-white shadow"
+                  className="w-11 h-11 flex items-center justify-center rounded-full bg-red-600 text-white shadow hover:bg-red-700 transition-colors"
                 >
                   <Youtube className="w-5 h-5" />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.instagram.com/shb_mdhcancerhospital?utm_source=qr&igsh=b2t5MmdhMjJiOWs="
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="instagram"
-                  className="w-11 h-11 flex items-center justify-center rounded-full bg-blue-600 text-white shadow"
+                  className="w-11 h-11 flex items-center justify-center rounded-full bg-pink-600 text-white shadow hover:bg-pink-700 transition-colors"
                 >
                   <Instagram className="w-5 h-5" />
                 </a>
@@ -95,8 +103,13 @@ export function Footer() {
                 <li className="flex items-start gap-3">
                   <Phone className="w-5 h-5 text-blue-400 flex-shrink-0 mt-1" />
                   <div>
-                    <p>+91-7827945650</p>
-                    <p>+91-7827945651</p>
+                    <a href="tel:+917827945650" className="hover:text-white">
+                      +91-7827945650
+                    </a>
+                    <br />
+                    <a href="tel:+917827945651" className="hover:text-white">
+                      +91-7827945651
+                    </a>
                   </div>
                 </li>
 

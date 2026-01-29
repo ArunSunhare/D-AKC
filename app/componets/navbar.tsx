@@ -296,65 +296,86 @@ export function Navigation() {
               )}
             </div>
 
-            {/* Mobile Search Bar (always visible on mobile) */}
-            <div className="md:hidden px-4 pb-3">
-              <Search_Bar />
-            </div>
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden p-2 text-gray-600 hover:text-orange-600 transition-colors duration-200"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
 
+        {/* Mobile menu with smooth slide animation */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="py-4 border-t border-gray-200">
+            <div className="flex flex-col gap-3">
+              <a 
+                href="/" 
+                className="text-gray-700 hover:text-orange-600 px-3 py-2 rounded-lg hover:bg-orange-50 transition-all duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </a>
+              <a className="text-gray-700 hover:text-orange-600 px-3 py-2 rounded-lg hover:bg-orange-50 transition-all duration-200">
+                Locate Us
+              </a>
+              <a className="text-gray-700 hover:text-orange-600 px-3 py-2 rounded-lg hover:bg-orange-50 transition-all duration-200">
+                Facilities
+              </a>
+              <a 
+                onClick={() => { router.push("/investigations"); setIsMenuOpen(false); }}
+                className="text-gray-700 hover:text-orange-600 px-3 py-2 rounded-lg hover:bg-orange-50 transition-all duration-200 cursor-pointer"
+              >
+                Find A Test
+              </a>
+              <a 
+                onClick={() => { router.push("/health-packages"); setIsMenuOpen(false); }}
+                className="text-gray-700 hover:text-orange-600 px-3 py-2 rounded-lg hover:bg-orange-50 transition-all duration-200 cursor-pointer"
+              >
+                Health Packages
+              </a>
+              <a className="text-gray-700 hover:text-orange-600 px-3 py-2 rounded-lg hover:bg-orange-50 transition-all duration-200">
+                Reach Us
+              </a>
 
-
-            <button
-              className="md:hidden p-2 text-gray-600"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X /> : <Menu />}
-            </button>
-          </div>
-
-          {isMenuOpen && (
-            <div className="md:hidden py-4 border-t">
-              <div className="flex text-black flex-col gap-4">
-                <a>Home</a>
-                <a>Locate Us</a>
-                <a>Facilities</a>
-                <a onClick={() => router.push("/investigations")}>Find A Test</a>
-                <a onClick={() => router.push("/health-packages")}>Health Packages</a>
-                <a>Reach Us</a>
-
-                {user ? (
-                  <div className="border-t pt-3">
-                    <button
-                      onClick={goToProfile}
-                      className="flex items-center gap-3 mb-3"
-                    >
-                      <div className="w-10 h-10 rounded-full bg-linear-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
-                        {getInitial(user.name)}
-                      </div>
-                      <span className="font-medium text-gray-800">
-                        {user.name}
-                      </span>
-                    </button>
-
-                    <button
-                      onClick={logout}
-                      className="flex items-center gap-2 text-red-600"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      Logout
-                    </button>
-                  </div>
-                ) : (
+              {user ? (
+                <div className="border-t border-gray-200 pt-3 mt-2">
                   <button
-                    onClick={openLoginModal}
-                    className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg mt-2"
+                    onClick={goToProfile}
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-orange-50 transition-all duration-200 w-full"
                   >
-                    <User className="w-5 h-5" />
-                    Login / Sign Up
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                      {getInitial(user.name)}
+                    </div>
+                    <span className="font-medium text-gray-800">
+                      {user.name}
+                    </span>
                   </button>
-                )}
-              </div>
+
+                  <button
+                    onClick={logout}
+                    className="flex items-center gap-2 text-red-600 px-3 py-2 rounded-lg hover:bg-red-50 transition-all duration-200 mt-1"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={openLoginModal}
+                  className="flex items-center gap-2 bg-orange-500 text-white px-4 py-3 rounded-lg hover:bg-orange-600 transition-colors duration-200 mt-2"
+                >
+                  <User className="w-5 h-5" />
+                  Login / Sign Up
+                </button>
+              )}
             </div>
-          )}
+          </div>
+        </div>
         </div>
 
         {/* Login Modal - Single instance for both desktop and mobile */}

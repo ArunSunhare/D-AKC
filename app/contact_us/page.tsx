@@ -94,6 +94,7 @@ export default function ContactUs() {
           {/* Contact Form */}
           <div>
             <h2 className="text-3xl font-bold mb-2">Get In Touch</h2>
+            <div className="w-20 h-1 bg-red-600 mb-8"></div>
             <p className="text-gray-600 mb-8">
               Fill out the form below and we will get back to you as soon as possible
             </p>
@@ -201,6 +202,7 @@ export default function ContactUs() {
           <div className="space-y-8">
             <div>
               <h2 className="text-3xl font-bold mb-2">Find Us Here</h2>
+              <div className="w-20 h-1 bg-red-600 mb-6"></div>
               <p className="text-gray-600 mb-6">
                 Visit our diagnostic centre for quality healthcare services
               </p>
@@ -253,7 +255,8 @@ export default function ContactUs() {
       {/* FAQ Section */}
       <div className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-bold text-center mb-2">Frequently Asked Questions</h2>
+          <div className="w-20 h-1 bg-red-600 mx-auto mb-12"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white p-6 rounded-lg shadow">
               <h3 className="font-semibold mb-2">What are your operating hours?</h3>

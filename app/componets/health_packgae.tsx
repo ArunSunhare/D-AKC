@@ -87,7 +87,7 @@ export function HealthPackages() {
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             Popular Health Packages
           </h2>
-          <div className="w-20 h-1 bg-orange-600 mb-8"></div>
+          <div className="w-20 h-1 bg-red-600 mb-8"></div>
           <div className="h-[420px] flex items-center justify-center">
             <div className="animate-spin rounded-full h-10 w-10 border-b-4 border-orange-500"></div>
           </div>
@@ -107,7 +107,7 @@ export function HealthPackages() {
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
           Popular Health Packages
         </h2>
-        <div className="w-20 h-1 bg-orange-600 mb-8"></div>
+        <div className="w-20 h-1 bg-red-600 mb-8"></div>
 
         {/* Slider */}
         <div className="relative">

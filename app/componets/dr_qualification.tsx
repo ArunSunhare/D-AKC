@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-// If you are using standard React without Next.js, use <img /> instead of <Image />
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image"; 
 
 export function DR_Qualification() {
@@ -30,54 +30,131 @@ export function DR_Qualification() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % doctors.length);
-    }, 2000); // Slides every 2 seconds
+    }, 3000); // Slides every 3 seconds
 
     return () => clearInterval(interval);
   }, [doctors.length]);
+
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + doctors.length) % doctors.length);
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % doctors.length);
+  };
 
   const currentDoctor = doctors[currentIndex];
 
   return (
     <>
-      <section className="flex flex-col items-center justify-center py-10 min-h-[400px]">
-        {/* Card Container */}
-        <div className="w-full max-w-lg bg-gray-50 rounded-2xl shadow-xl p-8 flex flex-col items-center transition-all duration-300">
-          
-          {/* Circular Image */}
-          <div className="relative w-40 h-40 mb-6">
-            <Image
-              src={currentDoctor.img}
-              alt={currentDoctor.name}
-              fill
-              className="rounded-full object-cover border-4 border-blue-500 shadow-md"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-2">
+              Our Expert Doctors
+            </h2>
+            <div className="w-20 h-1 bg-red-600 mx-auto mb-4"></div>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Meet our team of highly qualified and experienced medical professionals
+            </p>
           </div>
 
-          {/* Text Content */}
-          <h1 className="text-2xl font-bold text-gray-800 text-center mb-2">
-            {currentDoctor.name}
-          </h1>
-          
-          <span className="bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full mb-4">
-            {currentDoctor.specialty}
-          </span>
-          
-          <p className="text-gray-600 text-center text-sm leading-relaxed">
-            {currentDoctor.qual}
-          </p>
-        </div>
+          {/* Main Slider Container */}
+          <div className="relative max-w-4xl mx-auto">
+            <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                {/* Doctor Image - Circular */}
+                <div className="flex justify-center">
+                  <div className="relative w-64 h-64 md:w-80 md:h-80">
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-600 rounded-full opacity-20 blur-xl"></div>
+                    <Image
+                      src={currentDoctor.img}
+                      alt={currentDoctor.name}
+                      fill
+                      className="rounded-full object-cover border-6 border-white shadow-2xl relative z-10"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    {/* Decorative Ring */}
+                    <div className="absolute inset-0 rounded-full border-4 border-orange-200 opacity-50 z-0"></div>
+                  </div>
+                </div>
 
-        {/* Optional Progress Dots */}
-        <div className="flex gap-2 mt-6">
-          {doctors.map((_, idx) => (
-            <div
-              key={idx}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                idx === currentIndex ? "w-6 bg-blue-600" : "w-2 bg-gray-300"
-              }`}
-            />
-          ))}
+                {/* Doctor Information */}
+                <div className="text-center lg:text-left">
+                  <h3 className="text-3xl font-bold text-gray-900 mb-3">
+                    {currentDoctor.name}
+                  </h3>
+                  
+                  <div className="inline-block bg-gradient-to-r from-orange-500 to-red-600 text-white text-lg font-semibold px-4 py-2 rounded-full mb-4">
+                    {currentDoctor.specialty}
+                  </div>
+                  
+                  <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                    {currentDoctor.qual}
+                  </p>
+
+                  {/* Navigation Buttons */}
+                  <div className="flex justify-center lg:justify-start gap-4">
+                    <button
+                      onClick={goToPrevious}
+                      className="w-12 h-12 bg-gray-100 hover:bg-orange-100 rounded-full flex items-center justify-center transition-colors group"
+                    >
+                      <ChevronLeft className="w-6 h-6 text-gray-600 group-hover:text-orange-600 transition-colors" />
+                    </button>
+                    <button
+                      onClick={goToNext}
+                      className="w-12 h-12 bg-gray-100 hover:bg-orange-100 rounded-full flex items-center justify-center transition-colors group"
+                    >
+                      <ChevronRight className="w-6 h-6 text-gray-600 group-hover:text-orange-600 transition-colors" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation Dots */}
+            <div className="flex justify-center gap-2 mt-8">
+              {doctors.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`h-3 rounded-full transition-all duration-300 ${
+                    idx === currentIndex 
+                      ? "w-8 bg-gradient-to-r from-orange-500 to-red-600" 
+                      : "w-3 bg-gray-300 hover:bg-gray-400"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Additional Info Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+            <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-blue-600">18+</span>
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Expert Doctors</h4>
+              <p className="text-gray-600 text-sm">Highly qualified medical professionals</p>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-green-600">15+</span>
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Specialties</h4>
+              <p className="text-gray-600 text-sm">Comprehensive medical specialties</p>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-purple-600">24/7</span>
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Available</h4>
+              <p className="text-gray-600 text-sm">Round-the-clock medical care</p>
+            </div>
+          </div>
         </div>
       </section>
     </>

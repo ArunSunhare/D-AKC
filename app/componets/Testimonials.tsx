@@ -7,20 +7,38 @@ const testimonials = [
   {
     name: "Rajesh Kumar, 45",
     location: "Delhi",
-    //image: "https://images.unsplash.com/photo-1762838105891-81bdd36ec44a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBzZW5pb3IlMjBtYW58ZW58MXx8fHwxNzY1MzY3ODE3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    feedback: "Reports provided in a very impeccable and focussed manner. Really appreciate this tremendous value from the diagnostic centre. The staff is very professional and the reports are always on time. Highly recommended!"
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBtYW4lMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzY1MzY3ODE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    feedback: "Outstanding CT scan experience! The radiologist explained everything clearly and the report was delivered within 24 hours. The staff was extremely professional and the equipment is top-notch. Highly recommend for all diagnostic needs!"
   },
   {
     name: "Priya Sharma, 38",
     location: "Mumbai",
-   // image: "https://images.unsplash.com/photo-1624077292049-3ff1417810de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB3b21hbiUyMHBvcnRyYWl0fGVufDF8fHx8MTc2NTI4NTA0NHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    feedback: "Excellent service! The home collection facility is so convenient and the technicians are very courteous. The reports are detailed and easy to understand. Thank you for making healthcare accessible!"
+    image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB3b21hbiUyMHByb2Zlc3Npb25hbHxlbnwxfHx8MTc2NTM2NzgxN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+    feedback: "The home collection facility is a blessing! As a working mother, I really appreciate their punctual sample collection service. The pathologist was very gentle with my elderly mother. Reports are always accurate and delivered on time."
   },
   {
-    name: "Kamlesh Asani, 52",
+    name: "Dr. Amit Verma, 52",
     location: "Lucknow",
-   // image: "https://images.unsplash.com/photo-1758691463626-0ab959babe00?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdCUyMHBhdGllbnR8ZW58MXx8fHwxNzY1MzY3ODE2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    feedback: "Reports provided in a very impeccable and focussed manner. Really appreciate this tremendous value add from the diagnostic centre. Really appreciate this tremendous value add wishing your team all the very best in this extremely noble service!"
+    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBtYW4lMjBkb2N0b3J8ZW58MXx8fHwxNzY1MzY3ODE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    feedback: "As a physician, I trust Hanuman Diagnostic Centre for my patients. Their pathology reports are highly accurate and the radiology team is exceptional. The ultrasound reports are detailed with proper clinical correlation. Excellent diagnostic facility!"
+  },
+  {
+    name: "Sunita Reddy, 35",
+    location: "Bangalore",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB3b21hbiUyMHNtaWxpbmd8ZW58MXx8fHwxNzY1MzY3ODE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    feedback: "Amazing experience with their health packages! Got comprehensive tests done at reasonable rates. The X-ray and blood tests were handled efficiently. The online report access is so convenient. Best diagnostic centre in our area!"
+  },
+  {
+    name: "Mahesh Gupta, 58",
+    location: "Jaipur",
+    image: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBtYW4lMjBzZW5pb3IlMjBzbWlsaW5nfGVufDF8fHx8MTc2NTM2NzgxN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+    feedback: "The nuclear medicine department is world-class. Dr. Saurabh Suman and his team handled my case with utmost care. The PET scan was done smoothly and reports were very detailed. Thank you for your excellent service!"
+  },
+  {
+    name: "Anjali Patel, 42",
+    location: "Ahmedabad",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB3b21hbiUyMGJ1c2luZXNzfGVufDF8fHx8MTc2NTM2NzgxN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+    feedback: "Exceptional gynecology services! Dr. Santosh Kumari is very experienced and caring. The ultrasound was comfortable and the reports were comprehensive. The staff maintains proper hygiene and follows all protocols. Very satisfied!"
   }
 ];
 
@@ -39,8 +57,8 @@ export function Testimonials() {
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-gray-900 mb-2">
-            Customer <span className="text-orange-600">Testimonials</span>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            CustomerTestimonials
           </h2>
           <div className="w-24 h-1 bg-orange-600 mx-auto" />
         </div>
@@ -50,7 +68,7 @@ export function Testimonials() {
             <div className="flex flex-col items-center text-center">
               <div className="w-24 h-24 rounded-full overflow-hidden mb-6 border-4 border-orange-600">
                 <ImageWithFallback
-                //   src={testimonials[currentIndex].image}
+                  src={testimonials[currentIndex].image}
                   alt={testimonials[currentIndex].name}
                   className="w-full h-full object-cover"
                 />
