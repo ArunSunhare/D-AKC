@@ -4,6 +4,9 @@ import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import { Navigation } from "@/app/componets/navbar";
 import { Footer } from "@/app/componets/footer";
 import { useState } from "react";
+import { MainNavbar } from "../componets/MainNavbar";
+import { TopNavbar } from "../componets/TopNavbar";
+import { TopHeader } from "../componets/top_header";
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -31,7 +34,9 @@ export default function ContactUs() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
+      <TopHeader />
+            <TopNavbar />
+            <MainNavbar />
       
       {/* Hero Section */}
       <div className="bg-gradient-to-r   text-white py-20">

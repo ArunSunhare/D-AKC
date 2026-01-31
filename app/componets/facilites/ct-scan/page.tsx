@@ -4,6 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { Navigation } from "@/app/componets/navbar";
 import { Footer } from "@/app/componets/footer";
+import { MainNavbar } from "../../MainNavbar";
+import { TopNavbar } from "../../TopNavbar";
+import { TopHeader } from "../../top_header";
 
 const ctScanImages = [
   { src: "/assets/diagnostics/CT.jpg", title: "Philips CT Scanner" },
@@ -21,7 +24,9 @@ export default function CTScanPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
+      <TopHeader/>
+            <TopNavbar />
+            <MainNavbar />
 
       <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-40">

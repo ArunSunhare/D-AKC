@@ -8,6 +8,9 @@ import {
 } from "lucide-react";
 import { Navigation } from "@/app/componets/navbar";
 import { Footer } from "@/app/componets/footer";
+import { MainNavbar } from "../componets/MainNavbar";
+import { TopNavbar } from "../componets/TopNavbar";
+import { TopHeader } from "../componets/top_header";
 
 interface UserProfile {
   name?: string;
@@ -280,7 +283,9 @@ export default function ProfilePage() {
 
   return (
     <>
-      <Navigation />
+    <TopHeader />
+          <TopNavbar />
+          <MainNavbar />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 py-6 px-4">
         <div className="max-w-6xl mx-auto">
           {/* Back Button */}

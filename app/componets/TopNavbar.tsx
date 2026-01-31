@@ -29,6 +29,13 @@ export function TopNavbar() {
 
   const getInitial = (name: string) => name.charAt(0).toUpperCase();
 
+  const getDisplayName = (name: string) => {
+    const trimmed = name.trim();
+    if (!trimmed) return "";
+    const first = trimmed.split(/\s+/)[0];
+    return first || trimmed;
+  };
+
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);
@@ -39,7 +46,7 @@ export function TopNavbar() {
     <>
       {/* Main Navbar */}
       <div className="bg-white border-b sticky top-0 z-50 w-full overflow-x-hidden">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-1 sm:gap-4">
+        <div className="w-full px-3 sm:px-4 lg:px-10 h-16 flex items-center justify-between gap-1 sm:gap-4">
           
           {/* Logo */}
           <a href="/" className="flex-shrink-0">
@@ -92,6 +99,13 @@ export function TopNavbar() {
                   {getInitial(user.name)}
                 </button>
                 <button
+                  onClick={() => router.push("/patient_profile")}
+                  className="hidden sm:block text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors max-w-[160px] truncate"
+                  title={user.name}
+                >
+                  {getDisplayName(user.name)}
+                </button>
+                <button
                   onClick={logout}
                   className="text-sm text-red-600 hover:underline hidden md:block"
                 >
@@ -112,7 +126,7 @@ export function TopNavbar() {
 
       {/* Mobile Search Navbar */}
       <div className="sm:hidden bg-white border-b sticky top-16 z-40 w-full">
-        <div className="px-4 py-3">
+        <div className="px-3 py-3">
           <Search_Bar />
         </div>
       </div>

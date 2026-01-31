@@ -2,11 +2,16 @@
 import { Navigation } from "@/app/componets/navbar";
 import { Footer } from "@/app/componets/footer";
 import { FileText, Shield, AlertCircle, CheckCircle } from "lucide-react";
+import { MainNavbar } from "../componets/MainNavbar";
+import { TopNavbar } from "../componets/TopNavbar";
+import { TopHeader } from "../componets/top_header";
 
 export default function TermsConditions() {
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
+      <TopHeader />
+            <TopNavbar />
+            <MainNavbar />
       
       {/* Hero Section */}
       {/* <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-20">

@@ -4,11 +4,16 @@
 import { Navigation } from "@/app/componets/navbar";
 import { Footer } from "@/app/componets/footer";
 import { Shield, Lock, Eye, Database, UserCheck, Bell } from "lucide-react";
+import { MainNavbar } from "../componets/MainNavbar";
+import { TopNavbar } from "../componets/TopNavbar";
+import { TopHeader } from "../componets/top_header";
 
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
+      <TopHeader />
+            <TopNavbar />
+            <MainNavbar />
       
       {/* Hero Section */}
       {/* <div className="bg-gradient-to-r from-orange-600 to-orange-700 text-white py-2"> */}

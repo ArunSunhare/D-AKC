@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
+/* ---------------- CONFIG ---------------- */
+
 const baseUrl = "https://shbcdc.in/HIS/API/MobileApplication.asmx";
 const SecurityKey = "XZY45ZTYLG19045GHTY";
 const ClientId = "XZY45ZTBNG190489GHTY";
+
+/* ---------------- UTILS ---------------- */
 
 function decodeHtml(html: string) {
   return html
@@ -12,70 +16,73 @@ function decodeHtml(html: string) {
     .replace(/&gt;/g, ">");
 }
 
+/* ---------------- IN-MEMORY CACHE ---------------- */
+/* (Best possible optimization without Redis) */
+
+let CACHE_DATA: any[] | null = null;
+let CACHE_TIME = 0;
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+/* ---------------- API HANDLER ---------------- */
+
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "9");
-    const search = searchParams.get("search") || "";
+    const now = Date.now();
 
-    const res = await fetch(
-      `${baseUrl}/GetInvestigation?SecurityKey=${SecurityKey}&ClientId=${ClientId}`,
-      { cache: "no-store" }
+    /* ✅ Serve from cache if valid */
+    if (CACHE_DATA && now - CACHE_TIME < CACHE_TTL) {
+      return NextResponse.json({
+        success: true,
+        source: "cache",
+        data: {
+          data: CACHE_DATA.slice(0, 5), // only what UI needs
+        },
+      });
+    }
+
+    /* 🔴 External SOAP API call (slow part) */
+    const response = await fetch(
+      `${baseUrl}/GetInvestigation?SecurityKey=${SecurityKey}&ClientId=${ClientId}`
     );
 
-    if (!res.ok) {
-      return NextResponse.json(
-        { status: "Error", message: "External API failed" },
-        { status: 500 }
-      );
+    if (!response.ok) {
+      throw new Error("External API failed");
     }
 
-    const text = await res.text();
+    /* 🔴 SOAP XML → TEXT */
+    const xmlText = await response.text();
 
-    // ✅ Extract JSON from XML
-    const match = text.match(/<string[^>]*>([\s\S]*?)<\/string>/);
+    /* 🔴 Extract JSON string from XML */
+    const match = xmlText.match(/<string[^>]*>([\s\S]*?)<\/string>/);
     if (!match || !match[1]) {
-      throw new Error("Invalid XML response");
+      throw new Error("Invalid SOAP response");
     }
 
-    // ✅ Decode HTML entities
+    /* 🔴 Decode HTML entities */
     const decodedJson = decodeHtml(match[1]);
 
+    /* 🔴 Parse JSON */
     const parsed = JSON.parse(decodedJson);
 
-    let allData = parsed.data || [];
+    const allData = Array.isArray(parsed?.data) ? parsed.data : [];
 
-    // ✅ Search filter
-    if (search) {
-      const normalize = (s: string) =>
-        s.toLowerCase().replace(/[^a-z0-9]/g, "");
+    /* ✅ Store FULL data in cache ONCE */
+    CACHE_DATA = allData;
+    CACHE_TIME = now;
 
-      const q = normalize(search);
-      allData = allData.filter((item: any) =>
-        normalize(item.ItemName || "").includes(q)
-      );
-    }
-
-    const totalItems = allData.length;
-    const totalPages = Math.ceil(totalItems / limit);
-    const start = (page - 1) * limit;
-    const data = allData.slice(start, start + limit);
-
+    /* ✅ Return minimal payload */
     return NextResponse.json({
-      status: "Success",
-      data,
-      pagination: {
-        currentPage: page,
-        totalPages,
-        totalItems,
-        itemsPerPage: limit,
+      success: true,
+      source: "fresh",
+      data: {
+        data: allData.slice(0, 5),
       },
     });
+
   } catch (error: any) {
     return NextResponse.json(
       {
-        status: "Error",
+        success: false,
         message: error.message || "Failed to fetch investigations",
         data: [],
       },

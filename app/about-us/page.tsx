@@ -3,11 +3,16 @@
 import Image from "next/image";
 import { Navigation } from "../componets/navbar";
 import { Footer } from "../componets/footer";
+import { TopHeader } from "../componets/top_header";
+import { TopNavbar } from "../componets/TopNavbar";
+import { MainNavbar } from "../componets/MainNavbar";
 
 export default function AboutUsPage() {
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
+      <TopHeader />
+      <TopNavbar />
+      <MainNavbar />
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16 overflow-hidden">

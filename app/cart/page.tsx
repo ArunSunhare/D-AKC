@@ -9,6 +9,9 @@ import { Hero } from "../componets/hero";
 import { LoginModal } from "../componets/LoginModal";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { TopHeader } from "../componets/top_header";
+import { TopNavbar } from "../componets/TopNavbar";
+import { MainNavbar } from "../componets/MainNavbar";
 
 export default function CartPage() {
     const { items, removeFromCart, cartTotal } = useCart();
@@ -30,9 +33,11 @@ export default function CartPage() {
     }
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
-            <Navigation />
+            <TopHeader />
+                  <TopNavbar />
+                  <MainNavbar />
             <Hero />
-            <main className="flex-grow max-w-9xl mx-auto px-4 py-8">
+            <main className="flex-grow max-w-9xl mx-auto px-4 py-8 text-gray-900">
                 <div className="flex items-center justify-center mb-10">
                     {["Confirm Test", "Select Time", "Upload Documents", "Order Confirmation"].map(
                         (step, index) => (
@@ -41,7 +46,7 @@ export default function CartPage() {
                                     className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
                                     ${index === 0
                                             ? "bg-orange-600 text-white"
-                                            : "border border-gray-300 text-gray-400"
+                                            : "border border-gray-400 text-gray-600"
                                         }`}
                                 >
                                     {index + 1}
@@ -51,7 +56,7 @@ export default function CartPage() {
                                     className={`ml-2 mr-6 text-sm
                                     ${index === 0
                                             ? "text-orange-600 font-semibold"
-                                            : "text-gray-400"
+                                            : "text-gray-600"
                                         }`}
                                 >
                                     {step}

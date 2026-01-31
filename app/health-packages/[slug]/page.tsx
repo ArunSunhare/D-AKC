@@ -6,6 +6,9 @@ import { useState, useEffect } from "react";
 import { useCart } from "@/app/context/CartContext";
 import { Navigation } from "@/app/componets/navbar";
 import { Footer } from "@/app/componets/footer";
+import { TopNavbar } from "@/app/componets/TopNavbar";
+import { TopHeader } from "@/app/componets/top_header";
+import { MainNavbar } from "@/app/componets/MainNavbar";
 
 const STATIC_CENTRES = ["Karkardooma Institutional Area"];
 
@@ -132,7 +135,9 @@ export default function PackageDetailPage() {
   if (error || !dynamicPackage) {
     return (
       <div className="min-h-screen bg-white flex flex-col">
-        <Navigation />
+        <TopHeader />
+      <TopNavbar />
+      <MainNavbar />
         <div className="flex-grow flex flex-col items-center justify-center py-24 text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Package Not Found</h2>
           <p className="text-gray-500 mb-8">We couldn't find the package you're looking for.</p>
@@ -152,7 +157,9 @@ export default function PackageDetailPage() {
 
   return (
     <>
-      <Navigation />
+      <TopHeader />
+      <TopNavbar />
+      <MainNavbar />
 
       <section className="bg-gray-100 py-6 min-h-screen">
         <div className="max-w-7xl mx-auto px-4">

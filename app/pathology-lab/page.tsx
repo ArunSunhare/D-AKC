@@ -4,6 +4,9 @@ import { useState } from "react";
 import { Microscope, TestTube, Activity, Clock, Award, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { Navigation } from "../componets/navbar";
 import { Footer } from "../componets/footer";
+import { TopHeader } from "../componets/top_header";
+import { MainNavbar } from "../componets/MainNavbar";
+import { TopNavbar } from "../componets/TopNavbar";
 
 const pathologyServices = [
   {
@@ -107,7 +110,9 @@ export default function PathologyLabPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
+      <TopHeader />
+            <TopNavbar />
+            <MainNavbar />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-50 via-sky-100 to-blue-50 py-16">

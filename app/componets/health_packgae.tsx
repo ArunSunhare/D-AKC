@@ -21,27 +21,43 @@ export function HealthPackages() {
   const [startIndex, setStartIndex] = useState(0);
   const [packages, setPackages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const visiblePackages = 3;
 
   useEffect(() => {
     const fetchHealthPackages = async () => {
       try {
-        const res = await fetch("/api/get-health-packages");
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
+        const res = await fetch("/api/get-health-packages", {
+          signal: controller.signal,
+        }).finally(() => clearTimeout(timeoutId));
         const json = await res.json();
+
+        if (!res.ok) {
+          throw new Error(json?.message || "Failed to fetch health packages");
+        }
 
         // Parse response
         let parsed;
         if (json?.d) {
           parsed = typeof json.d === "string" ? JSON.parse(json.d) : json.d;
-        } else if (json?.status) {
-          parsed = json;
+        } else if (json?.raw && typeof json.raw === "string") {
+          parsed = JSON.parse(json.raw);
         } else {
           parsed = json;
         }
 
-        if (parsed?.status === "Success" && Array.isArray(parsed.data)) {
+        const dataArray =
+          parsed?.status === "Success" && Array.isArray(parsed.data)
+            ? parsed.data
+            : Array.isArray(parsed?.data)
+              ? parsed.data
+              : [];
+
+        if (dataArray.length > 0) {
           // Take only first 5 packages
-          const packagesData = parsed.data.slice(0, 5).map((pkg: any) => ({
+          const packagesData = dataArray.slice(0, 5).map((pkg: any) => ({
             id: pkg.itemID,
             slug: slugify(pkg.ItemName),
             name: pkg.ItemName,
@@ -60,6 +76,13 @@ export function HealthPackages() {
         }
       } catch (err) {
         console.error("Failed to fetch health packages", err);
+        const message =
+          err instanceof Error && err.name === "AbortError"
+            ? "Request timed out"
+            : err instanceof Error
+              ? err.message
+              : "Failed to fetch health packages";
+        setError(message);
       } finally {
         setLoading(false);
       }
@@ -96,7 +119,37 @@ export function HealthPackages() {
     );
   }
 
-  if (packages.length === 0) return null;
+  if (error) {
+    return (
+      <section className="py-3 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Popular Health Packages
+          </h2>
+          <div className="w-20 h-1 bg-red-600 mb-8"></div>
+          <div className="border border-red-200 bg-red-50 text-red-700 rounded-lg p-4 text-sm">
+            {error}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (packages.length === 0) {
+    return (
+      <section className="py-3 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Popular Health Packages
+          </h2>
+          <div className="w-20 h-1 bg-red-600 mb-8"></div>
+          <div className="border border-gray-200 bg-gray-50 text-gray-700 rounded-lg p-4 text-sm">
+            No health packages available right now.
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   const maxStartIndex = Math.max(0, packages.length - visiblePackages);
 

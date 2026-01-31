@@ -6,6 +6,9 @@ import Image from "next/image";
 import { Search, TestTube, Activity, Loader2 } from "lucide-react";
 import { Navigation } from "../componets/navbar";
 import { Footer } from "../componets/footer";
+import { TopHeader } from "../componets/top_header";
+import { TopNavbar } from "../componets/TopNavbar";
+import { MainNavbar } from "../componets/MainNavbar";
 
 export default function InvestigationsPage() {
   const router = useRouter();
@@ -25,13 +28,13 @@ export default function InvestigationsPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
-      setCurrentPage(1); 
+      setCurrentPage(1);
     }, 400);
 
     return () => clearTimeout(timer);
   }, [search]);
 
-  
+
   useEffect(() => {
     fetchInvestigations();
   }, []);
@@ -43,11 +46,11 @@ export default function InvestigationsPage() {
     try {
       const params = new URLSearchParams({
         page: "1",
-        limit: "1000", 
+        limit: "1000",
       });
 
       const res = await fetch(`/api/get-investigation?${params}`, {
-        next: { revalidate: 3600 }, 
+        next: { revalidate: 3600 },
       });
 
       if (!res.ok) throw new Error("Failed to fetch");
@@ -118,7 +121,9 @@ export default function InvestigationsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
+      <TopHeader />
+      <TopNavbar />
+      <MainNavbar />
 
       <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-40">
@@ -198,10 +203,10 @@ export default function InvestigationsPage() {
                 {debouncedSearch
                   ? `Search Results for "${debouncedSearch}"`
                   : category === "LSHHI3"
-                  ? "Lab Tests"
-                  : category === "LSHHI7"
-                  ? "Radiology Tests"
-                  : "All Available Tests"}
+                    ? "Lab Tests"
+                    : category === "LSHHI7"
+                      ? "Radiology Tests"
+                      : "All Available Tests"}
                 <span className="text-gray-500 text-base font-normal ml-2">
                   ({totalItems} tests)
                 </span>
@@ -212,11 +217,10 @@ export default function InvestigationsPage() {
                   <button
                     key={cat}
                     onClick={() => setCategory(cat)}
-                    className={`px-4 py-2 rounded-lg border text-sm font-medium transition ${
-                      category === cat
+                    className={`px-4 py-2 rounded-lg border text-sm font-medium transition ${category === cat
                         ? "bg-orange-600 text-white"
                         : "bg-white text-gray-700 hover:bg-gray-50"
-                    }`}
+                      }`}
                   >
                     {cat === "" ? "All Tests" : cat === "LSHHI3" ? "Lab Tests" : "Radiology Tests"}
                   </button>
@@ -304,11 +308,10 @@ export default function InvestigationsPage() {
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`w-12 h-12 rounded-lg font-medium transition ${
-                      currentPage === page
+                    className={`w-12 h-12 rounded-lg font-medium transition ${currentPage === page
                         ? "bg-orange-600 text-white"
                         : "border hover:bg-gray-50 text-gray-700"
-                    }`}
+                      }`}
                   >
                     {page}
                   </button>

@@ -14,6 +14,9 @@ import { Navigation } from "../componets/navbar";
 import { Footer } from "../componets/footer";
 import { Hero } from "../componets/hero";
 import { LoginModal } from "../componets/LoginModal";
+import { MainNavbar } from "../componets/MainNavbar";
+import { TopNavbar } from "../componets/TopNavbar";
+import { TopHeader } from "../componets/top_header";
 
 type UserProfile = {
     Title?: string;
@@ -272,7 +275,9 @@ export default function CartPage() {
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
-            <Navigation />
+            <TopHeader />
+                  <TopNavbar />
+                  <MainNavbar />
             <Hero />
 
             <main className="flex-grow max-w-7xl mx-auto px-4 py-8">

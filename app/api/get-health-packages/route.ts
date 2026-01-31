@@ -4,6 +4,16 @@ const BASE_URL = "https://shbcdc.in/HIS/API/MobileApplication.asmx/GethealthPack
 const SecurityKey = "XZY45ZTYLG19045GHTY";
 const ClientId = "XZY45ZTBNG190489GHTY";
 
+function createUpstreamError(status: number, bodyText?: string) {
+    const error = new Error(
+        `Upstream request failed with status ${status}` +
+            (bodyText ? `: ${bodyText.slice(0, 300)}` : "")
+    ) as Error & { upstreamStatus?: number };
+
+    error.upstreamStatus = status;
+    return error;
+}
+
 function parseHealthPackageResponse(rawText: string) {
     // Handle XML wrapped response
     if (rawText.includes("<?xml")) {
@@ -27,14 +37,19 @@ export async function GET() {
         console.log("📦 Calling GethealthPackage API");
 
         const url = `${BASE_URL}?SecurityKey=${SecurityKey}&ClientId=${ClientId}`;
-        
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
+
         const response = await fetch(url, {
             method: "GET",
             cache: "no-store",
-        });
+            signal: controller.signal,
+        }).finally(() => clearTimeout(timeoutId));
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const bodyText = await response.text().catch(() => "");
+            throw createUpstreamError(response.status, bodyText);
         }
 
         const rawText = await response.text();
@@ -45,9 +60,23 @@ export async function GET() {
         return NextResponse.json(parsed ?? { raw: rawText });
     } catch (error: any) {
         console.error("❌ GethealthPackage API Error:", error);
+
+        const statusCode =
+            error?.name === "AbortError"
+                ? 504
+                : typeof error?.upstreamStatus === "number"
+                    ? error.upstreamStatus
+                    : 500;
+
         return NextResponse.json(
-            { error: "Failed to get health packages", message: error.message },
-            { status: 500 }
+            {
+                error: "Failed to get health packages",
+                message:
+                    error?.name === "AbortError"
+                        ? "Upstream request timed out"
+                        : error?.message || "Unexpected error",
+            },
+            { status: statusCode }
         );
     }
 }

@@ -6,6 +6,9 @@ import Image from "next/image";
 import { Search, Activity, Loader2 } from "lucide-react";
 import { Navigation } from "../componets/navbar";
 import { Footer } from "../componets/footer";
+import { TopNavbar } from "../componets/TopNavbar";
+import { TopHeader } from "../componets/top_header";
+import { MainNavbar } from "../componets/MainNavbar";
 
 export default function HealthPackagesPage() {
   const router = useRouter();
@@ -118,7 +121,9 @@ export default function HealthPackagesPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
+      <TopHeader />
+      <TopNavbar />
+      <MainNavbar />
 
       <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-40">

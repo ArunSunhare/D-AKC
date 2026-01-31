@@ -6,6 +6,9 @@ import Image from "next/image";
 import { Search, TestTube, Activity, Loader2 } from "lucide-react";
 import { Navigation } from "../componets/navbar";
 import { Footer } from "../componets/footer";
+import { MainNavbar } from "../componets/MainNavbar";
+import { TopNavbar } from "../componets/TopNavbar";
+import { TopHeader } from "../componets/top_header";
 
 export default function InvestigationsClient({
   investigations,
@@ -58,7 +61,9 @@ export default function InvestigationsClient({
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
+      <TopHeader />
+            <TopNavbar />
+            <MainNavbar />
 
       {/* HERO */}
       <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16 overflow-hidden">

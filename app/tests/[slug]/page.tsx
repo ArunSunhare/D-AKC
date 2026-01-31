@@ -7,6 +7,9 @@ import { useCart } from "@/app/context/CartContext";
 import { Navigation } from "@/app/componets/navbar";
 import { Footer } from "@/app/componets/footer";
 import { TestBookingCard } from "@/app/componets/TestBookingCard";
+import { MainNavbar } from "@/app/componets/MainNavbar";
+import { TopNavbar } from "@/app/componets/TopNavbar";
+import { TopHeader } from "@/app/componets/top_header";
 
 
 export default function TestDetailPage() {
@@ -118,7 +121,9 @@ export default function TestDetailPage() {
   if (error || !dynamicTest) {
     return (
       <div className="min-h-screen bg-white flex flex-col">
-        <Navigation />
+        <TopHeader />
+              <TopNavbar />
+              <MainNavbar />
         <div className="flex-grow flex flex-col items-center justify-center py-24 text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Test Not Found</h2>
           <p className="text-gray-500 mb-8">We couldn't find the test you're looking for.</p>
@@ -138,7 +143,9 @@ export default function TestDetailPage() {
 
   return (
     <>
-      <Navigation />
+    <TopHeader />
+      <TopNavbar />
+      <MainNavbar />
 
       <section className="bg-gray-100 py-6 min-h-screen">
         <div className="max-w-7xl mx-auto px-4">
