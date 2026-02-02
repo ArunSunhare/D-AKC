@@ -34,7 +34,6 @@ export default function InvestigationsPage() {
     return () => clearTimeout(timer);
   }, [search]);
 
-
   useEffect(() => {
     fetchInvestigations();
   }, []);
@@ -49,28 +48,38 @@ export default function InvestigationsPage() {
         limit: "1000",
       });
 
+      console.log("Fetching investigations from:", `/api/get-investigation?${params}`);
+
       const res = await fetch(`/api/get-investigation?${params}`, {
         next: { revalidate: 3600 },
       });
 
-      if (!res.ok) throw new Error("Failed to fetch");
+      console.log("API Response status:", res.status);
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("API Error Response:", errorText);
+        throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);
+      }
 
       const json = await res.json();
+      console.log("API Response data:", json);
 
       if (json.status === "Success") {
         setAllInvestigations(json.data || []);
+        console.log("Successfully loaded", json.data?.length || 0, "investigations");
       } else {
+        console.error("API returned error status:", json);
         setError(json.message || "Failed to load investigations");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Fetch error:", err);
       setError("An error occurred while fetching data");
     } finally {
       setLoading(false);
     }
   };
 
-  // Memoized filtering - only recomputes when dependencies change
   const filteredInvestigations = useMemo(() => {
     return allInvestigations.filter((item) => {
       const matchesSearch =

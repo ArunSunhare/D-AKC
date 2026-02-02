@@ -32,11 +32,9 @@ export async function GET(req: NextRequest) {
     /* ✅ Serve from cache if valid */
     if (CACHE_DATA && now - CACHE_TIME < CACHE_TTL) {
       return NextResponse.json({
-        success: true,
-        source: "cache",
-        data: {
-          data: CACHE_DATA.slice(0, 5), // only what UI needs
-        },
+        status: "Success",
+        message: "Data fetched from cache",
+        data: CACHE_DATA,
       });
     }
 
@@ -72,17 +70,15 @@ export async function GET(req: NextRequest) {
 
     /* ✅ Return minimal payload */
     return NextResponse.json({
-      success: true,
-      source: "fresh",
-      data: {
-        data: allData.slice(0, 5),
-      },
+      status: "Success",
+      message: "Data fetched successfully",
+      data: allData,
     });
 
   } catch (error: any) {
     return NextResponse.json(
       {
-        success: false,
+        status: "Error",
         message: error.message || "Failed to fetch investigations",
         data: [],
       },
