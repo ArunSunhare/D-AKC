@@ -55,19 +55,19 @@ export function TopNavbar() {
             <Image
               src={logo}
               alt="Logo"
-              className="h-10 w-auto"
+              className="h-15 w-auto"
               priority
             />
             <Image
               src={personLeft}
               alt="Person Left"
-              className="h-10 w-10 rounded-full"
+              className="h-15 w-15 rounded-full"
               priority
             />
             <Image
               src={personRight}
               alt="Person Right"
-              className="h-10 w-10 rounded-full"
+              className="h-15 w-15 rounded-full"
               priority
             />
           </a>
