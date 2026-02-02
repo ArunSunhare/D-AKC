@@ -15,7 +15,7 @@ const facilitiesData: Facility[] = [
   {
     name: "Pathology Lab",
     image:
-      "https://images.unsplash.com/photo-1630959299388-6e983fed7b98?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+      "/assets/diagnostics/lab img .jpg",
   },
   {
     name: "CT Scan",
@@ -25,12 +25,12 @@ const facilitiesData: Facility[] = [
   {
     name: "X-Ray",
     image:
-      "https://images.unsplash.com/photo-1587010580103-fd86b8ea14ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+      "/assets/diagnostics/X-RAY.jpg",
   },
   {
     name: "Ultrasound",
     image:
-      "https://images.unsplash.com/photo-1630531210902-0673fd470570?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+      "/assets/diagnostics/USG.jpg",
   },
 ];
 
@@ -42,7 +42,7 @@ export function Facilities() {
   const handleFacilityClick = (name: string) => {
     switch (name) {
       case "Pathology Lab":
-        router.push("/pathology-lab");
+        router.push("/componets/facilites/pathology");
         break;
 
       case "CT Scan":
@@ -50,11 +50,11 @@ export function Facilities() {
         break;
 
       case "X-Ray":
-        router.push("/componets/facilites/ct-scan");
+        router.push("/componets/facilites/x-ray");
         break;
 
       case "Ultrasound":
-        router.push("/componets/facilites/ct-scan");
+        router.push("/componets/facilites/ultrasound");
         break;
 
       default:
@@ -99,9 +99,7 @@ export function Facilities() {
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
-                  <div className="absolute top-2 right-2 bg-orange-500 text-white px-2 py-0.5 md:px-3 md:py-1 rounded hover:bg-orange-600 transition-colors text-xs">
-                    Opening
-                  </div>
+             
                 </div>
 
                 <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4">

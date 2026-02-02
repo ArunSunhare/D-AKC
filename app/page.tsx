@@ -21,25 +21,17 @@ import { TopNavbar } from "./componets/TopNavbar";
 import { MainNavbar } from "./componets/MainNavbar";
 export default function App() {
   return (
-    <div className="min-h-screen bg-white">
-      
+    <div className="min-h-screen bg-white"> 
       <TopHeader />
       <TopNavbar />
-      {/* <LowerHeader /> */}
       <MainNavbar />
       <Header />
       <Disclaimer />
-      {/* <Hero /> */}
       <ExploreMore />
-      {/* <DR_Qualification /> */}
       <PopularTests />
       <HealthPackages />
       <Facilities />
       <DoctorsSection />
-      {/* <OnlineReportsSection />
-      <VideoSection />
-      <GallerySection />
-      <SocialFollowSection /> */}
       <WhyChooseUs />
       <Testimonials />
       <Footer />

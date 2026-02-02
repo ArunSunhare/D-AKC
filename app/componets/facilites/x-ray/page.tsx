@@ -8,19 +8,13 @@ import { TopHeader } from "../../top_header";
 import { TopNavbar } from "../../TopNavbar";
 import { MainNavbar } from "../../MainNavbar";
 
-const ctScanImages = [
-  { src: "/assets/diagnostics/CT.jpg", title: "Philips CT Scanner" },
-  { src: "/assets/diagnostics/MRI.jpg", title: "MRI Scanner" },
-  { src: "/assets/diagnostics/PET-CT.jpg", title: "PET-CT Scanner (Siemens Biograph Horizon)" },
+const xrayImages = [
   { src: "/assets/diagnostics/X-RAY.jpg", title: "Digital X-Ray System" },
-  { src: "/assets/diagnostics/USG.jpg", title: "Ultrasound (USG) Machine" },
-  { src: "/assets/diagnostics/ECG.jpg", title: "ECG Machine" },
   { src: "/assets/diagnostics/OPG.jpeg", title: "OPG Dental X-Ray Machine" },
-  { src: "/assets/diagnostics/TRUEBEAM MACHINE.jpeg", title: "TrueBeam Radiotherapy Machine" },
 ];
 
-export default function CTScanPage() {
-  const [activeImage, setActiveImage] = useState<null | typeof ctScanImages[0]>(null);
+export default function XRayPage() {
+  const [activeImage, setActiveImage] = useState<null | typeof xrayImages[0]>(null);
 
   return (
     <div className="min-h-screen bg-white">
@@ -31,8 +25,8 @@ export default function CTScanPage() {
       <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-40">
           <Image
-            src="/assets/diagnostics/CT.jpg"
-            alt="Diagnostic Imaging Facility"
+            src="/assets/diagnostics/X-RAY.jpg"
+            alt="X-Ray Imaging Facility"
             fill
             priority
             className="object-cover"
@@ -42,10 +36,10 @@ export default function CTScanPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl">
             <h1 className="text-white mb-4 text-4xl md:text-5xl font-bold">
-              Advanced Diagnostic Imaging
+              Advanced X-Ray Imaging
             </h1>
             <p className="text-white/90 text-lg md:text-xl">
-              Precision • Speed • Compassionate Healthcare
+              Precision Diagnosis • Advanced Technology • Patient Safety
             </p>
           </div>
         </div>
@@ -56,36 +50,34 @@ export default function CTScanPage() {
           <div className="p-8 md:p-12 lg:p-16 space-y-10 text-gray-800 leading-relaxed text-lg">
 
             <p className="text-justify">
-              The <strong>Diagnostic Imaging Facility</strong> at{" "}
+              The <strong>X-Ray Imaging Department</strong> at{" "}
               <strong>Shri Hanuman Balaji Charitable Diagnostic Centre</strong>{" "}
-              is equipped with state-of-the-art imaging systems from globally
-              trusted manufacturers. Our goal is to deliver accurate diagnosis
-              with maximum patient safety and comfort.
+              is equipped with state-of-the-art digital X-ray systems that provide high-quality images with minimal radiation exposure. Our advanced X-ray technology ensures precise diagnosis for various medical conditions.
             </p>
 
             <div className="bg-orange-50 border-l-4 border-orange-600 p-8 rounded-r-xl">
               <p className="text-xl font-semibold text-orange-800 italic text-center">
-                World-class diagnostics at subsidized cost – true charitable healthcare
+                Advanced X-ray analysis at affordable costs - precision healthcare for all
               </p>
             </div>
 
             <p className="text-justify">
-              Our services include{" "}
+              Our X-ray services include{" "}
               <strong>
-                CT Scan, MRI, PET-CT, Digital X-Ray, Ultrasound (USG),
-                ECG, OPG Dental Imaging, and Advanced Radiotherapy
+                Digital Radiography, Chest X-rays, Bone X-rays, Dental X-rays (OPG),
+                Abdominal X-rays, and Specialized View X-rays
               </strong>.
-              All investigations are conducted by skilled technologists under
-              strict quality and safety protocols.
+              All X-ray examinations are conducted by skilled radiology technologists
+              following strict radiation safety protocols and ALARA principles.
             </p>
 
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Diagnostic Infrastructure
+                X-Ray Equipment & Technology
               </h2>
 
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {ctScanImages.map((img, index) => (
+              <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
+                {xrayImages.map((img: typeof xrayImages[0], index: number) => (
                   <div
                     key={index}
                     onClick={() => setActiveImage(img)}
@@ -110,19 +102,19 @@ export default function CTScanPage() {
             <p className="text-justify">
               We emphasize{" "}
               <strong>
-                radiation dose optimization, fast reporting, diagnostic accuracy,
-                and patient comfort
+                radiation dose optimization, high-resolution imaging, accurate diagnosis,
+                and patient comfort during X-ray procedures
               </strong>.
-              Special care is provided to elderly patients and economically
-              weaker sections with complete dignity and support.
+              Special care is provided to pediatric patients, pregnant women, and elderly patients
+              with appropriate radiation shielding and dose adjustments.
             </p>
 
             <div className="mt-12 bg-gradient-to-r from-orange-100 to-orange-50 p-10 rounded-xl text-center">
               <p className="text-2xl font-bold text-orange-700">
-                Accurate Diagnosis • Compassionate Care • Affordable Access
+                Advanced X-Ray Analysis • Precise Diagnosis • Patient Safety
               </p>
               <p className="mt-4 text-gray-700">
-                Advanced diagnostics in service of humanity
+                Cutting-edge X-ray technology for accurate medical imaging
               </p>
             </div>
 

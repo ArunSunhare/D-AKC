@@ -8,19 +8,44 @@ import { TopHeader } from "../../top_header";
 import { TopNavbar } from "../../TopNavbar";
 import { MainNavbar } from "../../MainNavbar";
 
-const ctScanImages = [
-  { src: "/assets/diagnostics/CT.jpg", title: "Philips CT Scanner" },
-  { src: "/assets/diagnostics/MRI.jpg", title: "MRI Scanner" },
-  { src: "/assets/diagnostics/PET-CT.jpg", title: "PET-CT Scanner (Siemens Biograph Horizon)" },
-  { src: "/assets/diagnostics/X-RAY.jpg", title: "Digital X-Ray System" },
-  { src: "/assets/diagnostics/USG.jpg", title: "Ultrasound (USG) Machine" },
-  { src: "/assets/diagnostics/ECG.jpg", title: "ECG Machine" },
-  { src: "/assets/diagnostics/OPG.jpeg", title: "OPG Dental X-Ray Machine" },
-  { src: "/assets/diagnostics/TRUEBEAM MACHINE.jpeg", title: "TrueBeam Radiotherapy Machine" },
+const pathologyImages = [
+  {
+    src: "/assets/diagnostics/BIO-RAD D10.jpg",
+    title: "Bio-Rad D-10 HbA1c Analyzer"
+  },
+  {
+    src: "/assets/diagnostics/ERBA MANNHEIM ECL 105..jpg",
+    title: "Erba Mannheim ECL 105 Semi-Auto Biochemistry Analyzer"
+  },
+  {
+    src: "/assets/diagnostics/Horiba ABX Pentra XL.png",
+    title: "Horiba ABX Pentra XL-80 Hematology Analyzer"
+  },
+  {
+    src: "/assets/diagnostics/I-chroma 2.jpg",
+    title: "i-Chroma II Immunoassay Analyzer"
+  },
+  {
+    src: "/assets/diagnostics/Ortho Clinical Diagnostics Vitros 4600 Chemistry.jpg",
+    title: "Vitros 4600 Integrated Chemistry System"
+  },
+  {
+    src: "/assets/diagnostics/Ortho Clinical Diagnostics Vitros 5600.jpg",
+    title: "Vitros 5600 Integrated Chemistry & Immunoassay System"
+  },
+  {
+    src: "/assets/diagnostics/Ortho Clinical Diagnostics Vitros ECiQ immunodiagnostics.jpg",
+    title: "Vitros ECiQ Immunodiagnostic System"
+  },
+  {
+    src: "/assets/diagnostics/URI-PLUS 200.jpg",
+    title: "URI-PLUS 200 Urine Analyzer"
+  }
 ];
 
-export default function CTScanPage() {
-  const [activeImage, setActiveImage] = useState<null | typeof ctScanImages[0]>(null);
+
+export default function PathologyPage() {
+  const [activeImage, setActiveImage] = useState<null | typeof pathologyImages[0]>(null);
 
   return (
     <div className="min-h-screen bg-white">
@@ -31,8 +56,8 @@ export default function CTScanPage() {
       <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-40">
           <Image
-            src="/assets/diagnostics/CT.jpg"
-            alt="Diagnostic Imaging Facility"
+            src="/assets/diagnostics/lab img .jpg"
+            alt="Pathology Laboratory Facility"
             fill
             priority
             className="object-cover"
@@ -42,10 +67,10 @@ export default function CTScanPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl">
             <h1 className="text-white mb-4 text-4xl md:text-5xl font-bold">
-              Advanced Diagnostic Imaging
+              Advanced Pathology Laboratory
             </h1>
             <p className="text-white/90 text-lg md:text-xl">
-              Precision • Speed • Compassionate Healthcare
+              Accuracy • Precision • Compassionate Healthcare
             </p>
           </div>
         </div>
@@ -56,10 +81,10 @@ export default function CTScanPage() {
           <div className="p-8 md:p-12 lg:p-16 space-y-10 text-gray-800 leading-relaxed text-lg">
 
             <p className="text-justify">
-              The <strong>Diagnostic Imaging Facility</strong> at{" "}
+              The <strong>Pathology Laboratory</strong> at{" "}
               <strong>Shri Hanuman Balaji Charitable Diagnostic Centre</strong>{" "}
-              is equipped with state-of-the-art imaging systems from globally
-              trusted manufacturers. Our goal is to deliver accurate diagnosis
+              is equipped with state-of-the-art laboratory equipment from globally
+              trusted manufacturers. Our goal is to deliver accurate test results
               with maximum patient safety and comfort.
             </p>
 
@@ -72,20 +97,21 @@ export default function CTScanPage() {
             <p className="text-justify">
               Our services include{" "}
               <strong>
-                CT Scan, MRI, PET-CT, Digital X-Ray, Ultrasound (USG),
-                ECG, OPG Dental Imaging, and Advanced Radiotherapy
+                Complete Blood Count, Biochemistry Tests, Hormone Assays,
+                Coagulation Studies, Microscopy, Serology Tests,
+                Urine Analysis, and Histopathology
               </strong>.
-              All investigations are conducted by skilled technologists under
+              All investigations are conducted by skilled laboratory technologists under
               strict quality and safety protocols.
             </p>
 
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Diagnostic Infrastructure
+                Pathology Infrastructure
               </h2>
 
               <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {ctScanImages.map((img, index) => (
+                {pathologyImages.map((img, index) => (
                   <div
                     key={index}
                     onClick={() => setActiveImage(img)}
@@ -110,7 +136,7 @@ export default function CTScanPage() {
             <p className="text-justify">
               We emphasize{" "}
               <strong>
-                radiation dose optimization, fast reporting, diagnostic accuracy,
+                sample quality control, fast reporting, diagnostic accuracy,
                 and patient comfort
               </strong>.
               Special care is provided to elderly patients and economically
@@ -119,10 +145,10 @@ export default function CTScanPage() {
 
             <div className="mt-12 bg-gradient-to-r from-orange-100 to-orange-50 p-10 rounded-xl text-center">
               <p className="text-2xl font-bold text-orange-700">
-                Accurate Diagnosis • Compassionate Care • Affordable Access
+                Accurate Results • Compassionate Care • Affordable Access
               </p>
               <p className="mt-4 text-gray-700">
-                Advanced diagnostics in service of humanity
+                Advanced pathology services in service of humanity
               </p>
             </div>
 
