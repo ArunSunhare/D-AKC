@@ -8,7 +8,8 @@ export function MainNavbar() {
         <a href="/about-us" className="text-gray-700 hover:text-orange-200 transition-colors">About Us</a>
         <a href="/investigations" className="text-gray-700 hover:text-orange-200 transition-colors">Find A Test</a>
         <a href="/health-packages" className="text-gray-700 hover:text-orange-200 transition-colors">Health Packages</a>
-        {/* <a href="/" className="text-gray-700 hover:text-orange-200 transition-colors">Locate Us</a> */}
+        <a href="#facilities" className="text-gray-700 hover:text-orange-200 transition-colors">Facilities</a>
+        <a href="#doctors" className="text-gray-700 hover:text-orange-200 transition-colors">Doctors</a>
         <a href="/contact_us" className="text-gray-700 hover:text-orange-200 transition-colors">Contact</a>
       </nav>
     </div>

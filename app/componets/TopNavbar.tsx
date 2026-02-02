@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { ShoppingCart, Search, FileText, Menu, X } from "lucide-react";
 import Image from "next/image";
 import logo from "@/public/assets/logo_main.png";
+import personLeft from "@/public/assets/person-left.png";
+import personRight from "@/public/assets/person-right.png";
 import { useCart } from "@/app/context/CartContext";
 import { LoginModal } from "./LoginModal";
 import { Search_Bar } from "./search_bar";
@@ -48,12 +50,24 @@ export function TopNavbar() {
       <div className="bg-white border-b sticky top-0 z-50 w-full overflow-x-hidden">
         <div className="w-full px-3 sm:px-4 lg:px-10 h-16 flex items-center justify-between gap-1 sm:gap-4">
           
-          {/* Logo */}
-          <a href="/" className="flex-shrink-0">
+          {/* Logo and Person Images */}
+          <a href="/" className="flex-shrink-0 flex items-center gap-2">
             <Image
               src={logo}
               alt="Logo"
               className="h-10 w-auto"
+              priority
+            />
+            <Image
+              src={personLeft}
+              alt="Person Left"
+              className="h-10 w-10 rounded-full"
+              priority
+            />
+            <Image
+              src={personRight}
+              alt="Person Right"
+              className="h-10 w-10 rounded-full"
               priority
             />
           </a>

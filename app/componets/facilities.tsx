@@ -15,7 +15,7 @@ const facilitiesData: Facility[] = [
   {
     name: "Pathology Lab",
     image:
-      "/assets/diagnostics/lab img .jpg",
+      "/assets/diagnostics/Ortho Clinical Diagnostics Vitros ECiQ immunodiagnostics.jpg",
   },
   {
     name: "CT Scan",

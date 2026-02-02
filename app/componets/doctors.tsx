@@ -208,38 +208,35 @@ export function DoctorsSection() {
               {doctorsData.map((doctor) => (
                 <div
                   key={doctor.id}
-                  className="flex-shrink-0 w-[90%] mx-auto sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+                  className="flex-shrink-0 w-[90%] mx-auto sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] text-center"
                 >
-                  <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 text-center">
-                    
-                    {/* Circular Image */}
-                    <div className="mx-auto w-40 h-40 rounded-full overflow-hidden border-4 border-orange-500 mb-4">
-                      <img
-                        src={doctor.image}
-                        alt={doctor.name}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                            doctor.name
-                          )}&background=ea580c&color=fff&size=400`;
-                        }}
-                      />
-                    </div>
-
-                    {/* Info */}
-                    <h3 className="text-lg font-bold text-gray-900">
-                      {doctor.name}
-                    </h3>
-
-                    <p className="text-orange-600 font-medium text-sm mt-1">
-                      {doctor.specialization}
-                    </p>
-
-                    <p className="text-gray-500 text-sm mt-1">
-                      {doctor.qualification}
-                    </p>
+                  {/* Circular Image Only */}
+                  <div className="mx-auto w-32 h-32 rounded-full overflow-hidden border-4 border-orange-500 shadow-lg hover:shadow-xl transition-all duration-300">
+                    <img
+                      src={doctor.image}
+                      alt={doctor.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                          doctor.name
+                        )}&background=ea580c&color=fff&size=400`;
+                      }}
+                    />
                   </div>
+
+                  {/* Info Below Image */}
+                  <h3 className="text-lg font-bold text-gray-900 mt-3">
+                    {doctor.name}
+                  </h3>
+
+                  <p className="text-orange-600 font-medium text-sm mt-1">
+                    {doctor.specialization}
+                  </p>
+
+                  <p className="text-gray-500 text-sm mt-1">
+                    {doctor.qualification}
+                  </p>
                 </div>
               ))}
             </div>

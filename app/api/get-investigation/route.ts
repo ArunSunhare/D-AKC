@@ -27,14 +27,33 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 export async function GET(req: NextRequest) {
   try {
+    const { searchParams } = new URL(req.url);
+    const searchQuery = searchParams.get("search")?.toLowerCase().trim() || "";
+    const limit = parseInt(searchParams.get("limit") || "10");
+
     const now = Date.now();
 
     /* ✅ Serve from cache if valid */
     if (CACHE_DATA && now - CACHE_TIME < CACHE_TTL) {
+      // 🔍 Filter data based on search query
+      let filteredData = CACHE_DATA;
+      
+      if (searchQuery) {
+        filteredData = CACHE_DATA.filter((item: any) => 
+          item.ItemName?.toLowerCase().includes(searchQuery) ||
+          item.categoryid?.toLowerCase().includes(searchQuery) ||
+          item.ItemCode?.toLowerCase().includes(searchQuery)
+        );
+      }
+
+      // 📊 Apply limit
+      const limitedData = filteredData.slice(0, limit);
+
       return NextResponse.json({
         status: "Success",
-        message: "Data fetched from cache",
-        data: CACHE_DATA,
+        message: searchQuery ? "Search results fetched" : "Data fetched from cache",
+        data: limitedData,
+        total: filteredData.length,
       });
     }
 
@@ -68,11 +87,26 @@ export async function GET(req: NextRequest) {
     CACHE_DATA = allData;
     CACHE_TIME = now;
 
-    /* ✅ Return minimal payload */
+    // 🔍 Filter data based on search query
+    let filteredData = allData;
+    
+    if (searchQuery) {
+      filteredData = allData.filter((item: any) => 
+        item.ItemName?.toLowerCase().includes(searchQuery) ||
+        item.categoryid?.toLowerCase().includes(searchQuery) ||
+        item.ItemCode?.toLowerCase().includes(searchQuery)
+      );
+    }
+
+    // 📊 Apply limit
+    const limitedData = filteredData.slice(0, limit);
+
+    /* ✅ Return filtered results */
     return NextResponse.json({
       status: "Success",
-      message: "Data fetched successfully",
-      data: allData,
+      message: searchQuery ? "Search results fetched" : "Data fetched successfully",
+      data: limitedData,
+      total: filteredData.length,
     });
 
   } catch (error: any) {

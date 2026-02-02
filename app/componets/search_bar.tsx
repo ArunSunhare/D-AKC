@@ -25,17 +25,21 @@ export function Search_Bar() {
         setLoading(true);
         try {
             const res = await fetch(
-                `/api/get-investigation?search=${value}&limit=5`
+                `/api/get-investigation?search=${encodeURIComponent(value)}&limit=5`
             );
             const json = await res.json();
 
             if (json.status === "Success") {
                 setSuggestions(json.data || []);
                 setShowSuggestions(true);
+            } else {
+                setSuggestions([]);
+                setShowSuggestions(false);
             }
         } catch (err) {
             console.error("Search error:", err);
             setSuggestions([]);
+            setShowSuggestions(false);
         } finally {
             setLoading(false);
         }
@@ -43,12 +47,13 @@ export function Search_Bar() {
 
     useEffect(() => {
         const close = (e: MouseEvent) => {
-            if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
+            const target = e.target as Node;
+            if (inputRef.current && !inputRef.current.contains(target)) {
                 setShowSuggestions(false);
             }
         };
-        window.addEventListener("click", close);
-        return () => window.removeEventListener("click", close);
+        document.addEventListener("mousedown", close);
+        return () => document.removeEventListener("mousedown", close);
     }, []);
 
     useEffect(() => {
@@ -106,6 +111,8 @@ export function Search_Bar() {
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (!showSuggestions || suggestions.length === 0) return;
+        
         if (e.key === "ArrowDown") {
             e.preventDefault();
             const nextIndex = (activeIndex + 1) % suggestions.length;
@@ -118,7 +125,7 @@ export function Search_Bar() {
             setSearch(suggestions[prevIndex].ItemName);
         } else if (e.key === "Enter") {
             e.preventDefault();
-            if (suggestions.length > 0) {
+            if (suggestions.length > 0 && activeIndex >= 0) {
                 handleSuggestionClick(suggestions[activeIndex]);
             }
         } else if (e.key === "Escape") {

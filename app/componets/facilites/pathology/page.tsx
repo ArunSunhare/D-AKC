@@ -56,7 +56,7 @@ export default function PathologyPage() {
       <section className="relative bg-gradient-to-r from-gray-700 to-gray-600 py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-40">
           <Image
-            src="/assets/diagnostics/lab img .jpg"
+            src="/assets/diagnostics/Ortho Clinical Diagnostics Vitros ECiQ immunodiagnostics.jpg"
             alt="Pathology Laboratory Facility"
             fill
             priority
