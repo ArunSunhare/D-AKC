@@ -48,7 +48,7 @@ export function TopNavbar() {
     <>
       {/* Main Navbar */}
       <div className="bg-white border-b sticky top-0 z-50 w-full overflow-x-hidden">
-        <div className="w-full px-3 sm:px-4 lg:px-10 h-16 flex items-center justify-between gap-1 sm:gap-4">
+        <div className="w-full px-3 sm:px-4 lg:px-10 h-20 flex items-center justify-between gap-1 sm:gap-4">
           
           {/* Logo and Person Images */}
           <a href="/" className="flex-shrink-0 flex items-center gap-2">

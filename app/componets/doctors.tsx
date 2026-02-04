@@ -164,11 +164,21 @@ export function DoctorsSection() {
   const visibleDoctors = 3;
 
   const handlePrev = () => {
-    setStartIndex((prev) => Math.max(prev - 1, 0));
+    setStartIndex((prev) => {
+      if (prev <= 0) {
+        return maxStartIndex;
+      }
+      return prev - 1;
+    });
   };
 
   const handleNext = () => {
-    setStartIndex((prev) => Math.min(prev + 1, maxStartIndex));
+    setStartIndex((prev) => {
+      if (prev >= maxStartIndex) {
+        return 0;
+      }
+      return prev + 1;
+    });
   };
 
   const maxStartIndex = Math.max(0, doctorsData.length - visibleDoctors);
@@ -176,17 +186,20 @@ export function DoctorsSection() {
   // Auto-sliding effect
   useEffect(() => {
     const interval = setInterval(() => {
-      setStartIndex((prev) =>
-        prev === maxStartIndex ? 0 : prev + 1
-      );
+      setStartIndex((prev) => {
+        if (prev >= maxStartIndex) {
+          return 0;
+        }
+        return prev + 1;
+      });
     }, 3000); // slide every 3 seconds
 
     return () => clearInterval(interval);
   }, [maxStartIndex]);
 
   return (
-    <section className="py-2 ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-2 w-full">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             Our Expert Doctors
