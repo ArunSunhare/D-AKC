@@ -25,7 +25,6 @@ export function TopHeader() {
               </a>
             </div>
             <div className="flex items-center gap-2 bg-white/20 px-3 py-1 rounded-full hover:bg-white/30 transition-all duration-300">
-              <Beaker className="w-4 h-4" />
               <Droplet className="w-4 h-4" />
               <a href="tel:+917827945651" className="hover:text-yellow-200 transition-colors">
                 Lab: +91-7827945651

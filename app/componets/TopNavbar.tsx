@@ -61,13 +61,13 @@ export function TopNavbar() {
             <Image
               src={personLeft}
               alt="Person Left"
-              className="h-15 w-15 rounded-full"
+              className="h-18 w-18 rounded-full"
               priority
             />
             <Image
               src={personRight}
               alt="Person Right"
-              className="h-15 w-15 rounded-full"
+              className="h-18 w-18 rounded-full"
               priority
             />
           </a>
