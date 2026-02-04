@@ -159,41 +159,40 @@ const doctorsData = [
   }
 ];
 
+
 export function DoctorsSection() {
   const [startIndex, setStartIndex] = useState(0);
-  const visibleDoctors = 3;
+  const [visibleDoctors, setVisibleDoctors] = useState(4); // Default 4 for desktop
 
-  const handlePrev = () => {
-    setStartIndex((prev) => {
-      if (prev <= 0) {
-        return maxStartIndex;
+  // Sirf screen size ke hisaab se count change karne ka logic
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setVisibleDoctors(1); // Mobile pe 1
+      } else if (window.innerWidth < 1024) {
+        setVisibleDoctors(2); // Tablet pe 2
+      } else {
+        setVisibleDoctors(4); // Desktop pe 4
       }
-      return prev - 1;
-    });
-  };
+    };
 
-  const handleNext = () => {
-    setStartIndex((prev) => {
-      if (prev >= maxStartIndex) {
-        return 0;
-      }
-      return prev + 1;
-    });
-  };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const maxStartIndex = Math.max(0, doctorsData.length - visibleDoctors);
 
-  // Auto-sliding effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setStartIndex((prev) => {
-        if (prev >= maxStartIndex) {
-          return 0;
-        }
-        return prev + 1;
-      });
-    }, 3000); // slide every 3 seconds
+  const handlePrev = () => {
+    setStartIndex((prev) => (prev <= 0 ? maxStartIndex : prev - 1));
+  };
 
+  const handleNext = () => {
+    setStartIndex((prev) => (prev >= maxStartIndex ? 0 : prev + 1));
+  };
+
+  useEffect(() => {
+    const interval = setInterval(handleNext, 3000);
     return () => clearInterval(interval);
   }, [maxStartIndex]);
 
@@ -213,17 +212,19 @@ export function DoctorsSection() {
         <div className="relative">
           <div className="overflow-hidden">
             <div
-              className="flex gap-6 transition-transform duration-500 ease-in-out"
+              className="flex transition-transform duration-500 ease-in-out"
               style={{
+                // Logic updated to use dynamic visibleDoctors
                 transform: `translateX(-${startIndex * (100 / visibleDoctors)}%)`
               }}
             >
               {doctorsData.map((doctor) => (
                 <div
                   key={doctor.id}
-                  className="flex-shrink-0 w-[90%] mx-auto sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] text-center"
+                  className="flex-shrink-0 text-center"
+                  // Width handling updated for mobile (100%) and desktop (25%)
+                  style={{ width: `${100 / visibleDoctors}%`, padding: '0 12px' }}
                 >
-                  {/* Circular Image Only */}
                   <div className="mx-auto w-32 h-32 rounded-full overflow-hidden border-4 border-orange-500 shadow-lg hover:shadow-xl transition-all duration-300">
                     <img
                       src={doctor.image}
@@ -238,7 +239,6 @@ export function DoctorsSection() {
                     />
                   </div>
 
-                  {/* Info Below Image */}
                   <h3 className="text-lg font-bold text-gray-900 mt-3">
                     {doctor.name}
                   </h3>
@@ -255,15 +255,12 @@ export function DoctorsSection() {
             </div>
           </div>
 
-          {/* Slider Controls - Hidden on Mobile */}
           <button
             onClick={handlePrev}
             disabled={startIndex === 0}
-            aria-label="Previous doctors"
             className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 z-10
               bg-white border border-gray-200 rounded-full p-3 shadow-md
-              transition-all duration-200 hover:bg-gray-50 hover:shadow-lg
-              disabled:opacity-40 disabled:cursor-not-allowed"
+              disabled:opacity-40"
           >
             <ChevronLeft className="w-6 h-6 text-gray-700" />
           </button>
@@ -271,19 +268,12 @@ export function DoctorsSection() {
           <button
             onClick={handleNext}
             disabled={startIndex === maxStartIndex}
-            aria-label="Next doctors"
             className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 z-10
               bg-white border border-gray-200 rounded-full p-3 shadow-md
-              transition-all duration-200 hover:bg-gray-50 hover:shadow-lg
-              disabled:opacity-40 disabled:cursor-not-allowed"
+              disabled:opacity-40"
           >
             <ChevronRight className="w-6 h-6 text-gray-700" />
           </button>
-        </div>
-
-  
-        <div className="text-center mt-12">
-          
         </div>
       </div>
     </section>
