@@ -221,9 +221,9 @@ export function DoctorsSection() {
               {doctorsData.map((doctor) => (
                 <div
                   key={doctor.id}
-                  className="flex-shrink-0 text-center"
+                  className="flex-shrink-0 text-center hover:bg-orange-50 hover:scale-105 transition-all duration-300 rounded-lg p-2 cursor-pointer"
                   // Width handling updated for mobile (100%) and desktop (25%)
-                  style={{ width: `${100 / visibleDoctors}%`, padding: '0 12px' }}
+                  style={{ width: `${100 / visibleDoctors}%`, padding: '0 6px' }}
                 >
                   <div className="mx-auto w-32 h-32 rounded-full overflow-hidden border-4 border-orange-500 shadow-lg hover:shadow-xl transition-all duration-300">
                     <img
@@ -255,25 +255,7 @@ export function DoctorsSection() {
             </div>
           </div>
 
-          <button
-            onClick={handlePrev}
-            disabled={startIndex === 0}
-            className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 z-10
-              bg-white border border-gray-200 rounded-full p-3 shadow-md
-              disabled:opacity-40"
-          >
-            <ChevronLeft className="w-6 h-6 text-gray-700" />
-          </button>
-
-          <button
-            onClick={handleNext}
-            disabled={startIndex === maxStartIndex}
-            className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 z-10
-              bg-white border border-gray-200 rounded-full p-3 shadow-md
-              disabled:opacity-40"
-          >
-            <ChevronRight className="w-6 h-6 text-gray-700" />
-          </button>
+          {/* Navigation buttons hidden */}
         </div>
       </div>
     </section>

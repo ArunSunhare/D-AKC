@@ -12,7 +12,7 @@ export function TopHeader() {
         <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
           
           {/* Contact Information - Sabhi links aur icons intact hain */}
-          <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm font-medium">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4 text-xs sm:text-sm font-medium">
             
             <div className="flex items-center gap-2 bg-white/20 px-3 py-1 rounded-full hover:bg-white/30 transition-all duration-300">
               <Phone className="w-4 h-4" />
@@ -27,13 +27,6 @@ export function TopHeader() {
               </svg>
               <a href="https://wa.me/917827945641" className="hover:text-yellow-200 transition-colors">
                 +91-7827945641
-              </a>
-            </div>
-
-            <div className="flex items-center gap-2 bg-white/20 px-3 py-1 rounded-full hover:bg-white/30 transition-all duration-300">
-              <Droplet className="w-4 h-4" />
-              <a href="tel:+917827945651" className="hover:text-yellow-200 transition-colors">
-                Lab: +91-7827945651
               </a>
             </div>
 
